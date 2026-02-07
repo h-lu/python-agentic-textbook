@@ -11,3 +11,78 @@
   term_en: anchor
   definition_zh: 用于把"主张"与"可验证证据"绑定在一起的记录。
   first_seen: week_01
+
+- term_zh: 变量
+  term_en: variable
+  definition_zh: 给数据取的名字，用来存储和引用值。想象成一个贴有标签的盒子。
+  first_seen: week_01
+
+- term_zh: 赋值
+  term_en: assignment
+  definition_zh: 用等号 = 把右边的值存到左边的变量中。不是数学上的"等于"，而是"放入"的意思。
+  first_seen: week_01
+
+- term_zh: 字符串
+  term_en: string
+  definition_zh: 一串文本字符，用引号包裹。Python 中用 str 表示。
+  first_seen: week_01
+
+- term_zh: 函数
+  term_en: function
+  definition_zh: 预先封装好的、可重复使用的代码块，接收输入并产生输出。
+  first_seen: week_01
+
+- term_zh: 参数
+  term_en: argument / parameter
+  definition_zh: 调用函数时传给它的输入值，放在函数名后面的括号里。
+  first_seen: week_01
+
+- term_zh: 返回值
+  term_en: return value
+  definition_zh: 函数执行完毕后给出的结果，可以用变量接收。
+  first_seen: week_01
+
+- term_zh: 注释
+  term_en: comment
+  definition_zh: 代码中不会被执行的说明文字，以 # 开头，用于解释代码意图。
+  first_seen: week_01
+
+- term_zh: 缩进
+  term_en: indentation
+  definition_zh: 代码行首的空格或制表符，Python 用它来表示代码块的层次结构。
+  first_seen: week_01
+
+- term_zh: 报错
+  term_en: error / exception
+  definition_zh: 程序运行出错时 Python 给出的提示信息，帮助定位问题。
+  first_seen: week_01
+
+- term_zh: 类型转换
+  term_en: type conversion / casting
+  definition_zh: 把一种数据类型变成另一种，如用 int() 把字符串转成整数。
+  first_seen: week_01
+
+- term_zh: f-string
+  term_en: formatted string literal
+  definition_zh: Python 3.6+ 引入的字符串格式化语法，在字符串前加 f，可嵌入变量值。
+  first_seen: week_01
+
+- term_zh: REPL
+  term_en: Read-Eval-Print Loop
+  definition_zh: 交互式解释器，输入一行代码立即看到结果，适合快速试验。
+  first_seen: week_01
+
+- term_zh: 脚本
+  term_en: script
+  definition_zh: 保存为文件的完整 Python 程序，可以一次性执行多行代码。
+  first_seen: week_01
+
+- term_zh: 版本控制
+  term_en: version control
+  definition_zh: 记录文件随时间变化的系统，可以随时查看或恢复到之前的版本。
+  first_seen: week_01
+
+- term_zh: 提交
+  term_en: commit
+  definition_zh: 在 Git 中保存一组变更的快照，附带描述信息。
+  first_seen: week_01

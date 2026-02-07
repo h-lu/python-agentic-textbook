@@ -245,6 +245,13 @@ python3 scripts/validate_week.py --week {week} --mode release
 
 <!-- === 正文从这里开始 === -->
 
+## PyHelper 进度
+
+<!-- 本周对 PyHelper（全书贯穿项目）的改进。
+     参考 shared/book_project.md 了解本周推进点。
+     代码放在 examples/ 最后编号（如 05_pyhelper.py）。
+     必须在上周代码基础上增量修改。 -->
+
 ## 小结
 
 <!-- 本周核心要点的 3-5 句话总结。同时供下一周的"前情提要"引用。 -->

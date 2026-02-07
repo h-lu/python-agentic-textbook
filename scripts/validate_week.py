@@ -19,6 +19,7 @@ from _common import (
     repo_root,
     set_verbose,
     verbose,
+    week_number,
 )
 
 
@@ -257,6 +258,167 @@ def _check_qa_blocking(errors: list[str], qa_report_path: Path) -> None:
             break
 
 
+def _check_pyhelper_section(errors: list[str], chapter_path: Path, mode: str) -> None:
+    """In release mode, CHAPTER.md must contain a PyHelper progress section."""
+    if mode != "release":
+        return
+    try:
+        text = chapter_path.read_text(encoding="utf-8")
+    except FileNotFoundError:
+        return
+    if "PyHelper" not in text and "pyhelper" not in text:
+        add_error(errors, "CHAPTER.md missing PyHelper progress section (required by CLAUDE.md)")
+    else:
+        verbose("PyHelper mention found in CHAPTER.md")
+
+
+def _check_characters(errors: list[str], chapter_path: Path, root: Path, mode: str) -> None:
+    """In release mode, CHAPTER.md must use at least 2 recurring characters."""
+    if mode != "release":
+        return
+    try:
+        text = chapter_path.read_text(encoding="utf-8")
+    except FileNotFoundError:
+        return
+
+    characters_path = root / "shared" / "characters.yml"
+    if not characters_path.is_file():
+        verbose("shared/characters.yml not found — skipping character check")
+        return
+
+    try:
+        characters = load_yaml(characters_path)
+    except RuntimeError:
+        verbose("failed to load characters.yml — skipping character check")
+        return
+
+    if not isinstance(characters, list):
+        return
+
+    found: list[str] = []
+    for entry in characters:
+        if isinstance(entry, dict):
+            name = entry.get("name", "")
+            if isinstance(name, str) and name and name in text:
+                found.append(name)
+
+    if len(found) < 2:
+        add_error(
+            errors,
+            f"CHAPTER.md uses only {len(found)} recurring character(s) "
+            f"(found: {found or 'none'}; need at least 2 from shared/characters.yml)",
+        )
+    else:
+        verbose(f"recurring characters found: {found}")
+
+
+def _check_concept_budget(errors: list[str], root: Path, week: str, mode: str) -> None:
+    """In release mode, check that new concepts don't exceed the phase budget."""
+    if mode != "release":
+        return
+
+    concept_map_path = root / "shared" / "concept_map.yml"
+    if not concept_map_path.is_file():
+        verbose("shared/concept_map.yml not found — skipping concept budget check")
+        return
+
+    try:
+        concepts = load_yaml(concept_map_path)
+    except RuntimeError:
+        verbose("failed to load concept_map.yml — skipping concept budget check")
+        return
+
+    if not isinstance(concepts, list):
+        return
+
+    n = week_number(week)
+
+    # Determine budget from phase
+    if n <= 5:
+        budget = 4
+    elif n <= 10:
+        budget = 5
+    else:
+        budget = 4
+
+    # Count concepts introduced this week
+    week_concepts = [
+        c.get("concept_zh", "?")
+        for c in concepts
+        if isinstance(c, dict) and c.get("introduced") == week
+    ]
+
+    if len(week_concepts) > budget:
+        add_error(
+            errors,
+            f"concept budget exceeded: {len(week_concepts)} concepts introduced in {week} "
+            f"(budget: {budget}). Concepts: {week_concepts}",
+        )
+    else:
+        verbose(f"concept budget OK: {len(week_concepts)}/{budget} for {week}")
+
+
+def _check_review_bridges(errors: list[str], chapter_path: Path, root: Path, week: str, mode: str) -> None:
+    """In release mode, CHAPTER.md should reference concepts from previous weeks (review bridges)."""
+    if mode != "release":
+        return
+
+    n = week_number(week)
+    if n <= 1:
+        verbose("week_01 — review bridge check skipped")
+        return
+
+    try:
+        text = chapter_path.read_text(encoding="utf-8")
+    except FileNotFoundError:
+        return
+
+    concept_map_path = root / "shared" / "concept_map.yml"
+    if not concept_map_path.is_file():
+        verbose("shared/concept_map.yml not found — skipping review bridge check")
+        return
+
+    try:
+        concepts = load_yaml(concept_map_path)
+    except RuntimeError:
+        verbose("failed to load concept_map.yml — skipping review bridge check")
+        return
+
+    if not isinstance(concepts, list):
+        return
+
+    # Find concepts from earlier weeks that are supposed to be revisited this week
+    bridge_targets = []
+    for c in concepts:
+        if not isinstance(c, dict):
+            continue
+        introduced = c.get("introduced", "")
+        revisited = c.get("revisited", [])
+        if not isinstance(revisited, list):
+            continue
+        if introduced != week and week in revisited:
+            bridge_targets.append(c.get("concept_zh", "?"))
+
+    if not bridge_targets:
+        verbose("no review bridge targets found in concept_map.yml for this week")
+        return
+
+    # Check how many are mentioned in CHAPTER.md
+    found = [t for t in bridge_targets if t in text]
+    hit_rate = len(found) / len(bridge_targets) if bridge_targets else 1.0
+
+    # Require at least half of bridge targets to be mentioned
+    if hit_rate < 0.5:
+        missing = [t for t in bridge_targets if t not in text]
+        add_error(
+            errors,
+            f"review bridges insufficient: only {len(found)}/{len(bridge_targets)} bridge targets "
+            f"found in CHAPTER.md (need >=50%). Missing: {missing[:5]}",
+        )
+    else:
+        verbose(f"review bridges OK: {len(found)}/{len(bridge_targets)} targets mentioned")
+
+
 def _run_pytest(errors: list[str], root: Path, week: str) -> None:
     week_tests = root / "chapters" / week / "tests"
     cmd = [sys.executable, "-m", "pytest", str(week_tests), "-q"]
@@ -308,10 +470,21 @@ def main() -> int:
         if args.mode == "release":
             _check_solution_customized(errors, week_dir / "starter_code" / "solution.py", args.mode)
 
-        # YAML checks apply to all modes (cheap + fast feedback).
+        # New pedagogical checks (release mode only)
+        _check_pyhelper_section(errors, week_dir / "CHAPTER.md", args.mode)
+        _check_characters(errors, week_dir / "CHAPTER.md", root, args.mode)
+        try:
+            _check_concept_budget(errors, root, week, args.mode)
+            _check_review_bridges(errors, week_dir / "CHAPTER.md", root, week, args.mode)
+        except RuntimeError as e:
+            add_error(errors, str(e).strip())
+
+        # YAML checks: terms always validated; anchors only fully checked in release mode
+        # (task/idle hooks fire frequently mid-workflow when ANCHORS.yml is incomplete).
         try:
             _check_terms(errors, root, week)
-            _check_anchors(errors, root, week)
+            if args.mode == "release":
+                _check_anchors(errors, root, week)
         except RuntimeError as e:
             add_error(errors, str(e).strip())
 
