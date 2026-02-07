@@ -64,20 +64,30 @@ def _update_toc(root: Path, week: str, title: str) -> None:
     toc_path = root / "chapters" / "TOC.md"
     if not toc_path.exists():
         return
-    lines = toc_path.read_text(encoding="utf-8").splitlines()
 
-    new_line = f"- [{week}]({week}/CHAPTER.md) {title}"
+    n = int(week.split("_", 1)[1])
+    lines = toc_path.read_text(encoding="utf-8").splitlines()
+    # Old list format
+    old_re = re.compile(rf"^\s*-\s*\[{re.escape(week)}\]\(")
+    # New table format: "| 01 | [标题](week_01/CHAPTER.md) | ... |"
+    table_re = re.compile(rf"^\|\s*{n:02d}\s*\|.*{re.escape(week)}/CHAPTER\.md")
 
     out: list[str] = []
     replaced = False
     for line in lines:
-        if re.match(rf"^\s*-\s*\[{re.escape(week)}\]\(", line):
-            out.append(new_line)
+        if old_re.match(line):
+            out.append(f"- [{week}]({week}/CHAPTER.md) {title}")
+            replaced = True
+        elif table_re.match(line):
+            # Preserve description column
+            parts = line.split("|")
+            desc = parts[3].strip() if len(parts) > 3 else ""
+            out.append(f"| {n:02d} | [{title}]({week}/CHAPTER.md) | {desc} |")
             replaced = True
         else:
             out.append(line)
     if not replaced:
-        out.append(new_line)
+        out.append(f"- [{week}]({week}/CHAPTER.md) {title}")
 
     toc_path.write_text("\n".join(out) + "\n", encoding="utf-8")
 
@@ -88,18 +98,26 @@ def _update_syllabus_title(root: Path, week: str, title: str) -> None:
         return
 
     n = int(week.split("_", 1)[1])
-    pat = re.compile(rf"^(\s*\d+\.\s*Week\s+{n:02d}\s*[:：])\s*(.+?)\s*$")
+    # Old format: "1. Week 01：标题"
+    old_pat = re.compile(rf"^(\s*\d+\.\s*Week\s+{n:02d}\s*[:：])\s*(.+?)\s*$")
+    # New heading format: "### Week 01：标题"
+    new_pat = re.compile(rf"^(#{2,4}\s*Week\s+{n:02d}\s*[:：])\s*(.+?)\s*$")
     lines = syllabus_path.read_text(encoding="utf-8").splitlines()
 
     out: list[str] = []
     changed = False
     for line in lines:
-        m = pat.match(line)
+        m = old_pat.match(line)
         if m:
             out.append(f"{m.group(1)} {title}")
             changed = True
         else:
-            out.append(line)
+            m = new_pat.match(line)
+            if m:
+                out.append(f"{m.group(1)} {title}")
+                changed = True
+            else:
+                out.append(line)
 
     if changed:
         syllabus_path.write_text("\n".join(out) + "\n", encoding="utf-8")

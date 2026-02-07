@@ -1,74 +1,150 @@
-# 14 周大纲（零基础 Python + Agentic Coding + Gitea PR）
+# 14 周教学大纲
 
-本大纲面向**零基础/初学者**：每周只引入少量 Python 新知识，并用 Claude Code 的工作流把“写程序”变成**可验证交付**：
+## 这门课在干什么
 
-- Plan：写清目标与 DoD
-- Implement：小步实现（优先可运行）
-- Verify：`validate_week.py` + `pytest`
-- Reflect：用 QA/anchors 复盘并修订
+你从零开始学 Python，但不是"学完语法就结束"——每周你都会**做出一个能运行的小东西**，并且用工程师的方式交付它：写代码、跑测试、提交版本、发起代码审查。
 
-协作平台使用自建 Gitea；Pull Request (PR) 流程语义等价 GitHub。
-参考：`shared/gitea_workflow.md`
+14 周下来，你会从"Hello World"走到独立完成一个命令行小工具，并把它作为 Capstone 项目发布。
 
-## 周计划（每周：Python + Agentic + Git）
+## 工作节奏
 
-1. Week 01： 从零到可运行：Hello Python + 工程基线
-   - Python：运行脚本、print/变量/字符串、最小 I/O
-   - Agentic：DoD 概念；学会跑 `validate_week.py`/pytest
-   - Git：为什么版本控制；`init/status/add/commit/log`；本地 vs 远端（概念）
-   - PR：预告（可选）
-2. Week 02：控制流：让程序做选择
-   - Python：if/for/while、基本逻辑
-   - Agentic：用“输入输出例子表”约束实现；先写失败用例再修
-   - Git：`diff`；提交信息最小规范（动词开头 + 说明变更）
-   - PR：可选
-3. Week 03：函数：把问题切小
-   - Python：函数/参数/返回、作用域（基础）
-   - Agentic：把需求拆成 3-5 个函数并自审
-   - Git：分支入门：`switch -c`/`checkout -b`；合并概念
-   - PR：可选
-4. Week 04：数据结构 I：列表与字典
-   - Python：list/dict、遍历、常见模式
-   - Agentic：先画数据结构（输入/中间态/输出）再写代码
-   - Git：撤销（安全场景）：`restore`、`reset --soft`
-   - PR：可选
-5. Week 05：文件与路径：把程序变成小工具
-   - Python：读写文件、pathlib、简单日志（可选）
-   - Agentic：错误场景清单（空文件/不存在/权限/编码）并给出处理策略
-   - Git：远端 Gitea：`remote add origin`、`push -u`、`pull`
-   - PR：可选（推荐开始使用）
-6. Week 06：异常与输入校验：让程序不崩
-   - Python：try/except、抛错 vs 返回值、输入校验
-   - Agentic：失败优先（先定义错误信息/边界，再实现）
-   - Git/PR：固定交付流程开始（必做）：分支 -> 多次提交 -> push -> PR -> review -> merge
-7. Week 07：模块与项目结构：从脚本到小项目
-   - Python：import、模块拆分、简单包结构
-   - Agentic：重构计划（不改变行为的前提下整理结构）
-   - Git/PR：延续 Week 06（必做）
-8. Week 08：pytest：让正确变成自动化
-   - Python：pytest 基础断言、少量 fixture（够用即可）
-   - Agentic：TDD 小步（写一个失败测试 -> 最小实现 -> 通过）
-   - Git/PR：延续 Week 06（必做）
-9. Week 09：字符串处理与正则：文本小技能
-   - Python：字符串 API、基础正则、常见陷阱
-   - Agentic：边界用例（空输入/特殊字符/多行）驱动修复
-   - Git/PR：延续 Week 06（必做）
-10. Week 10：数据格式：JSON/YAML/（可选 CSV）
-   - Python：序列化/反序列化、配置文件、数据契约
-   - Agentic：把“输入格式”写成可验证契约（tests/anchors）
-   - Git/PR：延续 Week 06（必做）
-11. Week 11：轻量 OOP：dataclass 与封装
-   - Python：`dataclasses`、最小封装/状态管理（不走重 OOP）
-   - Agentic：先定接口再实现（把变化隔离在边界）
-   - Git/PR：延续 Week 06（必做）
-12. Week 12：命令行工具：argparse + logging（基础）
-   - Python：子命令、参数设计、退出码、日志
-   - Agentic：发布清单（可运行、可验证、可回滚）
-   - Git/PR：延续 Week 06（必做）
-13. Week 13：Agentic 团队工作流（Claude Code 专项）
-   - 主题：subagents/skills/hooks、review checklist、失败驱动迭代
-   - Git/PR：review 作为 DoD 的一部分（必做）
-14. Week 14：Capstone：学习助手/作业检查器 v1（收敛发布）
-   - 主题：把前 13 周技能收敛成可交付项目；补测试、补文档、写 release notes
-   - Git/PR：最终 PR + 可选 tag 发布
+每周围绕三条线推进：
 
+| 线索 | 做什么 | 为什么 |
+|------|--------|--------|
+| **Python** | 学一个新概念，用它做本周的小项目 | 编程核心技能 |
+| **Agentic 工作流** | Plan → Implement → Verify → Reflect | 养成工程习惯 |
+| **Git + PR** | 版本控制 → 远端协作 → 代码审查 | 真实工作流 |
+
+验证工具：`validate_week.py` + `pytest`（从第 1 周就开始用）。
+协作平台：自建 Gitea（Pull Request 流程语义等价 GitHub），参考 `shared/gitea_workflow.md`。
+
+---
+
+## 阶段一：入门基础（Week 01–05）
+
+> 目标：能写出 100 行以内的 Python 脚本，能读懂报错，会用 Git 保存进度。
+
+### Week 01：你的第一个程序
+
+**Python**：`print()`、变量、`input()`、字符串、f-string
+**Agentic**：什么是 DoD（Definition of Done）；学会跑 `validate_week.py` 和 `pytest`
+**Git**：为什么要版本控制；`init` / `status` / `add` / `commit` / `log`
+**贯穿案例**：个人名片生成器——从硬编码输出到交互式输入再到格式美化
+
+### Week 02：让程序做选择
+
+**Python**：`if` / `elif` / `else`、`for` 循环、`while` 循环、布尔逻辑
+**Agentic**：用"输入→输出示例表"约束实现；先写失败用例再修代码
+**Git**：`diff`；提交信息规范（动词开头 + 说明变更）
+**贯穿案例**：猜数字游戏——从单次判断到循环猜测，加范围提示和次数限制
+
+### Week 03：把问题切小
+
+**Python**：函数定义、参数、返回值、作用域基础
+**Agentic**：把一个需求拆成 3–5 个函数，画调用关系再动手
+**Git**：分支入门——`switch -c` / `checkout -b`；合并的概念
+**贯穿案例**：单位换算器——从一个大函数到多个小函数，加菜单选择
+
+### Week 04：用列表和字典组织数据
+
+**Python**：`list` / `dict`、遍历、常见操作模式（过滤、聚合、查找）
+**Agentic**：先画数据结构（输入 → 中间态 → 输出）再写代码
+**Git**：安全撤销——`restore`、`reset --soft`
+**贯穿案例**：班级成绩单——录入、存储、查询、排序，感受"数据驱动"
+
+### Week 05：读写文件——程序的记忆
+
+**Python**：文件读写、`pathlib`、编码问题、简单日志（可选）
+**Agentic**：错误场景清单（空文件 / 文件不存在 / 权限 / 编码）→ 逐一处理
+**Git**：连接远端 Gitea——`remote add origin`、`push -u`、`pull`
+**贯穿案例**：日记本工具——写入、追加、读取、按日期查看
+
+---
+
+## 阶段二：工程进阶（Week 06–10）
+
+> 目标：能写 200–500 行的小项目，有异常处理、模块拆分、自动化测试，会用 PR 协作。
+
+### Week 06：让程序不崩
+
+**Python**：`try` / `except`、异常类型、输入校验、自定义错误消息
+**Agentic**：失败优先——先定义"什么算错"再写"怎么算对"
+**Git/PR**：从本周开始固定 PR 流程（必做）：分支 → 多次提交 → push → PR → review → merge
+**贯穿案例**：健壮的计算器——处理除零、非法输入、溢出，让程序"优雅地报错"
+
+### Week 07：从脚本到项目
+
+**Python**：`import`、模块拆分、简单包结构、`__name__ == "__main__"`
+**Agentic**：重构计划——不改变行为的前提下整理代码结构
+**Git/PR**：延续 PR 流程
+**贯穿案例**：把前几周的工具重构成一个多模块项目
+
+### Week 08：用测试保护代码
+
+**Python**：`pytest` 断言、基础 fixture、参数化测试
+**Agentic**：TDD 小步循环——写一个失败测试 → 最小实现 → 通过 → 重构
+**Git/PR**：延续 PR 流程
+**贯穿案例**：给 Week 06 的计算器补全测试套件
+
+### Week 09：文本处理的瑞士军刀
+
+**Python**：字符串方法全家福、基础正则表达式、常见陷阱
+**Agentic**：用边界用例（空输入 / 特殊字符 / 超长文本 / 多行）驱动修复
+**Git/PR**：延续 PR 流程
+**贯穿案例**：日志分析器——从文本文件中提取、过滤、统计信息
+
+### Week 10：和数据格式打交道
+
+**Python**：JSON / YAML 序列化与反序列化、配置文件、数据契约
+**Agentic**：把"输入格式"写成可验证契约（用 tests + anchors 守护）
+**Git/PR**：延续 PR 流程
+**贯穿案例**：配置管理器——读取 / 验证 / 合并配置文件
+
+---
+
+## 阶段三：综合实战（Week 11–14）
+
+> 目标：能独立完成一个可交付的命令行工具项目，包含测试、文档和发布流程。
+
+### Week 11：用 dataclass 管理状态
+
+**Python**：`dataclasses`、最小封装、状态管理（不走重型 OOP）
+**Agentic**：先定接口再实现——把变化隔离在边界
+**Git/PR**：延续 PR 流程
+**贯穿案例**：待办事项管理器——用 dataclass 建模任务状态
+
+### Week 12：做一个真正的命令行工具
+
+**Python**：`argparse` 子命令、参数设计、退出码、`logging`
+**Agentic**：发布清单——可运行、可验证、可回滚
+**Git/PR**：延续 PR 流程
+**贯穿案例**：把 Week 11 的待办管理器变成完整的 CLI 工具
+
+### Week 13：Agentic 团队工作流
+
+**主题**：subagents / skills / hooks、review checklist、失败驱动迭代
+**Agentic**：用 Claude Code 的 agent team 模式完成一个协作任务
+**Git/PR**：review 作为 DoD 的一部分
+**贯穿案例**：用 agent team 协作完成一个文档生成工具
+
+### Week 14：Capstone：收敛发布
+
+**主题**：把前 13 周技能收敛成一个可交付项目（学习助手 / 作业检查器 v1）
+**交付**：补测试、补文档、写 release notes、最终 PR + 可选 tag 发布
+**贯穿案例**：就是 Capstone 项目本身——从规划到发布的完整流程
+
+---
+
+## 学习弧线总览
+
+```
+Week 01─05                Week 06─10                Week 11─14
+┌──────────────┐      ┌──────────────────┐      ┌───────────────┐
+│  入门基础     │      │  工程进阶         │      │  综合实战      │
+│              │      │                  │      │               │
+│ 脚本 < 100行 │  →   │ 小项目 200-500行  │  →   │ 可交付 CLI工具  │
+│ 本地 Git     │      │ PR 协作流程       │      │ 完整发布流程   │
+│ 手动验证     │      │ 自动化测试        │      │ Capstone 收敛  │
+└──────────────┘      └──────────────────┘      └───────────────┘
+```

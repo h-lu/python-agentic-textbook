@@ -1,6 +1,6 @@
 ---
 name: polish-week
-description: 当正文读起来过于模板化/AI味时，对指定 week 的 CHAPTER.md 做教材化润色，并补充近两年 AI/agentic 编程侧栏。
+description: 对指定 week 的 CHAPTER.md 做深度改写——消灭模板感、补贯穿案例、重组结构，使其达到教材水准。
 argument-hint: "<week_id e.g. week_01>"
 allowed-tools: Bash, Read, Write, Edit, Grep, Glob
 disable-model-invocation: true
@@ -16,22 +16,40 @@ disable-model-invocation: true
 
 ## 目标
 
-- `chapters/week_XX/CHAPTER.md` 更像教材：自然、轻松、有趣，但仍然清晰、可教。
-- 追加 1-2 个“AI 时代小专栏”（200-500 字/个），讨论近两年（约 24 个月）AI 对编程/软件工程的影响，并附参考链接 + 访问日期。
-- 不改代码/测试/YAML，不引入新的 `validate_week.py` 失败。
+- `chapters/week_XX/CHAPTER.md` 达到教材水准：叙事流畅、有贯穿案例、节奏多变、有温度
+- 可做结构性改写（不仅仅是换词润色）
+- 追加 1-2 个"AI 时代小专栏"（200-500 字/个），附参考链接 + 访问日期
+- 不改代码/测试/YAML，不引入新的 `validate_week.py` 失败
 
 ## 步骤
 
-1. 调用 subagent `prose-polisher`：只润色 `chapters/week_XX/CHAPTER.md`。
-2. （可选）调用 subagent `consistency-editor`：做格式/术语/引用一致性检查（避免重写内容）。
-3. 验证（不要求 QA 阻塞清零时用 task 模式）：
-   ```bash
-   python3 scripts/validate_week.py --week week_XX --mode task
-   ```
+### 1. 诊断
+
+调用 subagent `student-qa`（只读模式）：
+- 必须先读 `shared/writing_exemplars.md`
+- 输出叙事质量评分 + 阻塞项/建议项
+- 如果评分 >= 4 且无阻塞项，可跳到步骤 3（轻润色即可）
+
+### 2. 深度改写
+
+调用 subagent `prose-polisher`：
+- 必须先读 `shared/writing_exemplars.md`
+- 根据 student-qa 的诊断结果，执行对应级别的改写
+- 如果缺贯穿案例，补入一条
+- 如果结构过于机械，重组
+
+### 3. 一致性检查（可选）
+
+调用 subagent `consistency-editor`：做格式/术语/引用一致性检查（避免重写内容）
+
+### 4. 验证
+
+```bash
+python3 scripts/validate_week.py --week week_XX --mode task
+```
 
 如果你准备发布（并且已清空 QA 阻塞项），再跑：
 
 ```bash
 python3 scripts/validate_week.py --week week_XX --mode release
 ```
-

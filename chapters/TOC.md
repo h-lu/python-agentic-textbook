@@ -1,17 +1,34 @@
-# 目录 (TOC)
+# 目录
 
-- [week_01](week_01/CHAPTER.md) 从零到可运行：Hello Python + 工程基线
-- [week_02](week_02/CHAPTER.md) 控制流：让程序做选择
-- [week_03](week_03/CHAPTER.md) 函数：把问题切小
-- [week_04](week_04/CHAPTER.md) 数据结构 I：列表与字典
-- [week_05](week_05/CHAPTER.md) 文件与路径：把程序变成小工具
-- [week_06](week_06/CHAPTER.md) 异常与输入校验：让程序不崩
-- [week_07](week_07/CHAPTER.md) 模块与项目结构：从脚本到小项目
-- [week_08](week_08/CHAPTER.md) pytest：让正确变成自动化
-- [week_09](week_09/CHAPTER.md) 字符串处理与正则：文本小技能
-- [week_10](week_10/CHAPTER.md) 数据格式：JSON/YAML/（可选 CSV）
-- [week_11](week_11/CHAPTER.md) 轻量 OOP：dataclass 与封装
-- [week_12](week_12/CHAPTER.md) 命令行工具：argparse + logging（基础）
-- [week_13](week_13/CHAPTER.md) Agentic 团队工作流（Claude Code 专项）
-- [week_14](week_14/CHAPTER.md) Capstone：学习助手/作业检查器 v1（收敛发布）
+## 阶段一：入门基础
 
+| 周次 | 章节 | 你会做出什么 |
+|------|------|-------------|
+| 01 | [你的第一个程序](week_01/CHAPTER.md) | 交互式名片生成器 |
+| 02 | [让程序做选择](week_02/CHAPTER.md) | 猜数字游戏 |
+| 03 | [把问题切小](week_03/CHAPTER.md) | 单位换算器 |
+| 04 | [用列表和字典组织数据](week_04/CHAPTER.md) | 班级成绩单 |
+| 05 | [读写文件——程序的记忆](week_05/CHAPTER.md) | 日记本工具 |
+
+## 阶段二：工程进阶
+
+| 周次 | 章节 | 你会做出什么 |
+|------|------|-------------|
+| 06 | [让程序不崩](week_06/CHAPTER.md) | 健壮的计算器 |
+| 07 | [从脚本到项目](week_07/CHAPTER.md) | 多模块项目重构 |
+| 08 | [用测试保护代码](week_08/CHAPTER.md) | 完整测试套件 |
+| 09 | [文本处理的瑞士军刀](week_09/CHAPTER.md) | 日志分析器 |
+| 10 | [和数据格式打交道](week_10/CHAPTER.md) | 配置管理器 |
+
+## 阶段三：综合实战
+
+| 周次 | 章节 | 你会做出什么 |
+|------|------|-------------|
+| 11 | [用 dataclass 管理状态](week_11/CHAPTER.md) | 待办事项管理器 |
+| 12 | [做一个真正的命令行工具](week_12/CHAPTER.md) | CLI 待办工具 |
+| 13 | [Agentic 团队工作流](week_13/CHAPTER.md) | 协作文档生成器 |
+| 14 | [Capstone：收敛发布](week_14/CHAPTER.md) | 学习助手 v1 |
+
+---
+
+附录：[教学大纲](SYLLABUS.md) · [术语表](../shared/glossary.yml) · [风格指南](../shared/style_guide.md)

@@ -43,7 +43,8 @@ def _parse_syllabus(path: Path, errors: list[str]) -> dict[str, str]:
         return {}
 
     weeks: dict[str, str] = {}
-    line_re = re.compile(r"^\s*\d+\.\s*Week\s+(\d{2})\s*[:：]\s*(.+?)\s*$")
+    # Support both old format ("1. Week 01：标题") and new heading format ("### Week 01：标题")
+    line_re = re.compile(r"^(?:\s*\d+\.\s*|#{2,4}\s*)Week\s+(\d{2})\s*[:：]\s*(.+?)\s*$")
     for line in path.read_text(encoding="utf-8").splitlines():
         m = line_re.match(line)
         if not m:
@@ -67,20 +68,29 @@ def _parse_toc(path: Path, errors: list[str]) -> dict[str, str]:
         return {}
 
     weeks: dict[str, str] = {}
-    line_re = re.compile(r"^\s*-\s*\[(week_\d{2})\]\(\1/CHAPTER\.md\)\s+(.+?)\s*$")
+    # Old format: "- [week_01](week_01/CHAPTER.md) 标题"
+    list_re = re.compile(r"^\s*-\s*\[(week_\d{2})\]\(\1/CHAPTER\.md\)\s+(.+?)\s*$")
+    # New table format: "| 01 | [标题](week_01/CHAPTER.md) | 描述 |"
+    table_re = re.compile(r"^\|\s*(\d{2})\s*\|\s*\[(.+?)\]\(week_\d{2}/CHAPTER\.md\)")
     for line in path.read_text(encoding="utf-8").splitlines():
-        m = line_re.match(line)
-        if not m:
-            continue
-        week = m.group(1)
-        title = _norm_title(m.group(2))
+        m = list_re.match(line)
+        if m:
+            week = m.group(1)
+            title = _norm_title(m.group(2))
+        else:
+            m = table_re.match(line)
+            if m:
+                week = f"week_{int(m.group(1)):02d}"
+                title = _norm_title(m.group(2))
+            else:
+                continue
         if week in weeks:
             add_error(errors, f"TOC duplicate week entry: {week}")
             continue
         weeks[week] = title
 
     if not weeks:
-        add_error(errors, "TOC.md has no parsable '- [week_XX](week_XX/CHAPTER.md) 标题' lines")
+        add_error(errors, "TOC.md has no parsable week entries")
 
     return weeks
 

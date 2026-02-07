@@ -1,81 +1,120 @@
-# python-agentic-textbook
+# Python 程序设计（Agentic Coding）
 
-用 Claude Code 的 subagents + agent teams + hooks + /skills，把《Python 程序设计（Agentic Coding）》教材写作做成可重复的“每周章包”流水线。
+一本面向零基础学生的 Python 教材，用 AI agent 团队协作的方式生产每一章的内容。
 
-定位：
-- 读者：零基础/初学者
-- 协作：自建 Gitea（Pull Request 流程语义等价 GitHub）
-- 特色：每周都用“Plan -> Implement -> Verify -> Reflect”的 agentic 工作流交付可验证产物
+## 这个项目是什么
 
-## 目录结构（核心）
+14 周课程，分三个阶段：
 
-- `chapters/week_XX/`：每周一个章包（正文 + 示例 + 作业 + rubric + tests + QA + anchors/terms）
-- `.claude/`：Claude Code 项目配置（subagents/skills/hooks/settings）
-  - `agents/`：9 个专职 Agent（writer/example/test/exercise/consistency/polisher/qa/planner/error-fixer）
-  - `skills/`：技能命令（/new-week、/draft-chapter、/release-week 等）
-  - `hooks/`：TaskCompleted / TeammateIdle 自动校验
-- `scripts/`：可复用脚本（`_common.py` 共享库 + 建周/校验/发布/恢复）
-- `shared/`：全书共享（style guide / glossary / anchor schema / chapter sections / week summary 约定）
-- `Makefile`：快捷命令入口
+| 阶段 | 周次 | 能力目标 |
+|------|------|---------|
+| 入门基础 | 01–05 | 能写 < 100 行脚本，会读报错，会用 Git |
+| 工程进阶 | 06–10 | 能写 200–500 行小项目，有测试，会用 PR |
+| 综合实战 | 11–14 | 独立完成可交付的 CLI 工具项目 |
 
-## Quickstart（本机验证脚本与测试）
+每周交付一个**章包**（正文 + 示例 + 作业 + 测试 + QA），由 9 个 AI agent 协作产出，经校验脚本和 hooks 自动把关。
+
+详细大纲见 [`chapters/SYLLABUS.md`](chapters/SYLLABUS.md)，目录见 [`chapters/TOC.md`](chapters/TOC.md)。
+
+## 快速开始
 
 ```bash
-cd /Users/wangxq/Documents/python-agentic-textbook
+# 1. 克隆并进入项目
+git clone <repo-url> && cd python-agentic-textbook
 
-# 一键环境搭建
-bash scripts/setup_env.sh
-source .venv/bin/activate
+# 2. 一键环境搭建
+make setup            # 创建 .venv 并安装依赖
 
-# 创建新周
-make new W=01 T="从零到可运行：Hello Python + 工程基线"
+# 3. 批量创建 14 周目录
+make scaffold         # 从 TOC.md 读取标题，生成所有周的模板
 
-# 校验（task 模式用于写作中，release 模式用于发布前）
-make validate W=01 MODE=task
-make validate W=01              # 默认 release 模式
-
-# 测试
-make test W=01
-
-# 查看进度
-make resume W=01
-
-# 全书检查
-make book-check
-
-# 批量创建 14 周目录
-make scaffold
+# 4. 校验
+make validate W=01    # 校验第 1 周（默认 release 模式）
+make test W=01        # 跑第 1 周测试
+make book-check       # 全书一致性检查
 ```
 
-所有 `make` 命令见 `make help`。
+所有命令见 `make help`。
 
-## Claude Code 使用说明（hooks + teams）
+## 一周写作流程
 
-1. 用 Claude Code 打开本项目目录（项目根目录包含 `.claude/settings.json`）。
-2. Agent teams：本项目在 `.claude/settings.json` 里设置了 `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`。
-3. Hooks：
-   - `TaskCompleted`：任务标记完成时跑 `scripts/validate_week.py --mode task`
-   - `TeammateIdle`：teammate 空闲前跑 `scripts/validate_week.py --mode idle`
+在 Claude Code / Cursor 中打开本项目，使用 skill 命令：
 
-注意：hooks 会优先使用项目内的 `.venv`（如果存在）运行校验脚本；因此建议在项目根目录创建 venv 并安装 `requirements-dev.txt`。
+```
+/new-week 01 你的第一个程序          # 1. 创建新周
+/draft-chapter week_01               # 2. 完整写作流水线
+                                     #    规划 → 写正文 → 润色 → QA → 修订回路
+/polish-week week_01                 # 3.（可选）再次深度润色
+/make-assignment week_01             # 4. 生成作业 + 评分标准
+/qa-week week_01                     # 5. 质量检查
+/release-week week_01                # 6. 发布
+/qa-book --mode fast                 # 7.（可选）跨周一致性检查
+```
 
-## 一周工作流（/skills）
+或者用 agent team 并行产出：`/team-week week_01`
 
-在 Claude Code 里：
+Gitea 协作流程见 [`shared/gitea_workflow.md`](shared/gitea_workflow.md)。
 
-1. `/new-week 01 从零到可运行：Hello Python + 工程基线`
-2. （可选）`/team-week week_01`（生成一段 kickoff 提示词，用 agent team 并行产出整周内容）
-3. `/draft-chapter week_01`（已内置润色：prose-polisher）
-4. （可选）`/polish-week week_01`（如果后续还想再次润色，可单独再跑一次）
-5. `/make-assignment week_01`
-6. `/qa-week week_01`
-7. `/release-week week_01`
-8. （可选）`/qa-book --mode fast`（跨周一致性检查：目录/标题/术语表）
+## 目录结构
 
-Gitea 协作流程见：`shared/gitea_workflow.md`
+```
+chapters/
+  SYLLABUS.md              # 14 周教学大纲（含贯穿案例设计）
+  TOC.md                   # 目录
+  week_XX/                 # 每周一个章包
+    CHAPTER.md             #   正文
+    ASSIGNMENT.md          #   作业
+    RUBRIC.md              #   评分标准
+    QA_REPORT.md           #   质量报告（阻塞项/建议项/评分）
+    ANCHORS.yml            #   可验证断言
+    TERMS.yml              #   本周新术语
+    examples/              #   示例代码
+    starter_code/          #   作业起始代码 + solution.py
+    tests/                 #   pytest 用例
+
+shared/
+  style_guide.md           # 行文风格规范
+  writing_exemplars.md     # 写作范例库（好 vs 坏的具体对比）
+  glossary.yml             # 全书术语表
+  anchor_schema.md         # 锚点格式说明
+  gitea_workflow.md        # Gitea PR 协作流程
+
+.claude/
+  agents/                  # 9 个专职 Agent（writer/polisher/qa/planner/...）
+  skills/                  # 9 个 Skill 命令（/draft-chapter、/release-week、...）
+  hooks/                   # 自动校验（TaskCompleted / TeammateIdle）
+  settings.json            # Claude Code 项目配置
+
+scripts/                   # 校验/构建脚本
+Makefile                   # 快捷命令入口
+```
+
+## 写作质量体系
+
+本项目对内容质量有系统性要求，不只是"知识点正确"：
+
+- **场景驱动**：先让读者感受到需求，再引出概念
+- **贯穿案例**：每章一个渐进式小项目（如"名片生成器"），每节推进一步
+- **禁止模板感**：不能每节都用相同结构，不能 bullet list 堆砌做小结
+- **叙事质量评分**：`student-qa` agent 打 1-5 分，>= 4 分才能发布
+- **修订回路**：QA 发现问题 → 回传 writer/polisher 修复 → 再次 QA
+
+具体的好 / 坏写法对比见 [`shared/writing_exemplars.md`](shared/writing_exemplars.md)。
+
+## Hooks 与自动校验
+
+本项目在 `.claude/settings.json` 中启用了 agent teams（`CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`）。
+
+| Hook | 触发时机 | 作用 |
+|------|---------|------|
+| `TaskCompleted` | agent 标记任务完成时 | 跑 `validate_week.py --mode task` |
+| `TeammateIdle` | teammate 空闲时 | 跑 `validate_week.py --mode idle` |
+
+hooks 优先使用项目内 `.venv` 运行校验脚本，建议先跑 `make setup`。
 
 ## 开发约定
 
-- 默认中文写作；关键术语可括注英文。
-- 所有“应该如此”的断言必须落到 `ANCHORS.yml` 并提供可验证方式。
-- 所有新增术语必须进入 `shared/glossary.yml`（由校验脚本与 hooks 强制）。
+- 默认中文写作，关键术语可括注英文
+- 重要断言必须落到 `ANCHORS.yml` 并提供可验证方式
+- 新术语必须进入 `shared/glossary.yml`（校验脚本与 hooks 强制）
+- 所有 task subject 以 `[week_XX]` 开头（hooks 依赖）

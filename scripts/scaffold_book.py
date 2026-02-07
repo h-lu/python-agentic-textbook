@@ -19,12 +19,18 @@ from _common import read_current_week, repo_root
 
 def _parse_toc_titles(toc_path: Path) -> dict[str, str]:
     titles: dict[str, str] = {}
-    line_re = re.compile(r"^\s*-\s*\[(week_\d{2})\]\(\1/CHAPTER\.md\)\s+(.+?)\s*$")
+    # Old format: "- [week_01](week_01/CHAPTER.md) 标题"
+    list_re = re.compile(r"^\s*-\s*\[(week_\d{2})\]\(\1/CHAPTER\.md\)\s+(.+?)\s*$")
+    # New table format: "| 01 | [标题](week_01/CHAPTER.md) | 描述 |"
+    table_re = re.compile(r"^\|\s*(\d{2})\s*\|\s*\[(.+?)\]\(week_\d{2}/CHAPTER\.md\)")
     for line in toc_path.read_text(encoding="utf-8").splitlines():
-        m = line_re.match(line)
-        if not m:
-            continue
-        titles[m.group(1)] = m.group(2).strip()
+        m = list_re.match(line)
+        if m:
+            titles[m.group(1)] = m.group(2).strip()
+        else:
+            m = table_re.match(line)
+            if m:
+                titles[f"week_{int(m.group(1)):02d}"] = m.group(2).strip()
     return titles
 
 
