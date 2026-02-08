@@ -1,9 +1,17 @@
 #!/usr/bin/env python3
 """Validate a single week package against DoD gates.
 
+Modes (from most lenient to most strict):
+    planning  — only CHAPTER.md exists + DoD mention (for syllabus-planner stage)
+    drafting  — CHAPTER.md content + TERMS.yml format (for writer/polisher stage)
+    task      — all files + pytest (for production-stage agents)
+    idle      — all files + QA blocking check, no pytest
+    release   — strictest: all files + pytest + anchors + pedagogical checks
+
 Usage:
     python3 scripts/validate_week.py --week week_01 --mode release
     python3 scripts/validate_week.py --week 06 --mode task --verbose
+    python3 scripts/validate_week.py --week 01 --mode planning
 """
 from __future__ import annotations
 
@@ -27,21 +35,34 @@ from _common import (
 # Individual checks
 # ---------------------------------------------------------------------------
 
-def _check_required_paths(errors: list[str], week_dir: Path, root: Path) -> None:
-    required_files = [
-        week_dir / "CHAPTER.md",
-        week_dir / "ASSIGNMENT.md",
-        week_dir / "RUBRIC.md",
-        week_dir / "QA_REPORT.md",
-        week_dir / "ANCHORS.yml",
-        week_dir / "TERMS.yml",
-        week_dir / "starter_code" / "solution.py",
-    ]
-    required_dirs = [
-        week_dir / "examples",
-        week_dir / "tests",
-        week_dir / "starter_code",
-    ]
+def _check_required_paths(errors: list[str], week_dir: Path, root: Path, mode: str) -> None:
+    # planning: only CHAPTER.md is required
+    # drafting: CHAPTER.md + TERMS.yml
+    # task/idle/release: everything
+    if mode == "planning":
+        required_files = [week_dir / "CHAPTER.md"]
+        required_dirs: list[Path] = []
+    elif mode == "drafting":
+        # CHAPTER.md required; TERMS.yml checked if it exists (see YAML section)
+        required_files = [
+            week_dir / "CHAPTER.md",
+        ]
+        required_dirs = []
+    else:
+        required_files = [
+            week_dir / "CHAPTER.md",
+            week_dir / "ASSIGNMENT.md",
+            week_dir / "RUBRIC.md",
+            week_dir / "QA_REPORT.md",
+            week_dir / "ANCHORS.yml",
+            week_dir / "TERMS.yml",
+            week_dir / "starter_code" / "solution.py",
+        ]
+        required_dirs = [
+            week_dir / "examples",
+            week_dir / "tests",
+            week_dir / "starter_code",
+        ]
 
     for p in required_files:
         if not p.is_file():
@@ -54,11 +75,12 @@ def _check_required_paths(errors: list[str], week_dir: Path, root: Path) -> None
         else:
             verbose(f"OK dir:  {p.relative_to(root)}")
 
-    # At least one test file
-    tests_dir = week_dir / "tests"
-    if tests_dir.is_dir():
-        if not any(t.name.startswith("test_") and t.suffix == ".py" for t in tests_dir.iterdir()):
-            add_error(errors, f"tests dir has no test_*.py files: {tests_dir.relative_to(root)}")
+    # At least one test file (only for modes that require tests/)
+    if mode not in ("planning", "drafting"):
+        tests_dir = week_dir / "tests"
+        if tests_dir.is_dir():
+            if not any(t.name.startswith("test_") and t.suffix == ".py" for t in tests_dir.iterdir()):
+                add_error(errors, f"tests dir has no test_*.py files: {tests_dir.relative_to(root)}")
 
 
 def _check_examples_exist(errors: list[str], week_dir: Path, root: Path) -> None:
@@ -441,7 +463,18 @@ def _run_pytest(errors: list[str], root: Path, week: str) -> None:
 def main() -> int:
     parser = argparse.ArgumentParser(description="Validate a week package against DoD gates.")
     parser.add_argument("--week", required=True, help="Week id (e.g. week_06 or 06)")
-    parser.add_argument("--mode", required=True, choices=["task", "idle", "release"])
+    parser.add_argument(
+        "--mode", required=True,
+        choices=["planning", "drafting", "task", "idle", "release"],
+        help=(
+            "Validation strictness: "
+            "planning (CHAPTER.md only) | "
+            "drafting (CHAPTER+TERMS) | "
+            "task (all files+pytest) | "
+            "idle (all files, no pytest) | "
+            "release (strictest)"
+        ),
+    )
     parser.add_argument("--verbose", "-v", action="store_true", help="Print details for each check")
     args = parser.parse_args()
 
@@ -462,15 +495,23 @@ def main() -> int:
     else:
         verbose(f"validating {week} (mode={args.mode})")
 
-        _check_required_paths(errors, week_dir, root)
-        _check_chapter_dod(errors, week_dir / "CHAPTER.md")
-        _check_chapter_content(errors, week_dir / "CHAPTER.md", args.mode)
-        _check_examples_exist(errors, week_dir, root)
+        # --- File existence (mode-aware) ---
+        _check_required_paths(errors, week_dir, root, args.mode)
 
+        # --- CHAPTER.md content checks ---
+        _check_chapter_dod(errors, week_dir / "CHAPTER.md")
+        if args.mode != "planning":
+            _check_chapter_content(errors, week_dir / "CHAPTER.md", args.mode)
+
+        # --- Examples (skip for planning/drafting) ---
+        if args.mode not in ("planning", "drafting"):
+            _check_examples_exist(errors, week_dir, root)
+
+        # --- Solution customization (release only) ---
         if args.mode == "release":
             _check_solution_customized(errors, week_dir / "starter_code" / "solution.py", args.mode)
 
-        # New pedagogical checks (release mode only)
+        # --- Pedagogical checks (release only) ---
         _check_pyhelper_section(errors, week_dir / "CHAPTER.md", args.mode)
         _check_characters(errors, week_dir / "CHAPTER.md", root, args.mode)
         try:
@@ -479,31 +520,36 @@ def main() -> int:
         except RuntimeError as e:
             add_error(errors, str(e).strip())
 
-        # YAML checks: terms always validated; anchors only fully checked in release mode
-        # (task/idle hooks fire frequently mid-workflow when ANCHORS.yml is incomplete).
-        try:
-            _check_terms(errors, root, week)
-            if args.mode == "release":
-                _check_anchors(errors, root, week)
-        except RuntimeError as e:
-            add_error(errors, str(e).strip())
+        # --- YAML checks (skip for planning; terms from drafting onward) ---
+        if args.mode not in ("planning",):
+            try:
+                if (week_dir / "TERMS.yml").is_file():
+                    _check_terms(errors, root, week)
+                elif args.mode not in ("drafting",):
+                    add_error(errors, f"missing required file: {(week_dir / 'TERMS.yml').relative_to(root)}")
+                if args.mode == "release":
+                    _check_anchors(errors, root, week)
+            except RuntimeError as e:
+                add_error(errors, str(e).strip())
 
+        # --- QA blocking (idle/release only) ---
         if args.mode in ("idle", "release"):
             qa_path = week_dir / "QA_REPORT.md"
             if qa_path.is_file():
                 _check_qa_blocking(errors, qa_path)
 
+        # --- pytest (task/release only) ---
         if args.mode in ("task", "release"):
             _run_pytest(errors, root, week)
 
     if errors:
-        print("[validate-week] FAILED", file=sys.stderr)
+        print(f"[validate-week] FAILED (mode={args.mode})", file=sys.stderr)
         print("Problems:", file=sys.stderr)
         for e in errors:
             print(e, file=sys.stderr)
         return 2
 
-    print(f"[validate-week] OK: {week}")
+    print(f"[validate-week] OK: {week} (mode={args.mode})")
     return 0
 
 

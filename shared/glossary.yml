@@ -24,7 +24,7 @@
 
 - term_zh: 字符串
   term_en: string
-  definition_zh: 一串文本字符，用引号包裹。Python 中用 str 表示。
+  definition_zh: 一串文本字符，用单引号或双引号包裹。Python 中用 str 表示。
   first_seen: week_01
 
 - term_zh: 函数
@@ -77,6 +77,16 @@
   definition_zh: 保存为文件的完整 Python 程序，可以一次性执行多行代码。
   first_seen: week_01
 
+- term_zh: print 函数
+  term_en: print function
+  definition_zh: 向屏幕输出信息的内置函数，可以输出一个或多个值。
+  first_seen: week_01
+
+- term_zh: input 函数
+  term_en: input function
+  definition_zh: 获取用户输入的内置函数，程序会暂停等待用户输入，返回的永远是字符串类型。
+  first_seen: week_01
+
 - term_zh: 版本控制
   term_en: version control
   definition_zh: 记录文件随时间变化的系统，可以随时查看或恢复到之前的版本。
@@ -85,4 +95,34 @@
 - term_zh: 提交
   term_en: commit
   definition_zh: 在 Git 中保存一组变更的快照，附带描述信息。
+  first_seen: week_01
+
+- term_zh: 变量与赋值
+  term_en: variable, assignment
+  definition_zh: 给数据取名字存储，= 表示"放入"
+  first_seen: week_01
+
+- term_zh: 语法错误
+  term_en: SyntaxError
+  definition_zh: 代码格式不符合 Python 语法规则导致的错误
+  first_seen: week_01
+
+- term_zh: 名字错误
+  term_en: NameError
+  definition_zh: 使用了未定义的变量名
+  first_seen: week_01
+
+- term_zh: 类型错误
+  term_en: TypeError
+  definition_zh: 对不兼容的数据类型执行操作导致的错误
+  first_seen: week_01
+
+- term_zh: 值错误
+  term_en: ValueError
+  definition_zh: 操作或函数接收到不合适的值
+  first_seen: week_01
+
+- term_zh: Traceback
+  term_en: traceback
+  definition_zh: Python 报错时显示的错误追踪信息
   first_seen: week_01

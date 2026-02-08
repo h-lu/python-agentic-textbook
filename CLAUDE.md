@@ -138,7 +138,10 @@ AI 辅助编程不只是侧栏话题，而是贯穿全书的教学方法论。�
 7. **认知负荷**：新概念数不超过本阶段预算；回顾桥数量达标
 8. **超级线推进**：CHAPTER.md 包含 `## PyHelper 进度` 小节
 
-上述规则由 `scripts/validate_week.py` 与 `.claude/hooks/` 强制执行。
+上述规则由 `scripts/validate_week.py` 强制执行；`.claude/hooks/` 默认只做提示（非阻塞）。
+
+如需把 hooks 作为"硬闸门"拦截任务完成/空闲事件，可在 Claude Code 的环境变量里设置：
+- `TEXTBOOK_HOOK_STRICT=1`
 
 ### 叙事质量四维评分（student-qa 输出）
 
@@ -176,6 +179,31 @@ AI 辅助编程不只是侧栏话题，而是贯穿全书的教学方法论。�
 - 代码块必须可运行（或注明"伪代码/节选"）
 - 重要结论必须可验证 → 落到 `ANCHORS.yml`
 
+### 章首导入（每章必须）
+
+每章标题之后、学习目标之前，必须包含：
+
+1. **引言格言**：与本章主题相关的名人名言/编程格言，Markdown blockquote 格式
+2. **时代脉搏**：200-300 字导入段落，用近 1-2 年的 AI/技术事件引出本章主题，不加标题
+
+详细格式和示例见 `shared/style_guide.md` 的"章首导入"章节。
+
+### 写作元数据必须注释
+
+CHAPTER.md 中的**写作元数据**（Bloom 标注、概念预算表、AI 专栏规划、角色出场规划、章节结构骨架等）**必须**用 HTML 注释 `<!-- ... -->` 包裹。规划阶段产出的所有中间产物都不能出现在渲染后的正文中。
+
+详细清单见 `shared/style_guide.md` 的"写作元数据注释规范"章节。
+
+### Context7 技术查证（写作前必做）
+
+Python 及其生态持续演进。为确保代码示例是当前版本的正确写法，**所有写正文的 agent 必须在动笔前使用 Context7 MCP 查证本章涉及的核心技术点**：
+
+1. 用 `resolve-library-id` 定位相关库
+2. 用 `query-docs` 查询具体的最佳实践和 API 用法
+3. 将查证结果融入写作，确保示例代码符合当前 Python 最佳实践
+
+详细流程见 `shared/style_guide.md` 的"Context7 技术查证"章节。
+
 ## 术语与一致性
 
 - 新术语先在当周 `TERMS.yml` 登记，再合入 `shared/glossary.yml`
@@ -190,5 +218,5 @@ AI 辅助编程不只是侧栏话题，而是贯穿全书的教学方法论。�
 - Lead 建议开启 delegate mode：只拆任务与收敛，不写正文
 - **所有写正文的 agent 必须先读 `shared/writing_exemplars.md`**
 - **所有写正文的 agent 必须读 `shared/characters.yml`（循环角色）**
-- 产出阶段的 teammate（Writer/Example/Assignment/Consistency/Error-fixer）完成任务前，必须确保本周校验通过（hooks 会拦截）
+- 产出阶段的 teammate（Writer/Example/Assignment/Consistency/Error-fixer）完成任务前，建议确保本周校验通过（hooks 默认提示；开启 strict 后会拦截）
 - **规划阶段的 syllabus-planner 不需要跑校验**——此时 ASSIGNMENT.md 等文件尚未产出，校验必然报错

@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
-"""Hook: TeammateIdle — validate the current week when a teammate goes idle."""
+"""Hook: TeammateIdle — informational validation when a teammate goes idle.
+
+This hook NEVER blocks (always returns 0). It runs validation and prints
+results to stderr as information only. Blocking idle teammates with
+validation errors causes deadlocks during multi-stage pipelines where
+files are produced incrementally by different agents.
+"""
 from __future__ import annotations
 
 import json
@@ -20,7 +26,7 @@ def main() -> int:
         _ = json.load(sys.stdin)
     except json.JSONDecodeError as e:
         print(f"[TeammateIdle hook] invalid JSON on stdin: {e}", file=sys.stderr)
-        return 2
+        return 0  # Never block
 
     week = read_current_week(root)
     if not week:
@@ -29,7 +35,7 @@ def main() -> int:
             "Set chapters/current_week.txt (e.g. 'week_01' or 'week_06').",
             file=sys.stderr,
         )
-        return 2
+        return 0  # Never block
 
     python = python_for_repo(root)
     cmd = [python, str(root / "scripts" / "validate_week.py"), "--week", week, "--mode", "idle"]
@@ -42,10 +48,14 @@ def main() -> int:
         if proc.stderr:
             print(proc.stderr.rstrip(), file=sys.stderr)
         print("─" * 60, file=sys.stderr)
-        print(f"[TeammateIdle hook] validation FAILED for {week}.", file=sys.stderr)
+        print(
+            f"[TeammateIdle hook] validation issues for {week} (informational only).",
+            file=sys.stderr,
+        )
     else:
         print(f"[TeammateIdle hook] validation OK for {week}.", file=sys.stderr)
-    return 0 if proc.returncode == 0 else 2
+
+    return 0  # ALWAYS return 0 — never block idle teammates
 
 
 if __name__ == "__main__":

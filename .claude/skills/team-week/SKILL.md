@@ -1,9 +1,8 @@
 ---
 name: team-week
-description: 需要用 agent team 并行产出一整周章包时，生成一段可直接粘贴给 Lead 的 kickoff 提示词（含角色、任务拆分、依赖与校验）。
+description: 完整执行一周章包的 6 阶段流水线：规划 → 写作 → 润色 → 并行产出 → QA → 收敛发布。
 argument-hint: "<week_id e.g. week_01>"
-allowed-tools: Read, Grep, Glob, Write, Edit
-disable-model-invocation: true
+allowed-tools: Bash, Read, Write, Edit, Grep, Glob, Task
 ---
 
 # /team-week
@@ -14,60 +13,185 @@ disable-model-invocation: true
 /team-week week_XX
 ```
 
-## 作用
+## 目标
 
-你是 Lead（delegate mode，只拆任务与收敛，不直接写正文）。
-目标：把 week_XX 产出成完整章包，并通过校验：
-- python3 scripts/validate_week.py --week week_XX --mode release
+**直接执行完整的 6 阶段流水线**，把 week_XX 从零产出为完整章包，并通过 release 校验：
 
-强制约束：
-- 所有 task subject 必须以 [week_XX] 开头（hooks 依赖）
-- 交付遵循 CLAUDE.md + shared/style_guide.md
-- **所有写正文的 agent 必须先读 shared/writing_exemplars.md + shared/characters.yml**
-- /draft-chapter week_XX 已内置 prose-polisher + 修订回路
-- **ANCHORS.yml 由 Consistency 角色统一管理**：其他角色如有 anchor 建议，在任务输出中标注（含 id/claim/evidence/verification）即可，不要直接读写 ANCHORS.yml
+```bash
+python3 scripts/validate_week.py --week week_XX --mode release
+```
 
-写作质量红线（四维评分体系）：
+## 全局约束（贯穿所有阶段）
+
+- 交付遵循 `CLAUDE.md` + `shared/style_guide.md`
+- **所有写正文的 subagent 必须先读 `shared/writing_exemplars.md` + `shared/characters.yml`**
+- **ANCHORS.yml 由阶段 6 的 Consistency 统一管理**：其他阶段如有 anchor 建议，在输出中标注即可，不直接写 ANCHORS.yml
+
+### 写作质量红线（四维评分体系）
+
 - student-qa 四维评分总分必须 >= 16/20
-  - 叙事流畅度 >= 3
-  - 趣味性 >= 3
-  - 知识覆盖 >= 3
-  - 认知负荷 >= 3
+  - 叙事流畅度 >= 3 / 趣味性 >= 3 / 知识覆盖 >= 3 / 认知负荷 >= 3
 - 任一维度 <= 2 = 阻塞项
 - 禁止每节都用相同的子标题模式
 - 每章必须有贯穿案例（渐进式小项目）+ PyHelper 超级线推进
 - 循环角色（小北/阿码/老潘）每章至少出场 2 次
 - 新概念数不超预算，回顾桥数量达标
-- 禁止连续 6+ 条 bullet list
-- 小结不能全部用 bullet list
+- 禁止连续 6+ 条 bullet list；小结不能全部用 bullet list
 - **AI 小专栏必须 2 个，分别在前段和中段**（禁止全堆章末）；prose-polisher 必须联网搜索真实数据
+- **章首导入必须包含引言格言 + 时代脉搏段落**（详见 `shared/style_guide.md`）
+- **所有写作元数据必须用 HTML 注释包裹**，不能出现在渲染正文中
+- **写作前必须使用 Context7 MCP 查证本章技术点的当前最佳实践**
 
-请创建 team 角色（建议 5 人）：
-- Writer（CHAPTER + PyHelper 进度）
-- Example（examples + 讲解段落 + PyHelper 示例代码）
-- Assignment（ASSIGNMENT + RUBRIC + AI 协作练习）
-- QA（student-qa，四维评分 + 知识理解 + 叙事质量审读）
-- Consistency（consistency-editor，术语/格式/引用/角色一致性）
+---
 
-Task list（注意依赖）：
-- [week_XX] Outline + 贯穿案例 + Bloom 标注 + 回顾桥 + 超级线 + 角色出场（syllabus-planner）
-- [week_XX] Draft CHAPTER.md + 循环角色 + 回顾桥 + PyHelper 进度（chapter-writer）
-- [week_XX] Deep polish + AI sidebar + 趣味性诊断 + 角色一致性（prose-polisher）
-- [week_XX] Produce examples + PyHelper 示例代码（example-engineer）
-- [week_XX] Design tests（test-designer）
-- [week_XX] Write assignment + rubric + AI 协作练习（exercise-factory）
-- [week_XX] QA sweep — 四维评分 + 知识理解（student-qa）
-- [week_XX] 修订回路：如果 QA 总分 < 16，按质量升级路径回传修复
-- [week_XX] Consistency sweep + 角色一致性检查（consistency-editor）
-- [week_XX] Green check + release（/qa-week -> /release-week）
+## 流水线阶段（严格按顺序执行）
 
-关键检查点（**仅产出阶段角色**完成任务时需要过，规划阶段的 syllabus-planner 不用）：
-- python3 -m pytest chapters/week_XX/tests -q
-- python3 scripts/validate_week.py --week week_XX --mode task
+```
+阶段 1（规划） → 阶段 2（写作） → 阶段 3（润色）
+  → 阶段 4（并行产出） → 阶段 5（QA） → 阶段 6（收敛）
+```
 
-> 注意：syllabus-planner 只产出 CHAPTER.md 大纲，此时其他文件尚未就绪，不要运行校验。校验从 Example/Assignment 角色开始适用。
+### 阶段 1：规划（无前置条件）
 
-收敛规则：
-- QA_REPORT 的"阻塞项"必须清零（不允许 - [ ]）才能 release
-- 四维评分总分必须 >= 16/20 才能 release
+调用 subagent `syllabus-planner`：
+
+- 产出章节结构（小节标题 + 每节学习目标 + Bloom 层次）
+- 设计本章贯穿案例（渐进式小项目）
+- 规划 2 个 AI 小专栏的位置和主题（第 1 个在前段，第 2 个在中段；含建议搜索词）
+- 做认知负荷检查：新概念数在预算内，回顾桥设计达标
+- 规划 PyHelper 超级线推进
+- 规划循环角色出场位置
+- **规划章首导入**：选择引言格言、草拟时代脉搏段落方向
+- 产出写入 `chapters/week_XX/CHAPTER.md`（大纲阶段）
+- **所有规划元数据必须用 `<!-- ... -->` HTML 注释包裹**（Bloom 标注、概念预算表、AI 专栏规划、角色出场规划、章节结构骨架等，不能渲染为正文）
+
+**校验**：无需校验（规划阶段，ASSIGNMENT 等文件不存在是正常的）
+
+### 阶段 1.5：Context7 技术查证（前置：阶段 1 完成）
+
+在写正文之前，使用 **Context7 MCP** 查证本章涉及的核心技术点：
+
+1. 从阶段 1 的规划中提取本章涉及的 Python 特性、标准库模块、第三方库
+2. 调用 `resolve-library-id` 定位相关库（如 `python`、`pytest`、`argparse` 等）
+3. 调用 `query-docs` 查询具体的最佳实践和 API 用法
+4. 将查证结果作为上下文传递给阶段 2 的 chapter-writer
+
+**校验**：无需校验
+
+### 阶段 2：写作（前置：阶段 1.5 完成）
+
+调用 subagent `chapter-writer`：
+
+- **必须先读 `shared/writing_exemplars.md` + `shared/characters.yml`**
+- **必须写章首导入**：在章标题之后、学习目标之前，写入引言格言 + 时代脉搏段落（200-300 字）。详见 `shared/style_guide.md` 的"章首导入"章节
+- **必须基于阶段 1.5 的 Context7 查证结果**确保代码示例使用当前 Python 最佳实践
+- 以贯穿案例为主线，用"场景 → 困惑 → 解法 → 深化"的叙事弧线写每一节
+- 使用循环角色增强代入感，每章至少 2 次出场
+- 写回顾桥：在新场景中自然引用前几周概念
+- 写 PyHelper 进度小节
+- 严禁所有节使用相同子标题模式；严禁 bullet list 堆砌做小结
+- **所有写作元数据必须用 `<!-- ... -->` 注释包裹**，不能出现在渲染正文中
+
+**校验**：
+
+```bash
+python3 scripts/validate_week.py --week week_XX --mode drafting
+```
+
+### 阶段 3：润色（前置：阶段 2 完成）
+
+调用 subagent `prose-polisher`：
+
+- **必须先读 `shared/writing_exemplars.md` + `shared/characters.yml`**
+- 执行诊断清单 + 趣味性诊断清单，判断改写级别
+- 检查角色一致性（对照 `shared/characters.yml`）
+- 可做结构性重组
+- **必须插入 2 个 AI 时代小专栏**（按阶段 1 规划的位置和主题；必须联网搜索真实数据）
+
+**校验**：
+
+```bash
+python3 scripts/validate_week.py --week week_XX --mode drafting
+```
+
+### 阶段 4：并行产出（前置：阶段 3 完成，以下三个可并行）
+
+同时调用以下 3 个 subagent（**可以并行**）：
+
+1. **`example-engineer`**：产出 `examples/` + PyHelper 示例代码 + 讲解段落
+2. **`test-designer`**：产出 `tests/` pytest 用例矩阵
+3. **`exercise-factory`**：产出 `ASSIGNMENT.md` + `RUBRIC.md` + AI 协作练习
+
+**校验**（三个全部完成后执行）：
+
+```bash
+python3 scripts/validate_week.py --week week_XX --mode task
+python3 -m pytest chapters/week_XX/tests -q
+```
+
+### 阶段 5：QA（前置：阶段 4 全部完成）
+
+调用 subagent `student-qa`：
+
+- 只读审读，输出四维评分 + 问题清单
+- 四维评分：叙事流畅度 / 趣味性 / 知识覆盖 / 认知负荷（各 1-5 分）
+- 总分 >= 16/20 才能通过
+
+**校验**：无（QA 是只读角色）
+
+### 阶段 6：收敛（前置：阶段 5 完成，序列执行）
+
+#### 6a. 修订回路（如果 QA 总分 < 16）
+
+| 总分范围 | 处理方式 | 回传给谁 |
+|---------|---------|---------|
+| 12-15 | 把具体维度的阻塞项传回修复 | `prose-polisher` |
+| 8-11 | 结构性重写 | `chapter-writer` |
+| < 8 | 重新规划章节结构 | `syllabus-planner` |
+
+**硬性上限：最多迭代 2 轮。** 如果 2 轮后仍不达标：
+1. 在 QA_REPORT.md 记录当前评分和未解决问题
+2. 标注 `<!-- 需人工介入 -->`
+3. 继续推进到 6b（不再回传修订）
+
+#### 6b. Consistency sweep
+
+调用 subagent `consistency-editor`：
+
+- 术语/格式/引用/角色统一
+- 同步 `TERMS.yml` → `shared/glossary.yml`
+- 管理 `ANCHORS.yml`（统一处理各阶段产出的 anchor 建议）
+- 检查循环角色使用一致性
+
+#### 6c. 落盘 QA_REPORT + Release 校验
+
+- 把最终 QA 结果写入 `chapters/week_XX/QA_REPORT.md`
+  - 四维评分写在顶部
+  - 阻塞项放到 `## 阻塞项` 下（checkbox，必须全部勾选）
+  - 建议项放到 `## 建议项` 下（checkbox）
+  - 如经过修订回路，记录每轮评分变化
+
+- 调用 subagent `error-fixer`（如果校验有报错）：逐条修复再验证
+
+- 最终 release 校验：
+
+```bash
+python3 scripts/validate_week.py --week week_XX --mode release
+```
+
+---
+
+## 校验模式速查
+
+| 阶段 | 校验模式 | 说明 |
+|------|---------|------|
+| 阶段 1（规划） | 无 | ASSIGNMENT 等文件不存在是正常的 |
+| 阶段 2-3（写作/润色） | `--mode drafting` | 只检查 CHAPTER.md + TERMS.yml |
+| 阶段 4（产出） | `--mode task` + pytest | 所有文件应齐全 |
+| 阶段 6（收敛） | `--mode release` | 完整发布级校验 |
+
+## 收敛规则
+
+- QA_REPORT 的"阻塞项"必须清零（不允许 `- [ ]`）才能 release
+- 四维评分总分必须 >= 16/20 才能 release（或 2 轮修订后人工豁免）
 - 不要为了"写完"牺牲可运行/可验证：tests/anchors/terms 要能对上
