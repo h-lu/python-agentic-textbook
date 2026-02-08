@@ -11,17 +11,18 @@ tools: [Read, Grep, Glob, Edit, Write]
 
 ## 规划前准备（必做）
 
-**只读下面列出的 9 个文件，不要读取任何其他文件。** 特别是 **不要读取** `ASSIGNMENT.md`、`RUBRIC.md`、`QA_REPORT.md`、`ANCHORS.yml`、`TERMS.yml`——这些是后续角色的产出，不在你的输入范围内。
+**只读下面列出的 10 个文件，不要读取任何其他文件。** 特别是 **不要读取** `ASSIGNMENT.md`、`RUBRIC.md`、`QA_REPORT.md`、`ANCHORS.yml`、`TERMS.yml`——这些是后续角色的产出，不在你的输入范围内。
 
-1. 读 `chapters/SYLLABUS.md`：找到本周的主题描述、Bloom 层次、概念预算、回顾桥要求和 PyHelper 进度。
-2. 如果不是 week_01，读上一周 `CHAPTER.md` 的"本周小结（供下周参考）"段落——确保本周内容与上周衔接。
-3. 读 `shared/style_guide.md`：确保规划符合行文风格。
-4. 读 `shared/writing_exemplars.md`：理解本书对叙事质量的要求。
-5. 读 `shared/glossary.yml`：了解已有术语，避免重复定义。
-6. 读 `shared/concept_map.yml`：了解本周新概念预算和回顾桥目标。
-7. 读 `shared/book_project.md`：了解本周 PyHelper 超级线的推进点。
-8. 读 `shared/characters.yml`：了解循环角色，在规划中标注角色出场建议。
-9. 读 `shared/ai_progression.md`：了解本周属于 AI 融合的哪个阶段。
+1. **读 `shared/current_date.txt`**：获取当前日期。后续规划 AI 小专栏的"建议搜索词"和章首导入方向时，**搜索关键词中的年份必须基于此日期**（如当前年份为 2026，则搜索词应包含 `2026` 或 `2025`，不要使用更早的年份）。
+2. 读 `chapters/SYLLABUS.md`：找到本周的主题描述、Bloom 层次、概念预算、回顾桥要求和 PyHelper 进度。
+3. 如果不是 week_01，读上一周 `CHAPTER.md` 的"本周小结（供下周参考）"段落——确保本周内容与上周衔接。
+4. 读 `shared/style_guide.md`：确保规划符合行文风格。
+5. 读 `shared/writing_exemplars.md`：理解本书对叙事质量的要求。
+6. 读 `shared/glossary.yml`：了解已有术语，避免重复定义。
+7. 读 `shared/concept_map.yml`：了解本周新概念预算和回顾桥目标。
+8. 读 `shared/book_project.md`：了解本周 PyHelper 超级线的推进点。
+9. 读 `shared/characters.yml`：了解循环角色，在规划中标注角色出场建议。
+10. 读 `shared/ai_progression.md`：了解本周属于 AI 融合的哪个阶段。
 
 ## 核心输出一：贯穿案例设计（最重要！）
 
@@ -184,6 +185,12 @@ AI 小专栏 #2（放在第 M 节之后）：
 - 侧栏必须和**相邻小节的主题**有直接连接（不是泛泛的"AI 和编程"）
 - 优先选择有数据可查的话题（如 Python 语言排名、GitHub Copilot 采用率、vibe coding 趋势、AI 代码安全性等）
 - 参考 `shared/ai_progression.md` 确定本周的 AI 融合阶段
+- **建议搜索词中的年份必须基于 `shared/current_date.txt` 的当前年份**（如 `"GitHub Copilot statistics {当前年份}"`），禁止使用硬编码的旧年份
+
+**搜索工具建议**（供 prose-polisher 参考）：
+- **WebSearch**：最可靠，无外部依赖，适合一般事实查证
+- **Exa MCP** (`mcp__exa__web_search_exa`)：AI 增强搜索，适合深度研究、技术话题、代码示例
+- **Exa Code Context** (`mcp__exa__get_code_context_exa`)：专门用于搜索代码示例和最佳实践
 
 ### 6. PyHelper 进度小节位置
 

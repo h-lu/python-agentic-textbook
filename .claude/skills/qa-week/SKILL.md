@@ -24,7 +24,7 @@ disable-model-invocation: true
    - consistency-editor 内部会跑 `validate_week.py --mode task`，基础检查已覆盖
 2. 调用 `student-qa`：四维评分审读 + 阻塞项/建议项。
    - 必须输出四维评分（叙事流畅度/趣味性/知识覆盖/认知负荷）
-   - 总分 >= 16/20 才能 release
+   - 总分 >= 18/20 才能 release
 3. 把 QA 结果收敛到 `QA_REPORT.md`：
    - 四维评分写在顶部
    - 阻塞项清零（不允许存在 `- [ ]`）

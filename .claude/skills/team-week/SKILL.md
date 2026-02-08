@@ -29,7 +29,7 @@ python3 scripts/validate_week.py --week week_XX --mode release
 
 ### 写作质量红线（四维评分体系）
 
-- student-qa 四维评分总分必须 >= 16/20
+- student-qa 四维评分总分必须 >= 18/20
   - 叙事流畅度 >= 3 / 趣味性 >= 3 / 知识覆盖 >= 3 / 认知负荷 >= 3
 - 任一维度 <= 2 = 阻塞项
 - 禁止每节都用相同的子标题模式
@@ -37,7 +37,7 @@ python3 scripts/validate_week.py --week week_XX --mode release
 - 循环角色（小北/阿码/老潘）每章至少出场 2 次
 - 新概念数不超预算，回顾桥数量达标
 - 禁止连续 6+ 条 bullet list；小结不能全部用 bullet list
-- **AI 小专栏必须 2 个，分别在前段和中段**（禁止全堆章末）；prose-polisher 必须联网搜索真实数据
+- **AI 小专栏必须 2 个，分别在前段和中段**（禁止全堆章末）；Lead agent 在 Stage 2.5 预先搜索素材写入 `.research_cache.md`，prose-polisher 优先读取缓存，不足时用自身的 **WebSearch** 补充搜索。**绝对禁止编造参考链接**——搜索失败时写 `<!-- TODO -->` 占位
 - **章首导入必须包含引言格言 + 时代脉搏段落**（详见 `shared/style_guide.md`）
 - **所有写作元数据必须用 HTML 注释包裹**，不能出现在渲染正文中
 - **写作前必须使用 Context7 MCP 查证本章技术点的当前最佳实践**
@@ -47,11 +47,26 @@ python3 scripts/validate_week.py --week week_XX --mode release
 ## 流水线阶段（严格按顺序执行）
 
 ```
-阶段 1（规划） → 阶段 2（写作） → 阶段 3（润色）
-  → 阶段 4（并行产出） → 阶段 5（QA） → 阶段 6（收敛）
+阶段 0（日期校准） → 阶段 1（规划） → 阶段 2（写作） → 阶段 2.5（联网研究）
+  → 阶段 3（润色） → 阶段 4（并行产出） → 阶段 5（QA） → 阶段 6（收敛）
 ```
 
-### 阶段 1：规划（无前置条件）
+### 阶段 0：日期校准（流水线启动时立即执行）
+
+生成 `shared/current_date.txt`，供后续所有 agent 读取当前日期：
+
+```bash
+date '+%Y-%m-%d' > shared/current_date.txt
+echo "当前日期已写入 shared/current_date.txt: $(cat shared/current_date.txt)"
+```
+
+**为什么需要这一步**：时代脉搏、AI 小专栏、参考链接的访问日期都需要使用当前年份。如果不显式注入日期，agent 可能使用训练数据中的旧年份。
+
+**校验**：确认 `shared/current_date.txt` 存在且内容为当天日期。
+
+---
+
+### 阶段 1：规划（前置：阶段 0 完成）
 
 调用 subagent `syllabus-planner`：
 
@@ -69,12 +84,17 @@ python3 scripts/validate_week.py --week week_XX --mode release
 
 ### 阶段 1.5：Context7 技术查证（前置：阶段 1 完成）
 
-在写正文之前，使用 **Context7 MCP** 查证本章涉及的核心技术点：
+在写正文之前，使用 **Context7 MCP** 查证本章涉及的 Python 官方文档和 API 最佳实践：
 
 1. 从阶段 1 的规划中提取本章涉及的 Python 特性、标准库模块、第三方库
 2. 调用 `resolve-library-id` 定位相关库（如 `python`、`pytest`、`argparse` 等）
 3. 调用 `query-docs` 查询具体的最佳实践和 API 用法
 4. 将查证结果作为上下文传递给阶段 2 的 chapter-writer
+
+**搜索工具分工说明**：
+- **Context7**：仅用于查证 Python/库的官方文档 API 用法和最佳实践
+- **Exa Code Context** (`mcp__exa__get_code_context_exa`)：用于搜索真实项目中的代码示例和社区实践
+- 两者互补：Context7 提供官方标准，Exa 提供社区真实用法
 
 **校验**：无需校验
 
@@ -98,7 +118,66 @@ python3 scripts/validate_week.py --week week_XX --mode release
 python3 scripts/validate_week.py --week week_XX --mode drafting
 ```
 
-### 阶段 3：润色（前置：阶段 2 完成）
+### 阶段 2.5：联网研究收集（前置：阶段 2 完成，Lead agent 亲自执行）
+
+**由 Lead agent 直接执行**（不委派给 subagent），因为 Lead 拥有全部搜索工具。
+
+目的：为阶段 3 的 prose-polisher 提供真实的搜索数据和参考链接，避免 AI 小专栏使用 TODO 占位。
+
+1. **读取阶段 1 的 AI 小专栏规划**：从 CHAPTER.md 的 HTML 注释中提取 2 个侧栏的主题和建议搜索词
+2. **读取 `shared/current_date.txt`** 获取当前日期，搜索关键词中包含当前年份
+3. **执行搜索**（每个侧栏 2-3 次搜索）：
+
+   ```
+   # 优先级 1: 内置 WebSearch（最可靠，无外部依赖）
+   WebSearch("GitHub Copilot adoption statistics 2026")
+   WebSearch("Python popularity TIOBE index 2026")
+
+   # 优先级 2: Exa MCP（AI 增强搜索，适合深度研究）
+   mcp__exa__web_search_exa({
+     "query": "GitHub Copilot adoption statistics 2026",
+     "numResults": 5,
+     "type": "auto"
+   })
+   mcp__exa__company_research_exa({
+     "companyName": "OpenAI",
+     "numResults": 3
+   })
+
+   # 优先级 3: perplexity MCP（如可用）
+   mcp__perplexity__perplexity_search({
+     "query": "vibe coding trend AI programming 2026",
+     "recency": "year",
+     "response_format": "json"
+   })
+   ```
+
+4. **收集时代脉搏素材**：搜索与本章主题相关的最新 AI/技术事件
+5. **将搜索结果写入缓存文件** `chapters/week_XX/.research_cache.md`：
+
+   ```markdown
+   # Week XX 研究缓存
+   生成日期：YYYY-MM-DD
+
+   ## 时代脉搏素材
+   ### 搜索词: "..."
+   - 事实: ... (来源: https://真实URL)
+
+   ## AI 小专栏 #1: {主题}
+   ### 搜索词: "..."
+   - 数据点: ... (来源: https://真实URL)
+   - 引用: "..." (来源: https://真实URL)
+
+   ## AI 小专栏 #2: {主题}
+   ### 搜索词: "..."
+   - 数据点: ... (来源: https://真实URL)
+   ```
+
+**校验**：确认 `.research_cache.md` 存在且至少包含 2 个侧栏的搜索数据。
+
+---
+
+### 阶段 3：润色（前置：阶段 2.5 完成）
 
 调用 subagent `prose-polisher`：
 
@@ -106,7 +185,11 @@ python3 scripts/validate_week.py --week week_XX --mode drafting
 - 执行诊断清单 + 趣味性诊断清单，判断改写级别
 - 检查角色一致性（对照 `shared/characters.yml`）
 - 可做结构性重组
-- **必须插入 2 个 AI 时代小专栏**（按阶段 1 规划的位置和主题；必须联网搜索真实数据）
+- **必须插入 2 个 AI 时代小专栏**（按阶段 1 规划的位置和主题）：
+  - **优先读取 `chapters/week_XX/.research_cache.md`** 中的搜索数据和参考链接
+  - 如果缓存数据不足，**可以补充搜索**（WebSearch/Exa MCP），并将新结果**追加写入缓存文件**
+  - 用 **WebFetch** 验证关键 URL 是否可访问
+  - **绝对禁止编造 URL**——搜索失败时才写 `<!-- TODO -->` 占位
 
 **校验**：
 
@@ -135,21 +218,25 @@ python3 -m pytest chapters/week_XX/tests -q
 
 - 只读审读，输出四维评分 + 问题清单
 - 四维评分：叙事流畅度 / 趣味性 / 知识覆盖 / 认知负荷（各 1-5 分）
-- 总分 >= 16/20 才能通过
+- 总分 >= 18/20 才能通过
 
 **校验**：无（QA 是只读角色）
 
 ### 阶段 6：收敛（前置：阶段 5 完成，序列执行）
 
-#### 6a. 修订回路（如果 QA 总分 < 16）
+#### 6a. 修订回路
 
 | 总分范围 | 处理方式 | 回传给谁 |
 |---------|---------|---------|
-| 12-15 | 把具体维度的阻塞项传回修复 | `prose-polisher` |
-| 8-11 | 结构性重写 | `chapter-writer` |
-| < 8 | 重新规划章节结构 | `syllabus-planner` |
+| >= 18 | 根据 QA 反馈进行轻量修订后通过 | `prose-polisher`（轻量修复，处理建议项） |
+| 14-17 | 把具体维度的阻塞项传回修复 | `prose-polisher` |
+| 10-13 | 结构性重写 | `chapter-writer` |
+| < 10 | 重新规划章节结构 | `syllabus-planner` |
 
-**硬性上限：最多迭代 2 轮。** 如果 2 轮后仍不达标：
+**修订规则说明**：
+- 无论评分高低，每轮 QA 后都需根据反馈进行一轮修订（即使是 >= 18 分的建议项也要处理）
+- 修订后如无阻塞项且质量达标，即可进入 release
+- **硬性上限：最多迭代 3 轮。** 如果 3 轮后总分仍 < 18：
 1. 在 QA_REPORT.md 记录当前评分和未解决问题
 2. 标注 `<!-- 需人工介入 -->`
 3. 继续推进到 6b（不再回传修订）
@@ -186,12 +273,14 @@ python3 scripts/validate_week.py --week week_XX --mode release
 | 阶段 | 校验模式 | 说明 |
 |------|---------|------|
 | 阶段 1（规划） | 无 | ASSIGNMENT 等文件不存在是正常的 |
-| 阶段 2-3（写作/润色） | `--mode drafting` | 只检查 CHAPTER.md + TERMS.yml |
+| 阶段 2（写作） | `--mode drafting` | 只检查 CHAPTER.md + TERMS.yml |
+| 阶段 2.5（研究） | 检查 `.research_cache.md` 存在 | Lead agent 亲自执行 |
+| 阶段 3（润色） | `--mode drafting` | 只检查 CHAPTER.md + TERMS.yml |
 | 阶段 4（产出） | `--mode task` + pytest | 所有文件应齐全 |
 | 阶段 6（收敛） | `--mode release` | 完整发布级校验 |
 
 ## 收敛规则
 
 - QA_REPORT 的"阻塞项"必须清零（不允许 `- [ ]`）才能 release
-- 四维评分总分必须 >= 16/20 才能 release（或 2 轮修订后人工豁免）
+- 四维评分总分必须 >= 18/20 才能 release（或 3 轮修订后人工豁免）
 - 不要为了"写完"牺牲可运行/可验证：tests/anchors/terms 要能对上

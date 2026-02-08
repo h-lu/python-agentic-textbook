@@ -18,10 +18,20 @@ disable-model-invocation: true
 
 - `chapters/week_XX/CHAPTER.md` 达到教材水准：叙事流畅、有贯穿案例、节奏多变、有温度
 - 可做结构性改写（不仅仅是换词润色）
-- 追加 1-2 个"AI 时代小专栏"（200-500 字/个），附参考链接 + 访问日期
+- 追加 1-2 个"AI 时代小专栏"（200-500 字/个），附**真实**参考链接 + 访问日期（**优先读取 `.research_cache.md` 研究缓存，不足时使用 WebSearch / Exa MCP / perplexity MCP 搜索获取真实 URL，绝对禁止编造**）
 - 不改代码/测试/YAML，不引入新的 `validate_week.py` 失败
 
 ## 步骤
+
+### 0. 日期校准（立即执行）
+
+生成 `shared/current_date.txt`，供后续 agent 读取当前日期：
+
+```bash
+date '+%Y-%m-%d' > shared/current_date.txt
+```
+
+这确保 AI 小专栏中的数据和访问日期使用当前年份。
 
 ### 1. 诊断
 
