@@ -1,0 +1,26 @@
+# Week 09 术语表
+
+- term_zh: 字符串方法
+  term_en: string method
+  definition_zh: Python 字符串对象内置的函数，如 strip()、split()、join()、find() 等，用于处理和转换文本数据。
+  first_seen: week_09
+
+- term_zh: 正则表达式
+  term_en: regular expression
+  definition_zh: 一种描述文本模式的语法，用特殊字符组合定义匹配规则，用于在字符串中查找、替换符合特定模式的内容。
+  first_seen: week_09
+
+- term_zh: re 模块
+  term_en: re module
+  definition_zh: Python 标准库中用于正则表达式操作的模块，提供 search()、match()、findall()、sub() 等函数。
+  first_seen: week_09
+
+- term_zh: 原始字符串
+  term_en: raw string
+  definition_zh: 在字符串前加 r 前缀（如 r"..."），使反斜杠不被当作转义字符，常用于正则表达式模式。
+  first_seen: week_09
+
+- term_zh: 分组捕获
+  term_en: capturing group
+  definition_zh: 在正则表达式中用圆括号 () 包裹的部分，匹配成功后可以通过 group() 方法单独提取该部分的内容。
+  first_seen: week_09

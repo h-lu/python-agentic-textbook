@@ -1,0 +1,52 @@
+# Week 08 术语表
+#
+# 本周新概念（4 个，在预算内）：
+# 1. pytest 断言（assert）
+# 2. fixture
+# 3. 参数化测试（@pytest.mark.parametrize）
+# 4. TDD 循环（红-绿-重构）
+
+- term_zh: 自动化测试
+  term_en: automated testing
+  definition_zh: 用代码来测试代码的方法。测试代码调用被测代码，用断言验证结果是否符合预期。自动化测试能快速、重复地验证代码正确性，防止回归 bug。
+  first_seen: week_08
+
+- term_zh: pytest
+  term_en: pytest
+  definition_zh: Python 最流行的测试框架，使用简单的 assert 语句进行断言，自动发现以 test_ 开头的测试函数，提供丰富的插件生态。
+  first_seen: week_08
+
+- term_zh: 断言
+  term_en: assertion
+  definition_zh: 用 assert 语句验证某个条件是否为真。如果条件为假，断言失败，测试报错。例如 `assert result == 5` 验证 result 是否等于 5。
+  first_seen: week_08
+
+- term_zh: fixture
+  term_en: fixture
+  definition_zh: pytest 中用于准备测试数据和环境的机制。通过 @pytest.fixture 装饰器定义，测试函数通过参数声明使用。fixture 可以设置测试前的准备和测试后的清理。
+  first_seen: week_08
+
+- term_zh: 参数化测试
+  term_en: parametrized testing
+  definition_zh: 使用 @pytest.mark.parametrize 装饰器，用同一套测试逻辑测试多组不同的输入数据。能减少重复代码，提高边界情况覆盖率。
+  first_seen: week_08
+
+- term_zh: TDD
+  term_en: Test-Driven Development
+  definition_zh: 测试驱动开发，一种先写测试再写实现的开发方式。核心循环是"红-绿-重构"：先写测试看到失败（红），写最少代码让测试通过（绿），在测试保护下重构代码。
+  first_seen: week_08
+
+- term_zh: 红-绿-重构
+  term_en: Red-Green-Refactor
+  definition_zh: TDD 的核心循环。红：写测试并看到它失败；绿：写最少代码让测试通过；重构：在测试保护下改进代码结构。
+  first_seen: week_08
+
+- term_zh: 边界情况
+  term_en: edge case
+  definition_zh: 程序在极端或异常输入下的行为。比如空列表、负数索引、超长字符串、特殊字符等。测试边界情况能发现普通测试遗漏的 bug。
+  first_seen: week_08
+
+- term_zh: 回归测试
+  term_en: regression testing
+  definition_zh: 修改代码后重新运行测试，确保原有功能没有被破坏。自动化测试让回归测试变得快速可靠。
+  first_seen: week_08

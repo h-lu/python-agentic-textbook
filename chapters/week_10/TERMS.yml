@@ -1,0 +1,42 @@
+# Week 10 新增术语
+# 本周新增 5 个核心概念（在预算内），均需合入 shared/glossary.yml
+
+- term_zh: JSON
+  term_en: JSON (JavaScript Object Notation)
+  definition_zh: 一种轻量级的数据交换格式，基于 JavaScript 语法的子集，但独立于语言。使用文本格式存储和表示数据，支持对象、数组、字符串、数字、布尔值和 null。
+  first_seen: week_10
+
+- term_zh: json 模块
+  term_en: json module
+  definition_zh: Python 标准库中用于处理 JSON 数据的模块。提供 dump/dumps（序列化）和 load/loads（反序列化）函数。
+  first_seen: week_10
+
+- term_zh: 序列化
+  term_en: serialization
+  definition_zh: 把内存中的数据结构（如字典、列表）转换成可存储或传输的格式（如 JSON 字符串）的过程。对应的逆操作叫反序列化。
+  first_seen: week_10
+
+- term_zh: 反序列化
+  term_en: deserialization
+  definition_zh: 把存储或传输的格式（如 JSON 字符串）转换回内存中的数据结构（如字典、列表）的过程。是序列化的逆操作。
+  first_seen: week_10
+
+- term_zh: 数据契约
+  term_en: data contract
+  definition_zh: 数据生产者和消费者之间达成的协议，规定了数据的格式、结构和验证规则。让不同系统或模块可以安全地交换数据。
+  first_seen: week_10
+
+- term_zh: Schema 验证
+  term_en: schema validation
+  definition_zh: 根据 Schema（数据结构说明书）验证数据是否符合预期格式的过程。可以用 jsonschema 等工具实现声明式验证。
+  first_seen: week_10
+
+- term_zh: JSONDecodeError
+  term_en: JSONDecodeError
+  definition_zh: 当 JSON 字符串格式不正确时，json 模块抛出的异常类型。通常是因为缺少引号、多了一个逗号、用了单引号而非双引号等语法错误。
+  first_seen: week_10
+
+- term_zh: 数据迁移
+  term_en: data migration
+  definition_zh: 将数据从一个系统或格式转移到另一个系统或格式的过程。通常涉及版本兼容性处理、数据验证和错误处理。
+  first_seen: week_10

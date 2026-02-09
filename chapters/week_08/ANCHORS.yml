@@ -1,0 +1,26 @@
+# Week 08 锚点
+# 本文件记录本周的"主张-证据-验证"三元组
+
+- id: week_08_anchor_001
+  claim: "自动化测试能快速验证代码正确性"
+  evidence: "手动测试需要人工操作和观察，自动化测试用代码执行，几秒钟能运行数十个测试用例"
+  verification: "通过对比手动测试和 pytest 测试的执行时间来验证"
+  status: pending
+
+- id: week_08_anchor_002
+  claim: "fixture 能消除测试代码的重复"
+  evidence: "多个测试需要相同的初始数据时，fixture 提供统一的数据准备，测试函数通过参数声明使用"
+  verification: "通过重构测试代码，比较使用 fixture 前后的代码量和可读性"
+  status: pending
+
+- id: week_08_anchor_003
+  claim: "参数化测试能提高边界情况覆盖率"
+  evidence: "用 @pytest.mark.parametrize 可以用一套测试逻辑覆盖多种输入情况，包括正常值和边界值"
+  verification: "通过运行参数化测试，观察是否能同时测试多种边界情况"
+  status: pending
+
+- id: week_08_anchor_004
+  claim: "TDD 让代码更可靠、更易重构"
+  evidence: "先写测试定义了代码的契约，实现时更有针对性；测试通过后，可以放心重构，因为测试会捕获回归 bug"
+  verification: "通过 TDD 实践，体验在测试保护下重构的信心"
+  status: pending

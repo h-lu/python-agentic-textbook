@@ -393,3 +393,122 @@
   term_en: circular import
   definition_zh: A 模块导入 B 模块，B 模块又导入 A 模块，形成循环。这会导致导入失败或意外行为。解决方法包括：重构代码提取共同依赖、延迟导入（在函数内导入）、重新设计模块结构。
   first_seen: week_07
+
+# Week 08 新增术语
+# 本周新增 9 个核心概念（在预算内），均需合入 shared/glossary.yml
+
+- term_zh: 自动化测试
+  term_en: automated testing
+  definition_zh: 用代码来测试代码的方法。测试代码调用被测代码，用断言验证结果是否符合预期。自动化测试能快速、重复地验证代码正确性，防止回归 bug。
+  first_seen: week_08
+
+- term_zh: pytest
+  term_en: pytest
+  definition_zh: Python 最流行的测试框架，使用简单的 assert 语句进行断言，自动发现以 test_ 开头的测试函数，提供丰富的插件生态。
+  first_seen: week_08
+
+- term_zh: 断言
+  term_en: assertion
+  definition_zh: 用 assert 语句验证某个条件是否为真。如果条件为假，断言失败，测试报错。例如 `assert result == 5` 验证 result 是否等于 5。
+  first_seen: week_08
+
+- term_zh: fixture
+  term_en: fixture
+  definition_zh: pytest 中用于准备测试数据和环境的机制。通过 @pytest.fixture 装饰器定义，测试函数通过参数声明使用。fixture 可以设置测试前的准备和测试后的清理。
+  first_seen: week_08
+
+- term_zh: 参数化测试
+  term_en: parametrized testing
+  definition_zh: 使用 @pytest.mark.parametrize 装饰器，用同一套测试逻辑测试多组不同的输入数据。能减少重复代码，提高边界情况覆盖率。
+  first_seen: week_08
+
+- term_zh: TDD
+  term_en: Test-Driven Development
+  definition_zh: 测试驱动开发，一种先写测试再写实现的开发方式。核心循环是"红-绿-重构"：先写测试看到失败（红），写最少代码让测试通过（绿），在测试保护下重构代码。
+  first_seen: week_08
+
+- term_zh: 红-绿-重构
+  term_en: Red-Green-Refactor
+  definition_zh: TDD 的核心循环。红：写测试并看到它失败；绿：写最少代码让测试通过；重构：在测试保护下改进代码结构。
+  first_seen: week_08
+
+- term_zh: 边界情况
+  term_en: edge case
+  definition_zh: 程序在极端或异常输入下的行为。比如空列表、负数索引、超长字符串、特殊字符等。测试边界情况能发现普通测试遗漏的 bug。
+  first_seen: week_08
+
+- term_zh: 回归测试
+  term_en: regression testing
+  definition_zh: 修改代码后重新运行测试，确保原有功能没有被破坏。自动化测试让回归测试变得快速可靠。
+  first_seen: week_08
+
+# Week 09 新增术语
+# 本周新增 5 个核心概念（在预算内），均需合入 shared/glossary.yml
+
+- term_zh: 字符串方法
+  term_en: string method
+  definition_zh: Python 字符串对象内置的函数，如 strip()、split()、join()、find() 等，用于处理和转换文本数据。
+  first_seen: week_09
+
+- term_zh: 正则表达式
+  term_en: regular expression
+  definition_zh: 一种描述文本模式的语法，用特殊字符组合定义匹配规则，用于在字符串中查找、替换符合特定模式的内容。
+  first_seen: week_09
+
+- term_zh: re 模块
+  term_en: re module
+  definition_zh: Python 标准库中用于正则表达式操作的模块，提供 search()、match()、findall()、sub() 等函数。
+  first_seen: week_09
+
+- term_zh: 原始字符串
+  term_en: raw string
+  definition_zh: 在字符串前加 r 前缀（如 r"..."），使反斜杠不被当作转义字符，常用于正则表达式模式。
+  first_seen: week_09
+
+- term_zh: 分组捕获
+  term_en: capturing group
+  definition_zh: 在正则表达式中用圆括号 () 包裹的部分，匹配成功后可以通过 group() 方法单独提取该部分的内容。
+  first_seen: week_09
+
+# Week 10 新增术语
+# 本周新增 8 个核心概念（在预算内），均需合入 shared/glossary.yml
+
+- term_zh: JSON
+  term_en: JSON (JavaScript Object Notation)
+  definition_zh: 一种轻量级的数据交换格式，基于 JavaScript 语法的子集，但独立于语言。使用文本格式存储和表示数据，支持对象、数组、字符串、数字、布尔值和 null。
+  first_seen: week_10
+
+- term_zh: json 模块
+  term_en: json module
+  definition_zh: Python 标准库中用于处理 JSON 数据的模块。提供 dump/dumps（序列化）和 load/loads（反序列化）函数。
+  first_seen: week_10
+
+- term_zh: 序列化
+  term_en: serialization
+  definition_zh: 把内存中的数据结构（如字典、列表）转换成可存储或传输的格式（如 JSON 字符串）的过程。对应的逆操作叫反序列化。
+  first_seen: week_10
+
+- term_zh: 反序列化
+  term_en: deserialization
+  definition_zh: 把存储或传输的格式（如 JSON 字符串）转换回内存中的数据结构（如字典、列表）的过程。是序列化的逆操作。
+  first_seen: week_10
+
+- term_zh: 数据契约
+  term_en: data contract
+  definition_zh: 数据生产者和消费者之间达成的协议，规定了数据的格式、结构和验证规则。让不同系统或模块可以安全地交换数据。
+  first_seen: week_10
+
+- term_zh: Schema 验证
+  term_en: schema validation
+  definition_zh: 根据 Schema（数据结构说明书）验证数据是否符合预期格式的过程。可以用 jsonschema 等工具实现声明式验证。
+  first_seen: week_10
+
+- term_zh: JSONDecodeError
+  term_en: JSONDecodeError
+  definition_zh: 当 JSON 字符串格式不正确时，json 模块抛出的异常类型。通常是因为缺少引号、多了一个逗号、用了单引号而非双引号等语法错误。
+  first_seen: week_10
+
+- term_zh: 数据迁移
+  term_en: data migration
+  definition_zh: 将数据从一个系统或格式转移到另一个系统或格式的过程。通常涉及版本兼容性处理、数据验证和错误处理。
+  first_seen: week_10

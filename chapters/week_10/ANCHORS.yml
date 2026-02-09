@@ -1,0 +1,102 @@
+# Week 10 锚点记录
+# 本文件记录本章的核心知识点及其可验证证据
+
+- id: week_10_json_vs_dict
+  claim: JSON 和 Python 字典看起来相似但本质不同
+  evidence: |
+    JSON 是文本格式，本质是字符串；Python 字典是内存中的数据结构。
+    JSON 只支持双引号字符串，字典支持单引号或双引号。
+    JSON 的布尔值是 true/false（小写），Python 是 True/False。
+    JSON 的空值是 null，Python 是 None。
+  verification: |
+    运行以下代码验证：
+    ```python
+    import json
+    d = {"name": "test", "active": True, "value": None}
+    s = json.dumps(d)
+    print(s)  # {"name": "test", "active": true, "value": null}
+    print(type(s))  # <class 'str'>
+    ```
+
+- id: week_10_load_vs_loads
+  claim: json.load() 读取文件，json.loads() 读取字符串
+  evidence: |
+    json.load(f) 接受文件对象，从文件读取 JSON。
+    json.loads(s) 接受字符串，解析字符串形式的 JSON。
+    同理，json.dump() 写入文件，json.dumps() 返回字符串。
+  verification: |
+    运行以下代码验证：
+    ```python
+    import json
+    # dumps 返回字符串
+    s = json.dumps({"a": 1})
+    print(type(s))  # <class 'str'>
+
+    # loads 解析字符串
+    d = json.loads(s)
+    print(type(d))  # <class 'dict'>
+    ```
+
+- id: week_10_serialization_limits
+  claim: JSON 标准只支持有限的数据类型
+  evidence: |
+    JSON 支持的类型：字符串、数字、布尔值、null、数组、对象。
+    不支持：datetime、自定义对象、set、complex 等。
+    尝试序列化不支持的类型会抛出 TypeError。
+  verification: |
+    运行以下代码验证：
+    ```python
+    import json
+    import datetime
+    try:
+        json.dumps({"date": datetime.date(2026, 1, 1)})
+    except TypeError as e:
+        print(e)  # Object of type date is not JSON serializable
+    ```
+
+- id: week_10_custom_serialization
+  claim: 可以用 default 参数自定义序列化逻辑
+  evidence: |
+    json.dumps(obj, default=func) 中的 func 会在遇到无法序列化的对象时被调用。
+    函数应该返回 JSON 支持的基本类型，或抛出 TypeError。
+  verification: |
+    运行以下代码验证：
+    ```python
+    import json
+    import datetime
+
+    def serialize(obj):
+        if isinstance(obj, datetime.date):
+            return obj.isoformat()
+        raise TypeError(f"Not serializable: {type(obj)}")
+
+    result = json.dumps({"date": datetime.date(2026, 1, 1)}, default=serialize)
+    print(result)  # {"date": "2026-01-01"}
+    ```
+
+- id: week_10_defensive_json_import
+  claim: 导入 JSON 时需要处理多种异常情况
+  evidence: |
+    可能的异常：FileNotFoundError（文件不存在）、JSONDecodeError（格式错误）、UnicodeDecodeError（编码问题）。
+    应该用 try/except 捕获特定异常，并优雅降级。
+  verification: |
+    运行以下代码验证：
+    ```python
+    import json
+    from pathlib import Path
+
+    def safe_load(filepath):
+        filepath = Path(filepath)
+        if not filepath.exists():
+            return []
+
+        try:
+            with open(filepath, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except json.JSONDecodeError as e:
+            print(f"JSON error: {e}")
+            return []
+        except UnicodeDecodeError as e:
+            print(f"Encoding error: {e}")
+            return []
+    ```
