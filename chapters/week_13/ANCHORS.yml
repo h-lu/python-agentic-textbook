@@ -1,0 +1,38 @@
+# Week 13 锚点记录
+
+# 本周核心锚点
+
+- id: w13-agent-team-definition
+  claim: agent team 模式是多个 AI agent 各司其职、协作完成任务的编程模式
+  evidence: CHAPTER.md 第 1 节展示了 reader → writer → tester 的消息传递流程，用 dataclass 定义消息格式
+  verification: examples/01_reader_writer.py 和 examples/03_full_agent_team.py 可运行验证
+
+- id: w13-dataclass-protocol
+  claim: dataclass 是 agent 之间传递消息的"协议"
+  evidence: CHAPTER.md 第 1 节说明 reader 的输出(NoteInfo)是 writer 的输入，都是用 @dataclass 定义
+  verification: examples/01_reader_writer.py 中 NoteInfo 和 StudyPlan 的定义和使用
+
+- id: w13-review-checklist
+  claim: AI 生成代码的常见问题包括缺少错误处理、忽略边界情况、过度工程化、命名不一致、缺少日志
+  evidence: CHAPTER.md 第 2 节列出了 AI 代码的 5 种常见问题，并给出了 reviewer agent 的实现
+  verification: examples/02_review_checklist.py 和 examples/02_checklist_edge_cases.py
+
+- id: w13-failure-driven-iteration
+  claim: 失败驱动迭代基于 TDD 红-绿-重构循环，需要设置最大迭代次数
+  evidence: CHAPTER.md 第 3 节展示了迭代生成函数，最多 3 次，保留最后一次结果
+  verification: examples/03_failure_driven_iteration.py 可运行验证
+
+- id: w13-human-in-the-loop
+  claim: human-in-the-loop 模式中，人类是技术负责人，AI 是团队成员
+  evidence: CHAPTER.md 多处强调"你是 Tech Lead，它们是你的团队"，第 1 节三个原则中有此条
+  verification: 教材正文第 1 节"Agent team 的三个原则"部分
+
+- id: w13-vibe-coding
+  claim: vibe coding 是基于意图的编程，但仍需"信任但验证"
+  evidence: AI 小专栏 #2 说明 vibe coding 的核心是用自然语言描述意图，但必须用 review checklist 验证
+  verification: .research_cache.md 中的搜索数据来源
+
+- id: w13-pyhelper-integration
+  claim: PyHelper 可以用 agent team 模式添加"学习计划追踪"功能
+  evidence: CHAPTER.md 第 4 节展示了 reader/writer/reviewer agent 的实现和 CLI 整合
+  verification: examples/13_pyhelper_agent_team.py

@@ -1,0 +1,23 @@
+# Week 11 术语表
+#
+# 本周新增 4 个核心概念（在预算内），均需合入 shared/glossary.yml
+
+- term_zh: dataclass
+  term_en: dataclass
+  definition_zh: Python 3.7+ 提供的数据类装饰器，用于快速定义主要用于存储数据的类。自动生成 __init__()、__repr__()、__eq__() 等方法，适合做数据建模而非完整的 OOP。
+  first_seen: week_11
+
+- term_zh: 字段默认值
+  term_en: field default
+  definition_zh: dataclass 中字段的默认值。简单类型（如字符串、数字）直接用等号赋值，可变类型（如列表、字典）要用 field(default_factory=...)。
+  first_seen: week_11
+
+- term_zh: 类型提示
+  term_en: type hints
+  definition_zh: Python 3.5+ 的语法特性，用于标注变量、参数、返回值的类型。类型提示是可选的，Python 解释器不会强制检查，但 IDE 和静态类型检查工具（如 mypy）可以用它来发现潜在错误。
+  first_seen: week_11
+
+- term_zh: 状态管理
+  term_en: state management
+  definition_zh: 对数据状态进行建模和控制的过程。包括定义合法的状态值、状态转换规则、以及防止非法状态转换。良好的状态管理让程序行为可预测、可调试。
+  first_seen: week_11

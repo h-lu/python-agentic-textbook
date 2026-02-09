@@ -1,0 +1,31 @@
+# Week 13 术语表
+
+- term_zh: agent team 模式
+  term_en: agent team pattern
+  definition_zh: 多个 AI agent 各司其职、协作完成任务的编程模式。每个 agent 负责单一职责(reader/writer/tester/reviewer)，通过 dataclass 传递消息，人类作为技术负责人主导设计和审查。
+  first_seen: week_13
+
+- term_zh: review checklist
+  term_en: review checklist
+  definition_zh: 用于审查 AI 生成代码质量的检查清单。包含具体的检查项（如"有 try/except"、"有 logging"、"函数有 docstring"），优先检查边界情况和错误处理。
+  first_seen: week_13
+
+- term_zh: 失败驱动迭代
+  term_en: failure-driven iteration
+  definition_zh: 从测试失败到修复的完整循环。tester/reviewer 发现问题 → writer 修复 → 再次测试，最多迭代 N 次（如 3 次）。失败不是终点，是改进的起点。
+  first_seen: week_13
+
+- term_zh: human-in-the-loop
+  term_en: human-in-the-loop
+  definition_zh: 人类参与决策循环的 AI 协作模式。人类负责设计、决策和审查，AI 负责执行和验证。不是"AI 代替人类"，而是"AI 成为团队成员"。
+  first_seen: week_13
+
+- term_zh: 信任但验证
+  term_en: trust but verify
+  definition_zh: AI 编程的正确态度。可以信任 AI 生成的骨架代码，但必须验证错误处理、边界情况、安全性。使用 review checklist 逐项检查。
+  first_seen: week_13
+
+- term_zh: vibe coding
+  term_en: vibe coding
+  definition_zh: 用自然语言描述意图，AI 生成实现代码，开发者审查和调整的编程方式。核心是"基于意图的编程"而非"基于语法的编程"。但仍需审查 AI 代码质量。
+  first_seen: week_13

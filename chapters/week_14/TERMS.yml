@@ -1,0 +1,29 @@
+# Week 14 术语表
+#
+# 约定：
+# - term_zh 是主键（必须与 shared/glossary.yml 中的 term_zh 一致）
+# - term_en 可选
+# - definition_zh 必填（简短清晰，可被新手复述）
+# - first_seen: week_14
+
+# Week 14 新增术语（2 个，在预算内）
+
+- term_zh: release notes
+  term_en: release notes
+  definition_zh: 版本发布说明，告诉用户"这个版本改了什么""有什么新功能""如何升级"。和 README 不同：README 是"如何用"，release notes 是"改了什么"。
+  first_seen: week_14
+
+- term_zh: tag 发布
+  term_en: tag release
+  definition_zh: Git 中给某个 commit 打上"版本号"标签（如 v1.0.0），让用户可以方便地回到特定版本。tag 使用语义化版本规范（主版本.次版本.修订号）。
+  first_seen: week_14
+
+- term_zh: 代码收敛
+  term_en: code convergence
+  definition_zh: 发布前整理代码的过程——删除冗余、统一风格、补全测试、优化结构。不是写新功能，而是让代码更易读、易维护、易扩展。
+  first_seen: week_14
+
+- term_zh: 语义化版本
+  term_en: Semantic Versioning
+  definition_zh: 版本号规范：主版本.次版本.修订号（如 v1.0.0）。主版本：不兼容的 API 变更；次版本：向后兼容的新功能；修订号：向后兼容的 bug 修复。
+  first_seen: week_14

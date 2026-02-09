@@ -1,0 +1,31 @@
+# Week 11 锚点（ANCHORS）
+
+- id: week-11-dataclass-vs-dict
+  claim: dataclass 比字典更适合组织数据结构
+  evidence: CHAPTER.md 第1节展示了字典的三个痛点（字段不明确、拼写错误静默失败、IDE 无法智能提示），第2节展示了 dataclass 如何解决这些问题
+  verification: examples/01_task_dict.py 和 examples/02_task_dataclass.py 对比演示
+
+- id: week-11-dataclass-generates-methods
+  claim: "dataclass 装饰器自动生成 __init__、__repr__、__eq__ 等方法"
+  evidence: CHAPTER.md 第2节展示了不用 dataclass 需要手写 15 行代码，用 @dataclass 只需 1 行装饰器
+  verification: 运行 examples/02_task_dataclass.py，打印 task1 对象会看到友好的 __repr__ 输出
+
+- id: week-11-type-hints-not-enforced
+  claim: Python 不会在运行时强制检查类型提示
+  evidence: CHAPTER.md 第3节展示了传字符串列表给期望 Task 列表的函数，程序正常运行直到访问不存在的属性才报错
+  verification: examples/03_task_typed.py 演示了类型提示只是提示，运行时不会检查
+
+- id: week-11-state-transitions
+  claim: 状态管理可以防止非法的状态转换
+  evidence: CHAPTER.md 第4节用 Enum 定义 TaskStatus，mark_in_progress() 方法会检查状态并抛出 ValueError 阻止非法转换
+  verification: tests/test_state.py::TestStateTransitions::test_cannot_restart_done_task 验证了已完成的任务不能重新开始
+
+- id: week-11-dataclass-json-serialization
+  claim: dataclass 可以通过 to_dict()/from_dict() 与 JSON 格式相互转换
+  evidence: CHAPTER.md 第5节展示了 asdict() 函数和自定义的 to_dict()/from_dict() 方法
+  verification: examples/05_task_refactored.py 和 tests/test_json_conversion.py 验证了双向转换
+
+- id: week-11-mutable-default-trap
+  claim: "dataclass 中可变默认值必须使用 field 函数"
+  evidence: CHAPTER.md 第2节和 PyHelper 进度中强调了可变默认值的正确写法
+  verification: starter_code/solution.py 和 tests/test_dataclass.py::TestFieldDefaults::test_mutable_default_with_factory 验证了这一点

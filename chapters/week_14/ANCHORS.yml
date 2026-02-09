@@ -1,0 +1,87 @@
+# Week 14 锚点记录
+#
+# 锚点用于把"主张"与"可验证证据"绑定在一起。
+#
+# 字段说明：
+#   id: 锚点唯一标识符（周内唯一）
+#   claim: 主张（正文中的结论）
+#   evidence: 证据（代码示例、测试结果、文档引用）
+#   verification: 验证方法（如何验证这个主张）
+
+- id: week_14_001
+  claim: README 是项目的"门面"，用户在 30 秒内就能判断是否使用这个工具
+  evidence: |
+    README 黄金结构模板（CHAPTER.md 第 2 节）：
+    - 项目名称 + 一句话标语
+    - 简介（2-3 句话）
+    - 安装（一条命令搞定）
+    - 快速开始（3-5 行命令示例）
+    - 主要功能（列表）
+    - 示例（可运行的例子）
+    - 常见问题
+  verification: 阅读 CHAPTER.md 第 2 节的 README 模板，确认包含所有必要元素
+
+- id: week_14_002
+  claim: 代码收敛包含四个步骤：删除冗余、统一风格、补全测试、优化结构
+  evidence: |
+    示例代码（examples/01_convergence.py）展示：
+    - 收敛前：重复的校验逻辑、camelCase 命名、缺少类型提示
+    - 收敛后：提取公共函数 validate_content、snake_case 命名、完整类型提示
+  verification: 运行 examples/01_convergence.py，查看收敛前后对比输出
+
+- id: week_14_003
+  claim: release notes 和 README 有本质区别：README 是"如何用"，release notes 是"改了什么"
+  evidence: |
+    README 结构（CHAPTER.md 第 2 节）：
+    - 这是什么
+    - 怎么安装
+    - 怎么用
+
+    Release Notes 结构（CHAPTER.md 第 3 节）：
+    - 发布日期
+    - 主要变化（新增/改进/修复/移除）
+    - 升级指南
+    - 已知问题
+  verification: 对比 examples/02_readme_template.md 和 examples/03_release_notes_template.md
+
+- id: week_14_004
+  claim: 语义化版本规范：主版本.次版本.修订号（v1.0.0）
+  evidence: |
+    - 主版本（Major）：不兼容的 API 变更（v1.x → v2.0）
+    - 次版本（Minor）：向后兼容的新功能（v1.0 → v1.1）
+    - 修订号（Patch）：向后兼容的 bug 修复（v1.0.0 → v1.0.1）
+
+    Git tag 命令（CHAPTER.md 第 4 节）：
+    - git tag -a v1.0.0 -m "发布说明"
+    - git push origin v1.0.0
+    - git checkout v1.0.0
+  verification: 阅读 CHAPTER.md 第 4 节，理解版本号规则和 tag 操作
+
+- id: week_14_005
+  claim: PyHelper v1.0.0 整合了 14 周的所有核心知识
+  evidence: |
+    PyHelper 最终版本（examples/14_pyhelper_v1.py）包含：
+    - Week 11: dataclass 数据模型
+    - Week 10: JSON 存储
+    - Week 12: argparse CLI + logging
+    - Week 06: 异常处理
+    - Week 07: 模块化结构
+    - Week 08: pytest 测试
+    - Week 13: agent team 模式（plan 功能）
+
+    支持的命令：
+    - add/list/search/export/stats/plan generate/plan show
+  verification: 运行 examples/14_pyhelper_v1.py，测试所有子命令
+
+- id: week_14_006
+  claim: 全书 14 周形成了完整的知识地图，从入门到发布
+  evidence: |
+    Week 01-05：入门基础（能写 100 行脚本）
+    - print、变量、if/for、函数、列表/字典、文件
+
+    Week 06-10：工程进阶（能写 200-500 行项目）
+    - 异常、模块、测试、字符串处理、JSON
+
+    Week 11-14：综合实战（可交付的 CLI 工具）
+    - dataclass、argparse、agent team、发布
+  verification: 阅读 CHAPTER.md 第 5 节"全书知识地图"
