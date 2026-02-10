@@ -1,0 +1,147 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-primary: #3B82F6;
+    --color-primary-light: #60A5FA;
+    --color-text: #1E293B;
+    --color-bg: #F8FAFC;
+  }
+
+  * {
+    @apply border-slate-200;
+  }
+
+  body {
+    @apply bg-white text-slate-800;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer components {
+  /* Clean prose styles for markdown content */
+  .prose {
+    @apply max-w-none;
+  }
+
+  .prose h1 {
+    @apply text-3xl md:text-4xl font-bold text-slate-900 mt-8 mb-4 first:mt-0;
+  }
+
+  .prose h2 {
+    @apply text-2xl md:text-3xl font-semibold text-slate-900 mt-16 mb-6 scroll-mt-24;
+  }
+
+  .prose h3 {
+    @apply text-xl md:text-2xl font-semibold text-slate-800 mt-10 mb-4 scroll-mt-24;
+  }
+
+  .prose h4 {
+    @apply text-lg font-semibold text-slate-700 mt-6 mb-3 scroll-mt-24;
+  }
+
+  .prose p {
+    @apply text-base leading-7 text-slate-600 my-4;
+  }
+
+  .prose a {
+    @apply text-blue-600 hover:text-blue-700 font-medium underline underline-offset-2 transition-colors;
+  }
+
+  .prose strong {
+    @apply font-semibold text-slate-900;
+  }
+
+  .prose code {
+    @apply bg-slate-100 text-slate-800 px-1.5 py-0.5 rounded text-sm font-mono font-medium;
+  }
+
+  .prose pre {
+    @apply bg-slate-900 text-slate-100 rounded-lg my-6;
+  }
+
+  .prose pre code {
+    @apply bg-transparent text-slate-100 p-0 text-sm;
+  }
+
+  .prose ul {
+    @apply space-y-2 my-5;
+  }
+
+  .prose ul li {
+    @apply text-slate-600 flex items-start gap-2;
+  }
+
+  .prose ul li::marker {
+    @apply text-blue-500;
+  }
+
+  .prose ol {
+    @apply space-y-2 my-5;
+  }
+
+  .prose ol li {
+    @apply text-slate-600;
+  }
+
+  .prose blockquote {
+    @apply border-l-4 border-blue-500 bg-slate-50 px-5 py-3 my-6 text-slate-600 italic;
+  }
+
+  .prose table {
+    @apply w-full border-collapse my-6 rounded-lg overflow-hidden border border-slate-200;
+  }
+
+  .prose th {
+    @apply bg-slate-100 font-semibold text-slate-700 px-4 py-3 text-left border-b border-slate-200;
+  }
+
+  .prose td {
+    @apply px-4 py-3 text-slate-600 border-b border-slate-100;
+  }
+
+  .prose img {
+    @apply rounded-lg my-6;
+  }
+
+  .prose hr {
+    @apply border-slate-200 my-10;
+  }
+
+  /* Button styles */
+  .btn-primary {
+    @apply bg-blue-600 text-white px-5 py-2.5 rounded-lg font-medium hover:bg-blue-700 transition-colors;
+  }
+
+  .btn-secondary {
+    @apply bg-white text-slate-700 px-5 py-2.5 rounded-lg font-medium border border-slate-300 hover:bg-slate-50 transition-colors;
+  }
+
+  /* Card */
+  .card {
+    @apply bg-white rounded-xl shadow-sm border border-slate-200 p-6;
+  }
+}
+
+/* Custom scrollbar for code blocks */
+.custom-scrollbar::-webkit-scrollbar {
+  height: 6px;
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  @apply bg-slate-800 rounded;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  @apply bg-slate-600 rounded hover:bg-slate-500;
+}
