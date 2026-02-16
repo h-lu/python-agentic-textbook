@@ -54,28 +54,22 @@ const ArrowRightIcon = () => (
 // 特性数据 - 可配置为多个阶段或模块
 const features = [
   {
-    title: '基础篇',
-    description: '掌握核心概念和基础知识，为后续学习打下坚实基础。',
+    title: '入门基础',
+    description: '能写 < 100 行脚本，会读报错，会用 Git',
     icon: BookIcon,
-    weeks: 'Week 01-04',
+    weeks: 'Week 01-05',
   },
   {
-    title: '进阶篇',
-    description: '深入学习高级特性和技术，提升开发能力。',
+    title: '工程进阶',
+    description: '能写 200-500 行小项目，有测试，会用 PR',
     icon: CodeIcon,
-    weeks: 'Week 05-08',
+    weeks: 'Week 06-10',
   },
   {
-    title: '实战篇',
-    description: '通过实际项目练习，掌握工程化开发流程。',
+    title: '综合实战',
+    description: '独立完成可交付的 CLI 工具项目',
     icon: GraduationIcon,
-    weeks: 'Week 09-12',
-  },
-  {
-    title: '综合篇',
-    description: '综合运用所学知识，完成课程综合项目。',
-    icon: LightbulbIcon,
-    weeks: 'Week 13-16',
+    weeks: 'Week 11-14',
   },
 ];
 
