@@ -11,17 +11,17 @@ import rehypeKatex from 'rehype-katex';
 
 const config: Config = {
   // 站点基本信息
-  title: '统计学与 Agentic 数据分析',
-  tagline: '用工程化思维掌握统计推断与可复现分析',
+  title: 'Python 程序设计（Agentic Coding）',
+  tagline: '从零基础到能写工程化代码',
   favicon: 'img/favicon.ico',
 
   // 站点 URL 配置（部署时根据实际情况修改）
-  url: 'https://statistics-agentic-coding.netlify.app',
+  url: 'https://python-agentic-textbook.netlify.app',
   baseUrl: '/',
 
   // GitHub 配置
-  organizationName: 'Shanghai Institute of Technology',
-  projectName: 'statistics-agentic-coding',
+  organizationName: 'h-lu',
+  projectName: 'python-agentic-textbook',
 
   // 错误处理配置
   onBrokenLinks: 'warn',
@@ -40,7 +40,7 @@ const config: Config = {
       {
         docs: {
           sidebarPath: './sidebars.ts',
-          editUrl: 'https://github.com/wangxq/statistics-agentic-coding/tree/main/templates/docusaurus-site/site/',
+          editUrl: 'https://github.com/h-lu/python-agentic-textbook/tree/main/templates/docusaurus-site/site/',
           showLastUpdateAuthor: false,
           showLastUpdateTime: false,
           breadcrumbs: true,
@@ -67,7 +67,7 @@ const config: Config = {
 
     // 导航栏配置
     navbar: {
-      title: '统计学与 Agentic 数据分析',
+      title: 'Python 程序设计',
       logo: {
         alt: 'Course Logo',
         src: 'img/logo.svg',
@@ -89,7 +89,7 @@ const config: Config = {
           position: 'left',
         },
         {
-          href: 'https://github.com/wangxq/statistics-agentic-coding',
+          href: 'https://github.com/h-lu/python-agentic-textbook',
           label: 'GitHub',
           position: 'right',
         },
@@ -131,12 +131,12 @@ const config: Config = {
           items: [
             {
               label: 'GitHub',
-              href: 'https://github.com/wangxq/statistics-agentic-coding',
+              href: 'https://github.com/h-lu/python-agentic-textbook',
             },
           ],
         },
       ],
-      copyright: `Copyright \u00a9 ${new Date().getFullYear()} 统计学与 Agentic 数据分析. Built with Docusaurus.`,
+      copyright: `Copyright \u00a9 ${new Date().getFullYear()} Python 程序设计（Agentic Coding）. Built with Docusaurus.`,
     },
 
     // 代码高亮配置
@@ -182,7 +182,7 @@ const config: Config = {
   themes: [],
 
   customFields: {
-    courseName: '统计学与 Agentic 数据分析',
+    courseName: 'Python 程序设计（Agentic Coding）',
     courseVersion: '2026.1',
   },
 };
