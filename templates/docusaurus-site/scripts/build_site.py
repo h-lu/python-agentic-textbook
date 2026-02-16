@@ -433,7 +433,7 @@ class ContentGenerator:
     
     def generate_week_index(self, week: WeekInfo) -> str:
         """生成周主页 index.mdx"""
-        escaped_title = self._escape_yaml_string(week.title)
+        escaped_title = self._escape_yaml_title(week.title)
         lines = [
             '---',
             f'title: "Week {week.number:02d}: {escaped_title}"',
@@ -472,7 +472,7 @@ class ContentGenerator:
     def generate_chapter(self, week: WeekInfo) -> str:
         """生成讲义页面 chapter.mdx"""
         chapter_path = self.chapters_dir / f'week_{week.number:02d}' / 'CHAPTER.md'
-        escaped_title = self._escape_yaml_string(week.title)
+        escaped_title = self._escape_yaml_title(week.title)
 
         lines = [
             '---',
@@ -501,7 +501,7 @@ class ContentGenerator:
     def generate_assignment(self, week: WeekInfo) -> str:
         """生成作业页面 assignment.mdx"""
         assignment_path = self.chapters_dir / f'week_{week.number:02d}' / 'ASSIGNMENT.md'
-        escaped_title = self._escape_yaml_string(week.title)
+        escaped_title = self._escape_yaml_title(week.title)
 
         lines = [
             '---',
@@ -531,7 +531,7 @@ class ContentGenerator:
     def generate_rubric(self, week: WeekInfo) -> str:
         """生成评分标准页面 rubric.mdx"""
         rubric_path = self.chapters_dir / f'week_{week.number:02d}' / 'RUBRIC.md'
-        escaped_title = self._escape_yaml_string(week.title)
+        escaped_title = self._escape_yaml_title(week.title)
 
         lines = [
             '---',
@@ -562,7 +562,7 @@ class ContentGenerator:
         """生成代码页面 code.mdx"""
         week_dir = self.chapters_dir / f'week_{week.number:02d}'
         code_files = self.code_collector.collect_files(week_dir)
-        escaped_title = self._escape_yaml_string(week.title)
+        escaped_title = self._escape_yaml_title(week.title)
 
         lines = [
             '---',
@@ -571,7 +571,7 @@ class ContentGenerator:
             f'tags: ["week-{week.number:02d}", "code"]',
             '---',
             '',
-            f'# Week {week.number:02d}: {week.title} - 代码',
+            f'# Week {week.number:02d}: {escaped_title} - 代码',
             '',
             'import Tabs from "@theme/Tabs";',
             'import TabItem from "@theme/TabItem";',
@@ -666,9 +666,7 @@ class ContentGenerator:
         """生成锚点页面 anchors.mdx"""
         anchors_path = self.chapters_dir / f'week_{week.number:02d}' / 'ANCHORS.yml'
         anchors = self.yaml_parser.parse_anchors(anchors_path)
-
-        # 转义 title 中的引号以避免 YAML 解析错误
-        escaped_title = self._escape_yaml_string(week.title)
+        escaped_title = self._escape_yaml_title(week.title)
 
         lines = [
             '---',
@@ -677,7 +675,7 @@ class ContentGenerator:
             f'tags: ["week-{week.number:02d}", "anchors"]',
             '---',
             '',
-            f'# Week {week.number:02d}: {week.title} - 锚点',
+            f'# Week {week.number:02d}: {escaped_title} - 锚点',
             '',
         ]
         
@@ -736,7 +734,7 @@ class ContentGenerator:
         """生成术语页面 terms.mdx"""
         terms_path = self.chapters_dir / f'week_{week.number:02d}' / 'TERMS.yml'
         terms = self.yaml_parser.parse_terms(terms_path)
-        escaped_title = self._escape_yaml_string(week.title)
+        escaped_title = self._escape_yaml_title(week.title)
 
         lines = [
             '---',
@@ -745,7 +743,7 @@ class ContentGenerator:
             f'tags: ["week-{week.number:02d}", "terms"]',
             '---',
             '',
-            f'# Week {week.number:02d}: {week.title} - 术语',
+            f'# Week {week.number:02d}: {escaped_title} - 术语',
             '',
         ]
         
@@ -952,16 +950,7 @@ class ContentGenerator:
     # -------------------------------------------------------------------------
     # 辅助方法
     # -------------------------------------------------------------------------
-
-    def _escape_yaml_string(self, text: str) -> str:
-        """转义 YAML 字符串中的特殊字符（引号）"""
-        # 将中文引号转换为英文引号并转义
-        # 中文双引号 " " 转换为 \" 以避免 YAML 解析错误
-        text = text.replace('"', '\\"')  # 转义英文双引号
-        text = text.replace('"', '\\"')  # 转义中文左双引号
-        text = text.replace('"', '\\"')  # 转义中文右双引号
-        return text
-
+    
     def _remove_frontmatter(self, content: str) -> str:
         """移除 Markdown 文件的 frontmatter"""
         if content.startswith('---'):
@@ -992,15 +981,15 @@ class ContentGenerator:
             result = []
             i = 0
             while i < len(text):
-                # 查找代码块开始
-                if text[i:i+3] == '```':
-                    # 找到代码块结束
+                # 查找代码块开始 - 必须在行首（或文件开头）
+                if text[i:i+3] == '```' and (i == 0 or text[i-1] == '\n'):
+                    # 找到代码块结束 - 查找 \n``` 后跟换行或文件结尾
                     end_idx = text.find('\n```', i + 3)
                     if end_idx == -1:
                         # 没有找到结束，保持原样
                         result.append(text[i:])
                         break
-                    # 包含结束的 ```
+                    # 包含结束的 ``` 和后面的换行
                     end_idx = end_idx + 4
                     code_block = text[i:end_idx]
                     placeholder = make_placeholder()
@@ -1015,6 +1004,56 @@ class ContentGenerator:
 
         content = protect_code_blocks(content)
         self.logger.debug(f"After code block protection: {len(placeholders)} placeholders")
+
+        # 步骤0.3: 保护 LaTeX 数学公式（$$...$$ 和 $...$），避免公式中的 { } 被转义
+        def protect_latex_math(text):
+            result = []
+            i = 0
+            while i < len(text):
+                # 查找 $$...$$ 块（多行数学公式）
+                if text[i:i+2] == '$$':
+                    end_idx = text.find('$$', i + 2)
+                    if end_idx == -1:
+                        result.append(text[i:])
+                        break
+                    end_idx = end_idx + 2
+                    math_block = text[i:end_idx]
+                    placeholder = make_placeholder()
+                    placeholders[placeholder] = math_block
+                    result.append(placeholder)
+                    i = end_idx
+                # 查找行内 $...$ 公式（单行，不包含换行）
+                elif text[i] == '$' and (i == 0 or text[i-1] != '$'):
+                    # 找到下一个 $，但确保不是 $$ 的一部分
+                    end_idx = text.find('$', i + 1)
+                    if end_idx == -1 or end_idx == i + 1:
+                        result.append(text[i])
+                        i += 1
+                        continue
+                    # 确保不是 $$ 的开始
+                    if end_idx + 1 < len(text) and text[end_idx + 1] == '$':
+                        result.append(text[i])
+                        i += 1
+                        continue
+                    # 检查是否在同一行内
+                    newline_idx = text.find('\n', i, end_idx)
+                    if newline_idx != -1:
+                        # 跨行，不是有效的行内公式
+                        result.append(text[i])
+                        i += 1
+                        continue
+                    math_block = text[i:end_idx + 1]
+                    placeholder = make_placeholder()
+                    placeholders[placeholder] = math_block
+                    result.append(placeholder)
+                    i = end_idx + 1
+                else:
+                    result.append(text[i])
+                    i += 1
+            return ''.join(result)
+
+        content = protect_latex_math(content)
+        self.logger.debug(f"After LaTeX protection: {len(placeholders)} placeholders")
 
         # 保护合法的 MDX 组件和 HTML 标签（这些不应该被转义）
         protected_tags = ['Tabs', 'TabItem', 'details', 'summary', 'br', 'code', 'pre', 'kbd', 'sub', 'sup']
@@ -1145,10 +1184,60 @@ class ContentGenerator:
                 return match.group(0)
             # 其他情况转义
             return f'\\{{{inner}}}'
-        
+
         # 匹配简单的 {identifier} 格式（不包括冒号，避免匹配 {PORT:8080} 这种 shell 变量默认值语法）
-        content = re.sub(r'\{([a-zA-Z_][a-zA-Z0-9_]*)\}', escape_path_param, content)
-        
+        # 使用负向后瞻确保 { 前面不是反斜杠（避免重复转义）
+        content = re.sub(r'(?<!\\)\{([a-zA-Z_][a-zA-Z0-9_]*)\}', escape_path_param, content)
+
+        # 3.8 转义 Python f-string 格式的占位符 {var:.2f}, {var:.1%}, {var[key]} 等
+        # 这些在正文中的占位符会被 MDX 误解析为 JSX 表达式
+        # 使用负向后瞻确保 { 前面不是反斜杠（避免重复转义）
+        def escape_fstring_placeholder(match):
+            inner = match.group(1)
+            return f'\\{{{inner}}}'
+
+        # 匹配 {var:format} 格式（如 {mean_effect:.2f}, {prob_positive:.1%}）
+        content = re.sub(r'(?<!\\)\{([a-zA-Z_][a-zA-Z0-9_]*):[^}]+\}', escape_fstring_placeholder, content)
+
+        # 匹配 {var[key]} 格式（如 {result['mean']}）
+        content = re.sub(r'(?<!\\)\{([a-zA-Z_][a-zA-Z0-9_]*)\[[^\]]+\]\}', escape_fstring_placeholder, content)
+
+        # 匹配 {dict_var} 格式（如 {'mu': 0, 'sigma': 10}）
+        # 注意：这个要小心，只匹配看起来像字典或配置的内容
+        # 实际上，这种格式太复杂，我们选择转义所有剩余的 {word...word} 格式
+        # 使用负向后瞻确保 { 前面不是反斜杠（避免重复转义）
+        def escape_complex_braces(match):
+            inner = match.group(1)
+            # 如果内部只包含字母、数字、下划线、引号、冒号、逗号、空格、点号等安全字符
+            if re.match(r'^[a-zA-Z0-9_\'":,\s.\[\]%+-]+$', inner):
+                return f'\\{{{inner}}}'
+            return match.group(0)
+
+        # 匹配更复杂的 {...} 格式（如 {'mu': 0, 'sigma': 10}）
+        content = re.sub(r'(?<!\\)\{([a-zA-Z0-9_\'":,\s.\[\]%+-]{3,50})\}', escape_complex_braces, content)
+
+        # 3.9 转义包含中文或其他 Unicode 字符的占位符（如 {当前年份}、{变量名}）
+        # 这些会被 MDX 误解析为 JSX 表达式
+        # 使用负向后瞻确保 { 前面不是反斜杠（避免重复转义）
+        def escape_unicode_placeholder(match):
+            inner = match.group(1)
+            return f'\\{{{inner}}}'
+
+        # 匹配包含中文字符的 {...} 格式
+        content = re.sub(r'(?<!\\)\{([\u4e00-\u9fff\u3400-\u4dbf\w\s]+)\}', escape_unicode_placeholder, content)
+
+        # 3.10 转义所有剩余的简单 {...} 格式（兜底规则）
+        # 匹配任何剩余的 {xxx} 格式（1-30个字符，不包含特殊字符）
+        # 使用负向后瞻确保 { 前面不是反斜杠（避免重复转义）
+        def escape_remaining_braces(match):
+            inner = match.group(1)
+            # 如果内部看起来像简单的文本（不含已转义的反斜杠）
+            if '\\' not in inner and len(inner) <= 30:
+                return f'\\{{{inner}}}'
+            return match.group(0)
+
+        content = re.sub(r'(?<!\\)\{([^{}\n\\]{1,30})\}', escape_remaining_braces, content)
+
         # 步骤4: 恢复保护的标签
         # 从后往前恢复，避免嵌套问题
         for placeholder in sorted(placeholders.keys(), reverse=True):
@@ -1162,7 +1251,8 @@ class ContentGenerator:
             result = []
             i = 0
             while i < len(text):
-                if text[i:i+3] == '```':
+                # 只匹配行首的 ```
+                if text[i:i+3] == '```' and (i == 0 or text[i-1] == '\n'):
                     # 找到代码块结束
                     end_idx = text.find('\n```', i + 3)
                     if end_idx == -1:
@@ -1193,6 +1283,17 @@ class ContentGenerator:
         
         return content
     
+    def _escape_yaml_title(self, title: str) -> str:
+        """转义 YAML 标题中的特殊字符
+
+        YAML 双引号字符串中，中文引号 "" 会导致解析问题。
+        解决方案：将中文引号替换为普通字符。
+        """
+        # 将中文引号替换为普通引号（避免 YAML 解析问题）
+        title = title.replace('"', "'")  # 左中文引号 -> 单引号
+        title = title.replace('"', "'")  # 右中文引号 -> 单引号
+        return title
+
     def _get_phase_tag(self, phase_label: str) -> str:
         """获取阶段标签"""
         if '阶段一' in phase_label:
@@ -1350,13 +1451,11 @@ class SidebarsGenerator:
     def _generate_week_section(self, week: WeekInfo) -> list[str]:
         """生成周部分"""
         week_id = f'{week.number:02d}'
-        # 转义标题中的特殊字符（单引号和反斜杠）
-        escaped_title = week.title.replace('\\', '\\\\').replace("'", "\\'")
-
+        
         lines = [
             '        {',
             '          type: \'category\',',
-            f'          label: \'Week {week_id}: {escaped_title}\',',
+            f'          label: \'Week {week_id}: {week.title}\',',
             '          collapsed: true,',
             '          items: [',
             f'            {{ type: \'doc\', id: \'weeks/{week_id}/index\', label: \'周主页\' }},',

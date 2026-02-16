@@ -1,6 +1,8 @@
 import { themes as prismThemes } from 'prism-react-renderer';
 import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
 
 // =============================================================================
 // Docusaurus 配置文件
@@ -9,17 +11,17 @@ import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
   // 站点基本信息
-  title: 'Java 软件工程与 Agentic 开发',
-  tagline: '从"会写代码"到"会做工程"',
+  title: '统计学与 Agentic 数据分析',
+  tagline: '用工程化思维掌握统计推断与可复现分析',
   favicon: 'img/favicon.ico',
 
   // 站点 URL 配置（部署时根据实际情况修改）
-  url: 'https://java-software-engineering.netlify.app',
+  url: 'https://statistics-agentic-coding.netlify.app',
   baseUrl: '/',
 
   // GitHub 配置
-  organizationName: 'wangxq',
-  projectName: 'java-software-engineering',
+  organizationName: 'Shanghai Institute of Technology',
+  projectName: 'statistics-agentic-coding',
 
   // 错误处理配置
   onBrokenLinks: 'warn',
@@ -38,14 +40,16 @@ const config: Config = {
       {
         docs: {
           sidebarPath: './sidebars.ts',
-          editUrl: 'https://github.com/wangxq/java-software-engineering/tree/main/templates/docusaurus-site/site/',
+          editUrl: 'https://github.com/wangxq/statistics-agentic-coding/tree/main/templates/docusaurus-site/site/',
           showLastUpdateAuthor: false,
           showLastUpdateTime: false,
           breadcrumbs: true,
+          remarkPlugins: [remarkMath],
+          rehypePlugins: [rehypeKatex],
         },
         blog: false,
         theme: {
-          customCss: './src/css/custom.css',
+          customCss: ['./src/css/custom.css'],
         },
       } satisfies Preset.Options,
     ],
@@ -63,7 +67,7 @@ const config: Config = {
 
     // 导航栏配置
     navbar: {
-      title: 'Java 软件工程',
+      title: '统计学与 Agentic 数据分析',
       logo: {
         alt: 'Course Logo',
         src: 'img/logo.svg',
@@ -85,7 +89,7 @@ const config: Config = {
           position: 'left',
         },
         {
-          href: 'https://github.com/wangxq/java-software-engineering',
+          href: 'https://github.com/wangxq/statistics-agentic-coding',
           label: 'GitHub',
           position: 'right',
         },
@@ -127,12 +131,12 @@ const config: Config = {
           items: [
             {
               label: 'GitHub',
-              href: 'https://github.com/wangxq/java-software-engineering',
+              href: 'https://github.com/wangxq/statistics-agentic-coding',
             },
           ],
         },
       ],
-      copyright: `Copyright \u00a9 ${new Date().getFullYear()} Java 软件工程与 Agentic 开发. Built with Docusaurus.`,
+      copyright: `Copyright \u00a9 ${new Date().getFullYear()} 统计学与 Agentic 数据分析. Built with Docusaurus.`,
     },
 
     // 代码高亮配置
@@ -178,7 +182,7 @@ const config: Config = {
   themes: [],
 
   customFields: {
-    courseName: 'Java 软件工程与 Agentic 开发',
+    courseName: '统计学与 Agentic 数据分析',
     courseVersion: '2026.1',
   },
 };
