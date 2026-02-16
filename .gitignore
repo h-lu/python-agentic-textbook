@@ -9,3 +9,16 @@ dist/
 build/
 *.bak
 .cursor/
+
+# Temporary/log files
+todo.log
+todo_cli.json
+todo_cli.log
+
+# Web-textbook build outputs
+web-textbook/.next/
+web-textbook/out/
+web-textbook/node_modules/
+web-textbook/.serena/
+web-textbook/.structure-cache.json
+web-textbook/ENDSCRIPT
