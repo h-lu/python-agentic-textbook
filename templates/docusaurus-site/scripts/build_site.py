@@ -908,13 +908,7 @@ class ContentGenerator:
             ])
             
             for term in sorted(grouped[char], key=lambda x: x.chinese):
-                definition = self._truncate_text(term.definition, 100)
-                # Wrap content with MDX special chars (<, >, {, }) in backticks to avoid JSX parsing errors
-                import re
-                # Pattern to match content like ArrayList<String>, /users/{id}, <>
-                definition = re.sub(r'([\w/]+\{[^}]+\})', r'`\1`', definition)  # /users/{id}
-                definition = re.sub(r'([\w]+<[^>]+>)', r'`\1`', definition)      # ArrayList<String>
-                definition = re.sub(r'(<>)', r'`\1`', definition)                # <>
+                definition = self._escape_inline_text(self._truncate_text(term.definition, 100))
                 lines.append(f'| {term.chinese} | {term.english} | {definition} |')
             
             lines.append('')
@@ -1326,22 +1320,22 @@ class ContentGenerator:
         """转义内联文本中的 MDX 敏感字符（用于表格等内联环境）"""
         import re
         import uuid
-        
+
         # 合法的 HTML 标签（这些不应该被转义）
-        html_tags = {'br', 'hr', 'img', 'input', 'meta', 'link', 'area', 'base', 'col', 
+        html_tags = {'br', 'hr', 'img', 'input', 'meta', 'link', 'area', 'base', 'col',
                      'embed', 'param', 'source', 'track', 'wbr'}
-        
+
         # 使用占位符保护合法标签
         placeholder_prefix = f"__HTML_{uuid.uuid4().hex[:6]}__"
         placeholders = {}
         placeholder_id = 0
-        
+
         def make_placeholder():
             nonlocal placeholder_id
             ph = f"{placeholder_prefix}_{placeholder_id}_"
             placeholder_id += 1
             return ph
-        
+
         # 保护合法的自闭合 HTML 标签 <tag> 或 <tag />
         for tag in html_tags:
             # 匹配 <tag> 或 <tag />
@@ -1351,33 +1345,58 @@ class ContentGenerator:
                 placeholder = make_placeholder()
                 placeholders[placeholder] = match.group(0)
                 text = text[:match.start()] + placeholder + text[match.end():]
-        
+
+        # 转义比较运算符 <= 和 >= （必须在其他 < 转义之前）
+        text = text.replace('<=', '&lt;=')
+        text = text.replace('>=', '&gt;=')
+
+        # 转义 == 和 != 运算符（在 MDX 中可能被误解为 JSX 属性）
+        text = text.replace('==', '&equals;&equals;')
+        text = text.replace('!=', '&excl;&equals;')
+
         # 转义空尖括号 <>
         text = re.sub(r'<>', '&lt;&gt;', text)
-        
+
+        # 转义 Python 类型输出如 <class 'str'> 或 <class "str">
+        # 匹配 <class '...'> 或 <class "..."> 等模式
+        text = re.sub(r"<class\s+['\"][^'\"]*['\"]>", lambda m: m.group(0).replace('<', '&lt;').replace('>', '&gt;'), text)
+
         # 转义泛型类型 <String>, <Integer> 等
         def escape_tag(match):
             tag = match.group(1)
             return f'&lt;{tag}&gt;'
-        
+
         text = re.sub(r'<([A-Za-z0-9_]+)>', escape_tag, text)
-        
-        # 转义比较表达式 <60 等
+
+        # 转义比较表达式 <60 等（小于数字）
         text = re.sub(r'<(\d+)(?=[^\d>])', lambda m: f'&lt;{m.group(1)}', text)
-        
-        # 转义 REST API 路径参数 {id}, {taskId} 等
-        def escape_path_param(match):
+
+        # 转义剩余的 < 符号（避免被解析为 JSX）
+        # 只转义不在 HTML 实体中的 <（即前面不是 & 的情况）
+        text = re.sub(r'(?<!&)<', '&lt;', text)
+
+        # 转义单独的 > 符号（避免 MDX 解析问题）
+        # 只转义不在 HTML 实体中的 >（即前面不是 & 的情况）
+        text = re.sub(r'(?<!&)>', '&gt;', text)
+        # 修正 &gt;= 被错误转换的情况（把 &gt;= 改回 >= 的 HTML 实体形式）
+        text = text.replace('&gt;=', '&gt;=')
+
+        # 转义所有花括号 {...} 模式（MDX 会将其解析为 JS 表达式）
+        # 使用更通用的模式，匹配任何 { ... } 内容
+        def escape_braces(match):
             inner = match.group(1)
-            if inner.isdigit():
+            # 如果是纯数字（如 {0}、{1}），保持原样（可能是格式化占位符）
+            if inner.strip().isdigit():
                 return match.group(0)
-            return f'\\{{{inner}}}'
-        
-        text = re.sub(r'\{([a-zA-Z_][a-zA-Z0-9_]*)\}', escape_path_param, text)
-        
+            # 否则转义花括号
+            return f'\\{{{inner}\\}}'
+
+        text = re.sub(r'\{([^{}]*?)\}', escape_braces, text)
+
         # 恢复保护的 HTML 标签
         for placeholder in sorted(placeholders.keys(), reverse=True):
             text = text.replace(placeholder, placeholders[placeholder])
-        
+
         return text
 
 
