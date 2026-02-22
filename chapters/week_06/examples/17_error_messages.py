@@ -39,7 +39,7 @@ print("   raise ValueError('error')")
 print()
 
 print("✅ 好：")
-print("   raise ValueError(f'年龄 {age} 超出合理范围（1-119），请重新输入')")
+print("   raise ValueError(f'年龄 {age} 超出合理范围（0-120），请重新输入')")
 print()
 
 # 好的错误信息应该告诉用户三件事：
@@ -54,7 +54,7 @@ def validate_age(age):
         raise ValueError("年龄不能为负数，请输入一个正整数")
 
     if age > 120:
-        raise ValueError(f"年龄 {age} 超出合理范围（1-119），请重新输入")
+        raise ValueError(f"年龄 {age} 超出合理范围（0-120），请重新输入")
 
     return age
 
