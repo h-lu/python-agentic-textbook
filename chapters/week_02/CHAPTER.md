@@ -92,6 +92,8 @@ AI 小专栏规划：
 Python 里做决定的语句叫 `if`（如果）。来看最简单的例子：
 
 ```python
+# 注意：如果用户输入非数字（如 "abc"），程序会报错
+# 输入验证将在 Week 06 详细讲解
 age = int(input("请输入你的年龄："))
 
 if age >= 18:
@@ -175,10 +177,9 @@ else:
 >
 > 2026 年，决策树仍然是十大最重要的机器学习算法之一，广泛用于医疗诊断、欺诈检测、推荐系统等领域。你今天学的条件判断逻辑，就是理解这些 AI 系统的基础。当然，现代 AI 的决策树不是人手写的，而是通过数据"训练"出来的——但核心思想和你写的 `if score >= 90: print("优秀")` 并没有本质区别。
 >
-> 参考（访问日期：2026-02-08）：
-> - https://medium.com/@brentwash35/understanding-decision-trees-the-machine-learning-algorithm-that-thinks-like-you-do-4e20a18b7172
-> - https://estha.ai/blog/everything-you-need-to-know-about-if-then-logic-applications-from-basics-to-advanced-use-cases/
-> - https://shiftmag.dev/how-guess-who-logic-shapes-ai-decision-trees-and-predictive-ml-5874/
+> 参考（访问日期：2026-02-22）：
+> - https://scikit-learn.org/stable/modules/tree.html（scikit-learn 决策树官方文档）
+> - https://en.wikipedia.org/wiki/Decision_tree（维基百科：决策树）
 
 ## 2. 让它一直猜，直到猜中
 
@@ -309,10 +310,9 @@ else:
 >
 > 到 2026 年，GitHub Copilot 的自动补全已经相当成熟，通常一次建议 1-3 行代码。它不贪心，不像某些竞品那样一次生成整个函数——因为它知道，太长的建议反而容易出错。这种"保守但可靠"的策略，和你写的 `for attempt in range(5)` 思路一致：控制节奏，一步步来。
 >
-> 参考（访问日期：2026-02-08）：
-> - https://trendminds.in/github-copilot-master-guide-2026-the-ultimate-ai-coding-handbook/
-> - https://research.aimultiple.com/large-language-model-training/
-> - https://medium.com/@addyosmani/my-llm-coding-workflow-going-into-2026-52fe1681325e
+> 参考（访问日期：2026-02-22）：
+> - https://docs.github.com/en/copilot/about-github-copilot/what-is-github-copilot（GitHub Copilot 官方文档）
+> - https://learn.microsoft.com/en-us/training/modules/introduction-prompt-engineering-with-github-copilot（Microsoft Learn: GitHub Copilot 入门）
 
 ## 4. 当条件变得复杂
 
@@ -545,7 +545,7 @@ Pull Request (PR)：
 - [ ] 使用 `while` 循环实现"满足条件时重复执行"
 - [ ] 使用 `for` 循环配合 `range()` 实现指定次数的重复
 - [ ] 理解 Python 的缩进规则，能识别和修复 `IndentationError`
-- [ ] 使用 `break` 跳出循环，使用 `continue` 跳过本次循环
+- [ ] 使用 `break` 跳出循环（`continue` 作为延伸概念了解即可）
 - [ ] 完成一个完整的猜数字游戏（有难度选择、次数限制）
 - [ ] 使用 Git 提交至少 2 次（draft + verify）
 - [ ] 运行 `python3 -m pytest chapters/week_02/tests -q` 并通过所有测试

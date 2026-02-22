@@ -245,6 +245,15 @@ def test_age_discount_not_eligible():
     assert is_eligible is False
 
 
+def test_age_discount_boundary_exactly_65():
+    """测试：优惠票价资格 - 正好 65 岁（不符合条件，因为条件是 > 65）"""
+    age = 65
+
+    is_eligible = age < 18 or age > 65
+
+    assert is_eligible is False  # 65 岁不享受优惠（必须 > 65）
+
+
 def test_username_validation():
     """测试：用户名验证（长度 3-20 且只包含字母数字）"""
     username = "user123"
