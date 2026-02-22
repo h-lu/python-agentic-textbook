@@ -144,7 +144,7 @@ print(scores[5])  # IndexError: list index out of range
 
 "又怎么了！？"小北盯着报错，"列表明明有 5 个元素啊！"
 
-老潘在旁边解释："这是 Python 最经典的'新手陷阱'——**0-based indexing**（从 0 开始编号）。想想看：如果你数手指，是从'第 1 根'开始数的，对吧？但计算机科学家在 20 世纪 50 年代设计数组时，做了一个影响深远的决定：索引代表'偏移量'（offset）——第一个元素离起点偏移了 0 个位置，第二个元素偏移了 1 个位置，以此类推。"
+老潘在旁边解释："这是 Python 最经典的'新手陷阱'——**0-based indexing**（从 0 开始编号）。想想看：如果你数手指，是从'第 1 根'开始数的，对吧？但这个设计可以追溯到 C 语言（1972 年）——索引代表'偏移量'（offset）：第一个元素离起点偏移了 0 个位置，第二个元素偏移了 1 个位置，以此类推。"
 
 老潘在纸上画了个示意图：
 
@@ -236,7 +236,7 @@ else:
 >
 > 所以，不要小看 `scores = [85, 92, 78]` 这行代码——它和 AI 模型处理数据的方式，本质上是同一个思路。AI 不是魔法，它是数据驱动的。而列表，就是最基础的数据容器。
 >
-> 参考（访问日期：2026-02-09）：
+> 参考（访问日期：2026-02-22）：
 > - [NumPy vs Python Lists: Which Is Faster and Why (Medium, 2025)](https://medium.com/@snehauniyal2003/numpy-vs-python-lists-which-is-faster-and-why-ee98ecfee87f)
 > - [PyTorch Tensors Tutorial (官方文档)](https://docs.pytorch.org/tutorials/beginner/basics/tensorqs_tutorial.html)
 > - [Top Python Libraries for AI and ML 2026 (Analytics Vidhya)](https://www.analyticsvidhya.com/blog/2026/01/python-libraries-for-ai-and-machine-learning/)
@@ -334,27 +334,22 @@ scores[0] = 90  # 把第一个成绩改成 90
 print(scores)  # [90, 92, 78]
 ```
 
-这和上周学的字符串不同：**列表可变，字符串不可变**。
+---
 
-```python
-# 列表可以修改
-scores = [85, 92, 78]
-scores[0] = 90
-print(scores)  # [90, 92, 78]  # ✅ 成功
+小北揉了揉眼睛："等等，我需要喘口气。`append()`、`insert()`、`remove()`、`pop()`、`del`……这么多方法，我怎么记得住？"
 
-# 字符串不能修改
-name = "Python"
-name[0] = "J"  # TypeError: 'str' object does not support item assignment
-```
+"这就像学英语单词，"阿码笑着说，"你不需要一次全记住。记住这几个就够了：
 
-阿码追问："为什么字符串不能改？这设计不合理啊！"
+- **添加**用 `append()`
+- **删除**用 `pop()` 或 `remove()`
+- **查找**用 `in` 和 `index()`
+- **排序**用 `sort()`
 
-老潘解释："字符串在 Python 里是'不可变对象'（immutable）——一旦创建就不能改。这有很多好处：安全、可以缓存、多线程不会出错。你如果想'改'字符串，其实是创建了一个新的。"
+其他的？需要时查文档就好。"
 
-```python
-name = "Python"
-name = "Java"  # 这不是修改，是让 name 指向了一个新的字符串
-```
+老潘补充："实际上，编程不是背单词——而是理解'这东西能干什么'。列表的核心思想是'动态增删'，你记住 `append()` 和 `pop()` 就能解决 80% 的问题。剩下的，用到再学。"
+
+---
 
 现在，你可能想知道"某个成绩在不在列表里"：
 
@@ -382,7 +377,7 @@ index = scores.index(100)  # ValueError: 100 is not in list
 
 老潘说："还是那句话——快速失败。如果你不确定元素在不在，先用 `in` 检查，或者用 `try/except` 捕获错误（这周我们先不学异常，下周会讲）。"
 
-上周你学过字符串切片，列表也一样——但切片有个容易踩的坑：
+上周你学过字符串切片，列表也一样——但有个容易混淆的地方：
 
 ```python
 scores = [85, 92, 78, 90, 88, 95, 82]
@@ -393,18 +388,16 @@ print(first_three)  # [85, 92, 78]
 
 # 获取后 3 个成绩
 last_three = scores[-3:]
-print(last_three)  # [95, 82]  # 等等，这是 2 个？
+print(last_three)  # [88, 95, 82]
 ```
 
-小北盯着 `last_three` 的输出，疑惑道："不是应该 3 个吗？"
+"咦？"小北盯着 `last_three` 的输出，"为什么后 3 个是 `[88, 95, 82]`？"
 
-阿码在旁边数了数："`[95, 82]` 确实只有 2 个。`scores[-3:]` 的意思是'从倒数第 3 个开始，到末尾'。列表总共 7 个元素，倒数第 3 个是索引 4（95），后面只有 2 个了（95, 82）。"
-
-如果你想"不管多长，只要后 3 个，不够就全部返回"，可以写：
+老潘解释："`scores[-3:]` 的意思是'从倒数第 3 个开始，到末尾'。列表总共 7 个元素，倒数第 3 个是索引 4（88），后面还有 2 个（95, 82），所以一共返回 3 个元素。"
 
 ```python
-last_three = scores[-3:] if len(scores) >= 3 else scores[:]
-print(last_three)  # [95, 82]
+# 切片语法：scores[start:end]  # start 包含，end 不包含
+scores[-3:]  # 相当于 scores[-3:7]，即从索引 -3 到末尾
 ```
 
 最后一个操作：排序。这是老师最常做的——按成绩从高到低排。
@@ -617,7 +610,7 @@ print(student_scores["小北"])  # 小北的成绩
 >
 > 所以你今天学的 `dict`，不只是 Python 的数据结构，更是理解 AI 系统如何"记忆"和"检索"信息的窗口。AI 不是魔法，它依赖高效的数据组织——而字典，就是最基础的那个。
 >
-> 参考（访问日期：2026-02-09）：
+> 参考（访问日期：2026-02-22）：
 > - [SparseCache: KV Cache Compression via Dictionary Learning (OpenReview 2025)](https://openreview.net/forum?id=43zTdoRqY4)
 > - [Lexico: Extreme KV Cache Compression (ICML 2025)](https://icml.cc/virtual/2025/poster/44898)
 > - [How To Reduce LLM Decoding Time With KV-Caching (The AI Edge Newsletter 2024)](https://newsletter.theaiedge.io/p/how-to-reduce-llm-decoding-time-with)
@@ -663,7 +656,19 @@ for score in scores:
 
 这里有个反直觉的事实：**写法 2 不仅更简洁，有时候还更快**。因为 Python 解释器不需要每次循环都计算 `scores[i]`，而是直接拿到元素的引用。当然，对于小列表（几百个元素以内），你感觉不到区别——但养成好习惯，迟早会受益。
 
-如果你确实需要索引，可以用 `enumerate()`：
+---
+
+**什么时候需要索引？**
+
+小北问："那什么情况下需要索引呢？"
+
+好问题！举几个真实场景：
+
+1. **需要显示排名**：打印"第 1 名：阿码，92 分"
+2. **需要标记位置**：找出"第一个不及格的成绩在第几个"
+3. **需要对应其他列表**：有两个列表 `names = ["小北", "阿码"]` 和 `scores = [85, 92]`，用索引配对
+
+这时候 `enumerate()` 就派上用场了：
 
 ```python
 scores = [85, 92, 78, 90, 88]
@@ -672,7 +677,15 @@ for index, score in enumerate(scores):
     print(f"第 {index + 1} 个成绩：{score}")
 ```
 
-`enumerate(scores)` 会返回"索引-元素对"，所以 `for index, score in ...` 可以同时拿到两者。
+输出：
+```
+第 1 个成绩：85
+第 2 个成绩：92
+第 3 个成绩：78
+...
+```
+
+`enumerate(scores)` 会返回"索引-元素对"，所以 `for index, score in ...` 可以同时拿到两者。注意索引从 0 开始，所以显示时用了 `index + 1`。
 
 遍历字典时，你可以遍历"键""值"或"键值对"：
 
@@ -1045,6 +1058,7 @@ for score in to_remove:
 ```python
 scores = [85, 92, 78, 60, 55]
 # 创建一个新列表，只保留及格的分数
+# 列表推导式（高级写法，week_09 会详细讲）
 scores = [score for score in scores if score >= 60]
 ```
 

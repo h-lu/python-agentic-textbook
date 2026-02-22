@@ -149,13 +149,16 @@
 
 - term_zh: 重构
   term_en: refactoring
-  definition_zh: 改善代码内部结构但不改变外部行为的过程。比如把一个大函数拆成多个小函数、把重复代码提取成函数、给变量和函数起更好的名字。重构让代码更易读、易维护、易测试。
+  definition_zh: 改善代码结构但不改变功能。比如把一坨代码拆成函数，或给函数改个更好的名字。
   first_seen: week_03
 
 - term_zh: docstring
   term_en: docstring
   definition_zh: 函数内部的第一行字符串，用三引号包裹，用于说明函数的功能。
   first_seen: week_03
+
+# Week 04 新增术语
+# 本周新增 4 个核心概念，均需合入 shared/glossary.yml
 
 # Week 04 新增术语
 # 本周新增 4 个核心概念，均需合入 shared/glossary.yml

@@ -123,8 +123,8 @@ print("\n=== 按分数排序（转换为列表） ===")
 scores = {"小北": 85, "阿码": 92, "老潘": 78, "小红": 90, "小明": 88}
 
 # 将字典转换为列表，然后排序
-score_list = [(name, score) for name, score in scores.items()]
-score_list.sort(key=lambda x: x[1], reverse=True)  # 按分数降序
+score_list = [(name, score) for name, score in scores.items()]  # 列表推导式（高级写法，week_09 会详细讲）
+score_list.sort(key=lambda x: x[1], reverse=True)  # 按分数降序；lambda 是高级写法（week_09 会详细讲解）
 
 print("=== 成绩排名 ===")
 for i, (name, score) in enumerate(score_list):
