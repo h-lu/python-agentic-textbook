@@ -3,17 +3,17 @@
 
 - id: w01-print-multiple-args
   claim: "print() 函数可以一次输出多个内容，自动用空格隔开"
-  evidence: "examples/01_hello.py 第 18-19 行展示了 print('你好', name, '!') 的用法"
+  evidence: "examples/01_hello.py 第 16-17 行展示了 print('姓名：', '张三') 的用法"
   verification: "运行 python3 examples/01_hello.py，观察多个参数的输出效果"
 
 - id: w01-input-returns-string
   claim: "input() 函数返回的永远是字符串类型"
-  evidence: "examples/03_input.py 第 20-22 行使用 type() 验证返回类型"
+  evidence: "examples/03_input.py 第 16-18 行使用 type() 验证返回类型"
   verification: "运行 python3 examples/03_input.py 输入数字，观察 type() 输出为 <class 'str'>"
 
 - id: w01-variable-case-sensitive
   claim: "Python 变量名区分大小写，name 和 Name 是不同的变量"
-  evidence: "examples/02_business_card_variables.py 第 28-32 行注释说明了此问题"
+  evidence: "examples/02_business_card_variables.py 第 27-29 行注释说明了此问题"
   verification: "取消注释该行运行，观察 NameError: name 'Name' is not defined"
 
 - id: w01-fstring-basic-syntax
@@ -23,15 +23,15 @@
 
 - id: w01-syntax-error-unclosed
   claim: "字符串引号不匹配会导致 SyntaxError"
-  evidence: "examples/05_errors.py 第 10-14 行展示了未闭合字符串错误"
+  evidence: "examples/05_errors.py 第 14-17 行描述了未闭合字符串错误示例"
   verification: "取消注释该行运行，观察 SyntaxError: unterminated string"
 
 - id: w01-name-error-undefined
   claim: "使用未定义的变量会导致 NameError"
-  evidence: "examples/05_errors.py 第 18-22 行展示了未定义变量错误"
+  evidence: "examples/05_errors.py 第 25-28 行描述了未定义变量错误示例"
   verification: "取消注释该行运行，观察 NameError: name 'xxx' is not defined"
 
 - id: w01-type-error-concat
   claim: "字符串和数字不能直接相加，会导致 TypeError"
-  evidence: "examples/05_errors.py 第 26-30 行展示了类型错误"
+  evidence: "examples/05_errors.py 第 37-39 行描述了类型错误示例"
   verification: "取消注释该行运行，观察 TypeError: can only concatenate str"
