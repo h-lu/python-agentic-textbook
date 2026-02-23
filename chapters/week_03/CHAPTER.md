@@ -504,7 +504,7 @@ main()
 >
 > 你今天学的函数分解思维——把大问题拆成小函数、给函数起清晰的名字、用参数传递输入、用返回值输出结果——就是所有软件系统设计的基础。AI 可以帮你写代码，但"如何拆分问题"还得你自己来。
 >
-> 参考（访问日期：2026-02-08）：
+> 参考（访问日期：2026-02-09）：
 > - [Monolith vs. Microservices: Which Architecture Wins in 2026?](https://itidoltechnologies.com/blog/monolith-vs-microservices-which-architecture-wins-in-2026/)
 > - [Monolith vs. Modular Monolith vs. Microservices: How to Choose the Right Architecture](https://vitex.asia/monolith-vs-modular-monolith-vs-microservices-how-to-choose-the-right-architecture/)
 > - [Understanding Modern Software Architecture: From Microservices Consolidation to Modular Monoliths](https://www.softwareseni.com/understanding-modern-software-architecture-from-microservices-consolidation-to-modular-monoliths)
@@ -524,7 +524,7 @@ main()
 >
 > 所以你刚学的函数设计原则——**短函数、单一职责、用参数传递、用返回值输出**——不仅能让你写出更好的代码，还能帮你审查和改进 AI 生成的东西。在 AI 时代，"理解为什么这样写"比"自己写出来"更重要。
 >
-> 参考（访问日期：2026-02-08）：
+> 参考（访问日期：2026-02-09）：
 > - [GitHub Copilot Statistics 2026](https://www.getpanto.ai/blog/github-copilot-statistics)
 > - [AI Coding Assistants in 2026: GitHub Copilot, ChatGPT, Developer Productivity & Python](https://www.programming-helper.com/tech/ai-coding-assistants-2026-github-copilot-chatgpt-developer-productivity-python)
 > - [Assessing the Quality of GitHub Copilot's Code Generation](https://dl.acm.org/doi/10.1145/3558489.3559072)
