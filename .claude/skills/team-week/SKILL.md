@@ -1,6 +1,6 @@
 ---
 name: team-week
-description: 完整执行一周章包的 6 阶段流水线：规划 → 写作 → 润色 → 并行产出 → QA → 收敛发布。
+description: 完整执行一周章包的 6 阶段流水线：规划 → 写作 → 润色 → 并行产出 → 三维度QA → 收敛发布。
 argument-hint: "<week_id e.g. week_01>"
 allowed-tools: Bash, Read, Write, Edit, Grep, Glob, Task
 ---
@@ -49,7 +49,7 @@ python3 scripts/validate_week.py --week week_XX --mode release
 
 ```
 阶段 0（日期校准） → 阶段 1（规划） → 阶段 2（写作） → 阶段 2.5（联网研究）
-  → 阶段 3（润色） → 阶段 4（并行产出） → 阶段 5（QA） → 阶段 6（收敛）
+  → 阶段 3（润色） → 阶段 4（并行产出） → 阶段 5（三维度QA） → 阶段 6（收敛）
 ```
 
 ### 阶段 0：日期校准（流水线启动时立即执行）
@@ -212,10 +212,29 @@ python3 scripts/validate_week.py --week week_XX --mode drafting
 python3 scripts/validate_week.py --week week_XX --mode idle
 ```
 
-### 阶段 5：QA（前置：阶段 4 全部完成）
+### 阶段 5：三维度 QA（前置：阶段 4 全部完成）
 
-调用 subagent `student-qa`：
+执行**三维度质量审查**，确保章包在发布前通过所有检查。
 
+#### 5a. 并行审读（同时执行）
+
+**调用 `consistency-editor`**：
+- 对齐 `shared/style_guide.md`
+- 同步 `TERMS.yml` -> `shared/glossary.yml`
+- 检查循环角色使用一致性（对照 `shared/characters.yml`）
+- 修复 `ANCHORS.yml` 问题
+- 运行 `validate_week.py --mode task`
+
+**调用 `technical-reviewer`**（与 consistency-editor 并行）：
+- 审读 `CHAPTER.md`：概念定义准确性、代码示例正确性
+- 审读 `examples/`：Python 代码规范（PEP 8）、边界情况处理
+- 审读 `ASSIGNMENT.md` + `RUBRIC.md`：题意清晰度、评分覆盖
+- 审读 `starter_code/solution.py`：答案正确性
+- 输出问题清单（按 S1-S4 严重级别分类）
+
+#### 5b. 学生视角 QA
+
+**调用 `student-qa`**：
 - **只读审读**，返回四维评分 + 问题清单（通过 tool result 返回，不写文件）
 - 四维评分：叙事流畅度 / 趣味性 / 知识覆盖 / 认知负荷（各 1-5 分）
 - 总分 >= 18/20 才能通过
@@ -226,26 +245,30 @@ python3 scripts/validate_week.py --week week_XX --mode idle
 
 ### 阶段 6：收敛（前置：阶段 5 完成，序列执行）
 
-#### 6a. 修订回路（简化版：2 档处理）
+#### 6a. 修订回路
 
-| 总分范围 | 处理方式 | 回传给谁 |
+根据三维度 QA 结果执行修订：
+
+| 问题类型 | 处理方式 | 回传给谁 |
 |---------|---------|---------|
-| >= 18 | 根据 QA 反馈进行轻量修订后通过 | `prose-polisher`（轻量修复，处理建议项） |
-| < 18 | 结构性重写（需大幅改进） | `chapter-writer` |
+| **S1 致命问题** | 必须修复 | `error-fixer` 或相关 subagent |
+| **S2 重要问题** | 必须修复 | `prose-polisher` |
+| **S3 一般问题** | 必须修复 | `prose-polisher` |
+| **S4 润色问题** | 必须修复 | `prose-polisher` |
+| **四维总分 < 18** | 结构性重写 | `chapter-writer` |
+| **四维总分 >= 18** | 轻量修订 | `prose-polisher` |
 
-**修订规则说明**：
-- 无论评分高低，每轮 QA 后都需根据反馈进行一轮修订（即使是 >= 18 分的建议项也要处理）
-- 修订后如无阻塞项且质量达标，即可进入 release
-- **硬性上限：最多迭代 3 轮。** 如果 3 轮后总分仍 < 18：
-1. 在 QA_REPORT.md 记录当前评分和未解决问题
-2. 标注 `<!-- 需人工介入 -->`
-3. 继续推进到 6b（不再回传修订）
+**修订规则**：
+- **S1-S4 问题必须全部清零**才能 release
+- 无论评分高低，每轮 QA 后都需根据反馈进行一轮修订
+- **硬性上限：最多迭代 3 轮**。如果 3 轮后仍有未清零问题或总分 < 18：
+  1. 在 QA_REPORT.md 记录当前状态和未解决问题
+  2. 标注 `<!-- 需人工介入 -->`
+  3. 继续推进到 6b（不再回传修订）
 
 #### 6b. 一致性处理 + 落盘 QA_REPORT + Release 校验
 
-**一致性处理（由 Lead agent 直接执行，不再调用独立 subagent）**：
-
-在最终 release 前，Lead agent 直接执行以下一致性检查：
+**一致性处理（由 Lead agent 直接执行）**：
 
 1. **术语同步**：检查 `TERMS.yml` → `shared/glossary.yml`，如有缺失则同步
 2. **ANCHORS.yml 整理**：确保锚点 ID 周内唯一，claim/evidence/verification 齐全
@@ -254,13 +277,42 @@ python3 scripts/validate_week.py --week week_XX --mode idle
 
 **落盘 QA_REPORT（由 Lead agent 直接写入）**：
 
-- 把 student-qa 返回的 QA 结果写入 `chapters/week_XX/QA_REPORT.md`
-  - 四维评分写在顶部
-  - 阻塞项放到 `## 阻塞项` 下（checkbox，必须全部勾选）
-  - 建议项放到 `## 建议项` 下（checkbox）
-  - 如经过修订回路，记录每轮评分变化
+```markdown
+# QA Report: week_XX
 
-**注意**：QA_REPORT.md 是在阶段 6b 由 Lead agent 写入的，不是在阶段 5 由 student-qa 写入的。student-qa 只返回评分和清单，不操作文件。
+## 总体状态
+- [ ] 一致性检查通过
+- [ ] 技术审读通过（S1-S4 问题已清零）
+- [ ] 学生视角评分 >= 18/20
+
+## 四维评分
+| 维度 | 分数 | 说明 |
+|------|------|------|
+| 叙事流畅度 | X/5 | ... |
+| 趣味性 | X/5 | ... |
+| 知识覆盖 | X/5 | ... |
+| 认知负荷 | X/5 | ... |
+| **总分** | **X/20** | |
+
+## 技术审读问题
+
+### S1 致命问题（必须修复）
+- [x] {已修复的问题}
+
+### S2 重要问题（强烈建议修复）
+- [x] {已修复的问题}
+
+## 一致性问题
+- [x] {已修复的问题}
+
+## 学生视角阻塞项
+- [x] {已修复的问题}
+
+## 建议项
+- [ ] {可选改进建议}
+```
+
+**注意**：QA_REPORT.md 是在阶段 6b 由 Lead agent 写入的，不是在阶段 5 由各 QA subagent 写入的。
 
 - 调用 subagent `error-fixer`（如果校验有报错）：逐条修复再验证
 
@@ -272,17 +324,19 @@ python3 scripts/validate_week.py --week week_XX --mode release
 
 ---
 
-## 校验模式速查（简化后：3 种模式）
+## 校验模式速查
 
 | 阶段 | 校验模式 | 说明 |
 |------|---------|------|
 | 阶段 1（规划） | 无 | ASSIGNMENT 等文件不存在是正常的 |
 | 阶段 2-3（写作/润色） | `--mode drafting` | 只检查 CHAPTER.md + TERMS.yml（如果存在）|
-| 阶段 4-5（产出/QA） | `--mode idle` | 所有文件 + QA 阻塞项检查，无 pytest |
+| 阶段 4（产出） | `--mode idle` | 所有文件检查，无 pytest |
+| 阶段 5（QA） | 无 | QA 是只读角色 |
 | 阶段 6（收敛） | `--mode release` | 完整发布级校验（含 pytest + pedagogical 检查）|
 
 ## 收敛规则
 
+- **S1-S4 问题必须全部清零**才能 release
+- **四维评分总分必须 >= 18/20** 才能 release（或 3 轮修订后人工豁免）
 - QA_REPORT 的"阻塞项"必须清零（不允许 `- [ ]`）才能 release
-- 四维评分总分必须 >= 18/20 才能 release（或 3 轮修订后人工豁免）
 - 不要为了"写完"牺牲可运行/可验证：tests/anchors/terms 要能对上
