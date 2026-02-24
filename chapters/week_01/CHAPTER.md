@@ -1,4 +1,4 @@
-# week_01：从零开始，你的第一行 Python 代码
+# Week 01：从零开始，你的第一行 Python 代码
 
 > "Python 是一门为了让程序员快乐而设计的语言。"
 > — Guido van Rossum，Python 之父
