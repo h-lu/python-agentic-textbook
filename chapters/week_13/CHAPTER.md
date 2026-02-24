@@ -1,7 +1,7 @@
 # Week 13：用 AI Agent 协作开发
 
-> "最热门的新编程语言是英语。"
-> — Andrej Karpathy，OpenAI 创始成员，前特斯拉 AI 总监，神经网络先驱
+> "AI 不会取代程序员，但会用 AI 的程序员会取代不会用 AI 的程序员。"
+> — Andrej Karpathy，OpenAI 创始成员，前特斯拉 AI 总监
 
 2026 年,AI 编程助手已到达临界点——全球超过 1500 万开发者使用 AI 编程工具,占全球开发者的 75%以上。更重要的是,协作方式正在发生范式转变:从"AI 辅助写代码"到"AI agent 协作开发"。GitHub Copilot Agent Mode、多 agent 协作系统在 2025-2026 年快速成熟——一个 AI 负责写代码,另一个 AI 负责写测试,第三个 AI 负责 code review。这不是"AI 代替写代码",而是"AI 变成了团队成员"。
 
