@@ -1,7 +1,7 @@
 # Week 11：给数据穿上"外衣"——dataclass 与类型提示
 
-> "Programs must be written for people to read, and only incidentally for machines to execute."
-> — Harold Abelson
+> "Clean code is simple and direct. Clean code reads like well-written prose."
+> — Robert C. Martin（Uncle Bob），《代码整洁之道》作者，敏捷宣言签署人
 
 2026 年，AI 编程助手已经成为开发者的"标配工具"。根据 [Stack Overflow 2025 开发者调查](https://survey.stackoverflow.co/2025/)，84% 的开发者正在使用或计划使用 AI 工具——GitHub Copilot 拥有超过 2000 万用户，一年内增长了 400%。[SonarSource 的 2026 年开发者调查](https://www.sonarsource.com/state-of-code-developer-survey-report.pdf)显示，AI 生成的代码已占总代码量的 42%，预计 2027 年将超过 50%。
 

@@ -1,7 +1,7 @@
 # Week 12：像专业人士一样写命令行工具
 
-> "The best programs are the ones written so that they can be read and understood by humans, not just executed by machines."
-> — Brian Kernighan
+> "This is the Unix philosophy: Write programs that do one thing and do it well. Write programs to work together."
+> — Doug McIlroy，Unix 管道机制发明者，Bell Labs 研究员
 
 2025-2026 年，命令行工具（CLI）正在经历一场复兴。GitHub 上 stars 过万的 CLI 项目如 `eza`（现代 ls 替代品）、`zellij`（终端工作区管理器）、`gitui`（Git TUI 工具）等，都是纯命令行界面但体验极佳的工具。这种复兴背后有两个驱动力：一是 DevOps 和云原生技术的普及（服务器上只能用命令行），二是 AI 编程助手让写 CLI 工具的门槛大幅降低——你不再需要记忆 argparse 的所有 API，让 AI 生成骨架，你专注于业务逻辑即可。
 

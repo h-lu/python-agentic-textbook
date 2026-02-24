@@ -1,7 +1,7 @@
 # Week 14：Capstone 发布与总结
 
-> "The finish line is just the beginning of a new race."
-> — Unknown
+> "The ultimate goal of software is to be used, not to be written."
+> — Andy Hunt，《程序员修炼之道》作者，敏捷宣言签署人
 
 2026 年，"学完 Python 之后做什么"成了编程社区的热门话题。AI 编程工具的普及让"写代码"的门槛大幅降低——GitHub Copilot 等工具的月活开发者已超过千万——但"发布一个完整的软件"仍然是稀缺技能。开源项目分析显示，绝大多数未完成的项目死于"最后 10%"：缺少 README、没有测试、文档不完整、不会做版本发布。这些都不是"写代码"的问题，而是"工程素养"的问题。
 

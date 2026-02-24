@@ -1,7 +1,7 @@
 # Week 06：让程序不崩——异常处理与防御性编程
 
-> "Hope for the best, prepare for the worst."
-> — 俗语
+> "Make it work, make it right, make it fast."
+> — Kent Beck，极限编程之父，敏捷宣言签署人
 
 你有没有经历过这种时刻：精心准备了一个 PPT,演示的时候电脑突然蓝屏；玩游戏打到关键时刻,程序直接闪退；转账填了一堆信息,点击"确认"后网页崩溃——钱扣了,账没转过去。
 

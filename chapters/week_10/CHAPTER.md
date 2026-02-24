@@ -1,7 +1,7 @@
 # Week 10：数据交换的艺术——JSON 与序列化
 
-> "Data is the new oil, but unlike oil, data is not scarce. It's abundant, and its value comes from how we refine and exchange it."
-> — Clive Humby
+> "The good thing about JSON is that it's self-describing. The bad thing is that it's too self-describing."
+> — Douglas Crockford，JSON 格式发明者，JavaScript 大师
 
 2025 年，全球活跃着超过 2 亿个 API，预计到 2030 年将增长到 17 亿个。根据 Postman 的《2025 State of the API Report》，REST API 以 93% 的采用率稳居主导地位，而 JSON 作为 REST API 的默认数据格式，已成为现代软件世界的通用语言。更值得注意的是，Gartner 预测到 2026 年，AI 和大语言模型将驱动 API 使用量增长 30%——从 OpenAI 的 API 到 Claude 的函数调用，从微服务架构到云原生应用，JSON 是这一切的基石。
 

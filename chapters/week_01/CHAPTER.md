@@ -1,7 +1,7 @@
 # week_01：从零开始，你的第一行 Python 代码
 
-> "The only way to learn a new programming language is by writing programs in it."
-> — Dennis Ritchie, C 语言之父
+> "Python is an experiment in how much freedom programmers need. Too much freedom and nobody can read each other's code; too little and expressiveness is endangered."
+> — Guido van Rossum，Python 之父
 
 2026 年，GitHub Copilot 的月活开发者已突破 1500 万，AI 一天能生成的代码量超过许多程序员一年的产出。有人说"学编程已经没用了"——但事实恰恰相反。就像自动驾驶时代你仍然需要理解交通规则，AI 写代码的时代，读懂代码反而更重要了。本周，你将写下人生中的第一行 Python 代码。这不只是一句 `print("Hello")`，而是你和计算机之间对话的起点。
 

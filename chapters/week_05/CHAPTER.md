@@ -1,7 +1,7 @@
 # Week 05：读写文件——程序的记忆
 
-> "The best way to predict the future is to invent it."
-> — Alan Kay，美国著名计算机科学家，面向对象编程和图形用户界面的先驱
+> "We can only see a short distance ahead, but we can see plenty there that needs to be done."
+> — Alan Turing，计算机科学之父，图灵测试提出者
 
 近几年，全球每天产生的数据量已经接近 **500 EB**（艾字节）——相当于每秒钟创建数百万部高清电影。根据 IDC 的预测，到 2028 年全球年度数据量将达到 **393 ZB**（泽字节），其中生成式 AI 是主要驱动力。这些数据从哪来？从无数个文件里——网页、日志、传感器读数、用户上传的内容……
 

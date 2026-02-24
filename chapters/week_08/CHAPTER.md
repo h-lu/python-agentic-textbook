@@ -1,7 +1,7 @@
 # Week 08：测试与调试——让你的代码值得信赖
 
 > "Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it."
-> — Brian Kernighan
+> — Brian Kernighan，Unix 之父之一，《C 程序设计语言》作者
 
 2025 年，AI 编程工具已经无处不在。GitHub Copilot 的用户数突破千万，Cursor 和 Windsurf 成为开发者的新宠。但一个悖论随之浮现：代码写得越快，隐藏的 bug 也越多。根据行业报告，超过七成的 QA 专业人员已经开始使用 AI 工具生成测试用例，但与此同时，AI 生成的代码在复杂业务逻辑上的错误率依然令人担忧。当一行 AI 生成的代码能在三秒内完成，我们还需要花三十分钟写测试吗？答案是：更需要。测试不再是"可选项"，而是 AI 时代代码质量的守门人。本周你将学习 pytest——Python 最流行的测试框架，掌握让代码值得信赖的核心技能。
 
