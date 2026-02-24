@@ -1,6 +1,6 @@
 # Week 03：把问题切小
 
-> "Simplicity is a prerequisite for reliability."
+> "简单是可靠的先决条件。"
 > — Edsger W. Dijkstra，图灵奖得主，结构化编程先驱
 
 2026 年的软件行业正在经历一场有趣的"回归"。几年前，微服务（microservices）架构是所有人的答案——把系统拆成几十上百个小服务，每个服务独立部署、独立运行。但到了 2026 年，数据显示 42% 的组织开始放弃纯微服务，转而采用"模块化单体"（modular monolith）架构。就连 Amazon Prime Video 团队也通过从微服务回归单体，将成本降低了 90%。

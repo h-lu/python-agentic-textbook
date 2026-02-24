@@ -1,6 +1,6 @@
 # Week 09：文本处理——从混乱中提取秩序
 
-> "Text is the universal interface. When in doubt, use plain text."
+> "文本是通用接口。有疑虑时，使用纯文本。"
 > — Ken Thompson，Unix 之父，正则表达式共同发明者，Go 语言共同创造者
 
 2026年，大语言模型每天处理着数以亿计的文本请求。从 ChatGPT 到 Claude，这些 AI 的"眼睛"本质上就是复杂的文本处理算法——它们需要解析用户的输入、提取关键信息、理解上下文。但有趣的是，当 AI 帮你写代码时，它生成的往往也是文本：日志文件、配置文件、数据报表。

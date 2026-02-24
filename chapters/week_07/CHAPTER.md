@@ -1,6 +1,6 @@
 # Week 07：把代码拆开——模块化与项目结构
 
-> "The most dangerous phrase in the language is, 'We've always done it this way.'"
+> "语言中最危险的短语是：'我们一直是这样做的。'"
 > — Grace Hopper，COBOL 之母，第一个编译器发明者
 
 2026 年，AI 代码生成工具正在经历一场"架构转向"。早期的 AI 编程助手擅长生成单文件脚本——你给个需求，它给你几百行代码，能跑，但当你想要扩展功能时，问题就来了：代码散落各处、重复逻辑到处都是、改一处影响三处。

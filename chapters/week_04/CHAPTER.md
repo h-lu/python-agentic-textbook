@@ -1,6 +1,6 @@
 # Week 04：用容器装数据
 
-> "Bad programmers worry about the code. Good programmers worry about data structures and their relationships."
+> "糟糕的程序员担心代码，优秀的程序员担心数据结构及其关系。"
 > — Linus Torvalds，Linux 与 Git 创造者
 
 2026 年的 AI 革命正在重塑编程的面貌。当你问 ChatGPT "写一个 Python 函数排序数字"时，它一秒钟就能给你答案——但背后的原理是什么？有意思的是，AI 模型之所以能理解你的问题，正是因为它们内部用到了一种叫"张量"（tensor）的数据结构——而张量，本质上是多维数组。
