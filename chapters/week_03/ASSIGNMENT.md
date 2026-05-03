@@ -244,6 +244,11 @@ print("函数外 x:", x)
 
 ## 通用要求
 
+### 提交文件
+- 在 `chapters/week_03/starter_code/solution.py` 中完成题目 1、2、3 的代码实现。
+- 题目 4 的文本答案放在 `chapters/week_03/starter_code/scope_analysis.txt`。
+- `chapters/week_03/tests/` 中的测试主要用于验证本周函数、换算器和 PyHelper 的核心概念；其中不自动批改题目 4 的文本答案。
+
 ### 代码规范
 - 所有函数名使用小写字母和下划线（如 `celsius_to_fahrenheit`）
 - 每个函数开头用文档字符串（`"""..."""`）说明函数功能

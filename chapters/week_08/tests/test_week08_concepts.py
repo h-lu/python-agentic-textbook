@@ -12,8 +12,8 @@ import pytest
 import sys
 from pathlib import Path
 
-# 添加 examples 目录到路径
-sys.path.insert(0, str(Path(__file__).parent.parent / "examples"))
+# 添加 starter_code 目录到路径（测试目标代码）
+sys.path.insert(0, str(Path(__file__).parent.parent / "starter_code"))
 
 from todo_manager import add_task, mark_done, delete_task, get_task_count
 

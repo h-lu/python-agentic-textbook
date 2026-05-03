@@ -22,7 +22,7 @@
 - `delete_task(tasks, index)` —— 删除任务
 - `list_tasks(tasks)` —— 列出所有任务（打印）
 
-你的任务是创建 `test_todo_manager.py`，为这个模块编写测试。
+你的任务是在 `chapters/week_08/tests/test_todo_manager.py` 中为这个模块编写测试；被测代码位于 `chapters/week_08/starter_code/todo_manager.py`。
 
 **要求**：
 
@@ -64,7 +64,7 @@ def test_mark_done_invalid_index():
 
 **验证方法**：
 ```bash
-pytest test_todo_manager.py -v
+python3 -m pytest chapters/week_08/tests/test_todo_manager.py -v
 ```
 
 **常见错误**：
@@ -121,7 +121,7 @@ def test_mark_done_with_fixture(sample_tasks):
 
 **验证方法**：
 ```bash
-pytest test_todo_manager.py -v
+python3 -m pytest chapters/week_08/tests/test_todo_manager.py -v
 ```
 
 **常见错误**：
@@ -177,7 +177,7 @@ def test_add_task_parametrized(task_name):
 
 **验证方法**：
 ```bash
-pytest test_todo_manager.py -v
+python3 -m pytest chapters/week_08/tests/test_todo_manager.py -v
 ```
 
 **常见错误**：
@@ -197,7 +197,7 @@ pytest test_todo_manager.py -v
 
 **Step 1：红（写测试，看到失败）**
 
-在 `test_todo_manager.py` 中，先写测试（此时功能还不存在）：
+在 `chapters/week_08/tests/test_todo_manager.py` 中，先写测试（此时功能还不存在）：
 
 ```python
 def test_add_task_with_priority():
@@ -217,7 +217,7 @@ def test_add_task_with_priority():
 
 **Step 2：绿（写最少代码让测试通过）**
 
-在 `todo_manager.py` 中实现 `add_task_with_priority`：
+在 `chapters/week_08/starter_code/todo_manager.py` 中实现 `add_task_with_priority`：
 
 ```python
 def add_task_with_priority(tasks, task_name, priority="medium"):
@@ -244,9 +244,9 @@ def add_task_with_priority(tasks, task_name, priority="medium"):
 2. 重构代码，保持测试通过。
 
 **提交物**：
-- 完整的测试文件（包含 TDD 过程中写的所有测试）
-- 实现后的 `todo_manager.py`
-- 一个简短的 `TDD_NOTES.md`，记录：
+- 完整的测试文件 `chapters/week_08/tests/test_todo_manager.py`（包含 TDD 过程中写的所有测试）
+- 实现后的 `chapters/week_08/starter_code/todo_manager.py`
+- 一个简短的 `chapters/week_08/TDD_NOTES.md`，记录：
   - 你在每个步骤中做了什么
   - 遇到的困难
   - 对 TDD 的感受（是否觉得有帮助？）
@@ -416,7 +416,7 @@ def test_delete_task():
 
 在提交前，请确认：
 
-- [ ] 练习 1 完成：`test_todo_manager.py` 包含至少 5 个测试函数，运行通过
+- [ ] 练习 1 完成：`chapters/week_08/tests/test_todo_manager.py` 包含至少 5 个测试函数，运行通过
 - [ ] 练习 2 完成：创建了 `sample_tasks` 和 `empty_tasks` fixture，并在测试中使用
 - [ ] 运行 `python3 -m pytest chapters/week_08/tests -q` 通过所有测试
 - [ ] 进阶练习（如完成）：参数化测试能覆盖多种输入情况
@@ -427,11 +427,11 @@ def test_delete_task():
 
 ```bash
 # 第一次提交（草稿）
-git add chapters/week_08/test_todo_manager.py
+git add chapters/week_08/tests/test_todo_manager.py
 git commit -m "draft week_08: 完成基础测试练习"
 
 # 第二次提交（验证）
-git add chapters/week_08/test_todo_manager.py
+git add chapters/week_08/tests/test_todo_manager.py chapters/week_08/starter_code/todo_manager.py
 git commit -m "verify week_08: 添加 fixture 和参数化测试"
 
 # 推送到远端

@@ -12,7 +12,51 @@ Week 05 作业参考实现
 运行方式：python3 chapters/week_05/starter_code/solution.py
 """
 
+from datetime import datetime
 from pathlib import Path
+
+
+# =====================
+# 日记本函数（与 tests/test_diary_app.py 的行为保持一致）
+# =====================
+
+def add_diary_entry(content, filename="diary.txt"):
+    """
+    追加一条日记记录
+
+    content: 日记内容
+    filename: 日记文件路径
+    """
+    diary_file = Path(filename)
+    today = datetime.now().strftime("%Y-%m-%d")
+    entry = f"{today}: {content}\n"
+
+    with diary_file.open("a", encoding="utf-8") as file:
+        file.write(entry)
+
+
+def read_all_diaries(filename="diary.txt"):
+    """
+    读取所有非空日记记录
+
+    文件不存在时返回空列表。
+    """
+    diary_file = Path(filename)
+    if not diary_file.exists():
+        return []
+
+    content = diary_file.read_text(encoding="utf-8")
+    return [line for line in content.splitlines() if line.strip()]
+
+
+def search_diaries(keyword, filename="diary.txt"):
+    """按关键词搜索日记记录"""
+    return [line for line in read_all_diaries(filename) if keyword in line]
+
+
+def count_diaries(filename="diary.txt"):
+    """统计日记记录条数"""
+    return len(read_all_diaries(filename))
 
 
 # =====================

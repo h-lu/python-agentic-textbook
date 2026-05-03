@@ -1,10 +1,15 @@
-# Week 05 作业：持久化记账本
+# Week 05 作业：持久化学习日记
 
 ## 作业概述
 
-本周你将实现一个**记账本工具**——记录你的收入和支出，并把这些数据保存到文件中。这样即使关闭程序，你的账目记录也不会丢失。
+本周你将实现一个**学习日记工具**：把每天学到的内容写入文本文件，并在下一次运行时继续读取、搜索和统计。它延续 Week 04 的字典/列表练习，但本周的重点变成**文件持久化**。
 
-这是 Week 04 成绩单项目的延伸应用，但你不再用内存存储数据，而是用**文件**（file）实现持久化存储。
+自动测试位于 `chapters/week_05/tests/`。其中 `test_file_basics.py`、`test_pathlib.py`、`test_encoding.py` 会检查本周文件操作概念，`test_diary_app.py` 会检查一个日记本工具应具备的写入、读取、搜索和统计行为。
+
+参考实现放在 `chapters/week_05/starter_code/solution.py`，示例程序可参考：
+
+- `chapters/week_05/examples/05_diary_app.py`
+- `chapters/week_05/examples/06_pyhelper.py`
 
 ---
 
@@ -12,89 +17,88 @@
 
 ### 功能要求
 
-实现一个记账本工具，支持以下功能：
+在 `chapters/week_05/starter_code/solution.py` 中实现或完善一个学习日记/学习记录工具，至少支持以下功能：
 
-1. **添加记录**：用户输入日期、类型（收入/支出）、金额、备注
-2. **查看所有记录**：按日期排序显示所有账目
-3. **保存到文件**：程序退出时，所有记录保存到 `accountbook.txt`
-4. **从文件加载**：程序启动时，自动从 `accountbook.txt` 加载旧数据
+1. **添加记录**：把一条学习内容写入文件。
+2. **读取所有记录**：文件不存在时返回空列表或空字典，不崩溃。
+3. **搜索记录**：按关键词筛选包含该关键词的记录。
+4. **统计记录数**：能统计当前文件中有多少条有效记录。
+5. **持久化保存**：关闭程序后，记录仍保存在文件中。
 
-### 输入输出规格
+### 建议接口
 
-#### 输入
+`test_diary_app.py` 使用下面这组行为作为日记本工具的参考接口。你的实现可以直接提供这些函数，便于和测试说明保持一致：
 
-用户通过命令行交互输入数据：
+```python
+def add_diary_entry(content, filename="diary.txt"):
+    """追加一条日记记录。"""
 
-```
-请选择功能：
-1. 添加记录
-2. 查看所有记录
-3. 退出并保存
+def read_all_diaries(filename="diary.txt"):
+    """读取所有非空日记行，文件不存在时返回 []。"""
 
-请输入选择（1-3）：1
-请输入日期（如 02-09）：02-11
-请输入类型（收入/支出）：支出
-请输入金额：50
-请输入备注：午饭
-已添加：02-11 - 支出 - 50.0 - 午饭
-```
+def search_diaries(keyword, filename="diary.txt"):
+    """返回所有包含 keyword 的日记行。"""
 
-#### 输出
-
-查看所有记录时：
-
-```
-=== 所有账目记录 ===
-02-09: 收入 +100.0 零花钱
-02-10: 支出 -30.0 书本
-02-11: 支出 -50.0 午饭
-
-总计：20.0 元
+def count_diaries(filename="diary.txt"):
+    """返回日记条数。"""
 ```
 
-#### 文件格式
+参考实现中还保留了 PyHelper 风格的学习记录接口：
 
-`accountbook.txt` 的内容格式（每行一条记录）：
+```python
+def load_records(filename="records.txt"):
+    """读取学习记录字典。"""
 
+def save_records(records, filename="records.txt"):
+    """保存学习记录字典。"""
 ```
-02-09:收入:100.0:零花钱
-02-10:支出:30.0:书本
-02-11:支出:50.0:午饭
+
+这两组接口都围绕同一件事：用文件把学习记录保存下来。
+
+### 文件格式
+
+日记本建议使用每行一条记录：
+
+```text
+2026-02-09: 今天学会了文件操作
+2026-02-10: with 语句会自动关闭文件
+2026-02-11: pathlib 处理路径很方便
 ```
 
-用 `:` 作为分隔符，每行四部分：`日期:类型:金额:备注`
+PyHelper 学习记录可以使用：
+
+```text
+02-09: 学会了文件操作
+02-10: 写了一个持久化小工具
+```
+
+如果内容里可能出现冒号，解析时使用 `split(": ", 1)`，只分割第一个分隔符。
 
 ### 技术要求
 
-1. **必须使用 `with` 语句**进行文件操作（不允许手动 `close()`）
-2. **必须使用 `pathlib`** 处理文件路径（不允许硬编码路径）
-3. **必须使用 UTF-8 编码**（避免中文乱码）
-4. **用字典存储记录**（复习 Week 04 知识），字典的 key 可以是"日期_序号"（如 `02-09_0`），value 是包含类型、金额、备注的字典或元组
-5. 用函数封装核心逻辑（复习 Week 03 知识）：
-   - `add_record(account_data)` - 添加记录
-   - `show_records(account_data)` - 显示所有记录
-   - `save_to_file(account_data, filename)` - 保存到文件
-   - `load_from_file(filename)` - 从文件加载
+1. 文件操作必须指定 `encoding="utf-8"`。
+2. 必须使用 `with` 语句或 `pathlib.Path.read_text()` / `write_text()` 这类会自动管理文件句柄的 API。
+3. 必须使用 `pathlib.Path` 处理文件路径。
+4. 追加日记时使用 `"a"` 模式，避免覆盖旧记录。
+5. 读取前要处理文件不存在的情况。
+6. 过滤空行，避免把空白内容当作有效记录。
 
-### 提交物
+### 输入输出示例
 
-1. `accountbook.py` - 你的记账本工具代码
-2. `accountbook.txt` - 运行后的数据文件（至少包含 3 条记录）
-3. `README.md` - 简短说明（如何运行、使用了哪些本周学到的概念）
+添加三条日记后，文件可能长这样：
 
-### 评分要点
+```text
+2026-02-09: 今天学会了文件操作
+2026-02-10: with 语句很方便
+2026-02-11: UTF-8 编码避免乱码
+```
 
-- [ ] 代码能正常运行，不崩溃
-- [ ] 能正确添加记录（收入/支出类型、金额、备注）
-- [ ] 能正确显示所有记录（按日期排序）
-- [ ] 能正确保存到文件（关闭程序后重新打开，数据还在）
-- [ ] 能正确从文件加载（程序启动时能读取旧数据）
-- [ ] 使用 `with` 语句进行文件操作
-- [ ] 使用 `pathlib` 处理文件路径
-- [ ] 使用 UTF-8 编码
-- [ ] 用字典存储数据
-- [ ] 用函数封装核心逻辑
-- [ ] 代码有适当的注释
+搜索 `文件` 时输出：
+
+```text
+=== 搜索结果 ===
+2026-02-09: 今天学会了文件操作
+```
 
 ---
 
@@ -102,274 +106,116 @@
 
 在基础作业之上，增加以下功能：
 
-### 1. 统计功能
-
-添加"查看统计"选项，显示：
-- 总收入
-- 总支出
-- 结余
-- 支出最高的记录
-
-```
-=== 账目统计 ===
-总收入：100.0 元
-总支出：80.0 元
-结余：20.0 元
-
-最大单笔支出：02-11 - 50.0 - 午饭
-```
-
-### 2. 搜索功能
-
-添加"搜索记录"选项，支持按关键词搜索备注：
-
-```
-请输入搜索关键词：书
-=== 搜索结果 ===
-02-10: 支出 -30.0 书本
-```
-
-### 3. 追加模式改进
-
-修改文件写入逻辑，使用**追加模式**（`"a"` 模式）而不是覆盖模式。每次添加记录时，直接追加到文件末尾，而不是退出时才保存。
-
-提示：这需要同时修改 `add_record()` 和 `load_from_file()` 的逻辑。
-
-### 提交物
-
-如果你完成了进阶作业，在 `README.md` 中说明：
-- 你完成了哪些进阶功能
-- 每个功能的实现思路（2-3 句话）
-- 遇到的挑战和解决方法
-
-### 评分要点
-
-- [ ] 统计功能：正确计算总收入、总支出、结余
-- [ ] 统计功能：正确找出支出最高的记录
-- [ ] 搜索功能：能按关键词搜索备注（用 `in` 判断）
-- [ ] 追加模式：每次添加记录立即写入文件（不是退出时才保存）
-- [ ] 代码结构清晰，函数职责单一
-- [ ] 代码有适当的注释和文档字符串
+1. **按日期分组显示**：同一天多条记录显示在同一日期下面。
+2. **关键词搜索统计**：搜索时显示匹配数量。
+3. **PyHelper 持久化改进**：让 `examples/06_pyhelper.py` 的学习记录保存到 `pyhelper_data.txt`，再次启动后能加载旧记录。
 
 ---
 
 ## AI 协作练习（可选）
 
-下面这段代码是某个 AI 工具生成的"记账本文件加载功能"。请审查它：
+下面这段代码是某个 AI 工具生成的"学习记录加载功能"。请审查它：
 
 ```python
-# AI 生成的代码（故意包含 3 个问题）
-def load_from_file(filename="accountbook.txt"):
+def load_from_file(filename="records.txt"):
     file = open(filename, "r")
     content = file.read()
     file.close()
 
-    account_data = {}
+    records = {}
     for line in content.split("\n"):
-        parts = line.split(":")
-        date, trans_type, amount, note = parts
-        account_data[date] = {
-            "type": trans_type,
-            "amount": float(amount),
-            "note": note
-        }
+        date, item = line.split(": ")
+        records[date] = item
 
-    return account_data
+    return records
 ```
 
-### 审查清单
+请至少指出并修复 3 个问题：
 
-请检查以下问题，并修复代码：
+- 文件关闭是否安全？是否应该用 `with`？
+- 是否指定了 UTF-8 编码？
+- 文件不存在时会怎样？
+- 空行或格式错误的行会怎样？
+- 内容里包含冒号时会怎样？
+- 相对路径在不同运行目录下会指向哪里？
 
-- [ ] **文件关闭问题**：这段代码能保证文件一定会被关闭吗？如果 `file.read()` 时出错怎么办？
-- [ ] **编码问题**：这段代码能正确处理中文吗？如果备注里有 emoji 或特殊字符会怎样？
-- [ ] **路径问题**：`filename="accountbook.txt"` 是相对路径，如果用户在不同目录运行程序，文件会创建在哪里？
-- [ ] **错误处理**：如果文件不存在会怎样？如果某行的格式不对（比如只有 3 个部分而不是 4 个）会怎样？
-- [ ] **边界情况**：如果文件是空的会怎样？如果某行是空行会怎样？
+提交 `ai_review.md` 时包含：
 
-### 你的任务
-
-1. **找出至少 3 个问题**（提示：上面清单里列出了 5 个方向）
-2. **修复这些问题**，写出改进后的代码
-3. **写一个测试用例**，证明你的修复是有效的
-
-### 提交物
-
-在 `ai_review.md` 中提交：
-
-1. **问题清单**：你发现的 3 个问题（每个问题用 2-3 句话说明）
-2. **修复后的代码**：完整修复后的 `load_from_file()` 函数
-3. **测试说明**：你如何验证修复有效（比如"我删除了文件，运行后不会崩溃"）
-
-### 示例报告格式
-
-```markdown
-# AI 代码审查报告
-
-## 发现的问题
-
-### 问题 1：文件关闭不安全
-原始代码用 `file.close()` 手动关闭，但如果中间出错，文件不会关闭。
-应该用 `with` 语句自动关闭文件。
-
-### 问题 2：缺少编码参数
-原始代码没有指定 `encoding`，读取中文可能乱码。
-应该加 `encoding="utf-8"`。
-
-### 问题 3：缺少错误处理
-如果文件不存在，程序会崩溃。
-应该用 `try/except` 或 `pathlib.Path.exists()` 检查。
-
-## 修复后的代码
-
-```python
-from pathlib import Path
-
-def load_from_file(filename="accountbook.txt"):
-    # 修复后的完整代码
-    ...
-```
-
-## 测试验证
-
-1. 文件不存在时：返回空字典，不崩溃
-2. 文件包含中文时：正确读取，不乱码
-3. 某行格式错误时：跳过该行，继续处理其他行
-```
+1. 问题清单。
+2. 修复后的 `load_from_file()`。
+3. 你如何验证修复有效。
 
 ---
 
 ## 提交要求
 
-### 提交清单
-
 在 `chapters/week_05/` 目录下提交：
 
-```
+```text
 week_05/
-├── accountbook.py          # 基础作业代码
-├── accountbook.txt         # 数据文件（至少 3 条记录）
-├── README.md               # 运行说明 + 完成的功能清单
-├── ai_review.md            # AI 协作练习报告（如果做了）
-└── starter_code/           # 参考代码（由 example-engineer 提供）
-    └── solution.py
+├── starter_code/
+│   └── solution.py          # 你的主要实现或参考实现
+├── records.txt              # 可选：运行后产生的学习记录数据
+├── README.md                # 可选：运行说明
+└── ai_review.md             # 可选：AI 协作练习报告
 ```
-
-### Git 提交
-
-至少 2 次提交：
-
-1. `draft: 实现基础记账本功能` - 完成基础作业
-2. `verify: 测试通过，修复边界情况` - 完成进阶或 AI 练习
-
-提交信息格式：
-
-```bash
-git add -A
-git commit -m "draft: 实现记账本基础功能
-
-- 添加/查看记录功能
-- 文件持久化存储
-- 使用 with 和 pathlib"
-```
-
-### 自测清单
 
 提交前请确认：
 
-- [ ] 运行 `python3 accountbook.py` 不报错
-- [ ] 能添加至少 3 条记录（收入和支出都有）
-- [ ] 能正确查看所有记录（显示格式清晰）
-- [ ] 退出程序后，`accountbook.txt` 文件存在且有内容
-- [ ] 重新运行程序，旧数据能正确加载
-- [ ] 代码中使用了 `with` 语句
-- [ ] 代码中使用了 `pathlib`
-- [ ] 代码中指定了 `encoding="utf-8"`
-- [ ] 运行 `python3 -m pytest chapters/week_05/tests -q` 通过所有测试（如果有测试）
+- [ ] `python3 chapters/week_05/starter_code/solution.py` 能运行。
+- [ ] 能追加至少 3 条中文记录。
+- [ ] 再次读取时旧记录还在。
+- [ ] 搜索关键词能返回匹配记录。
+- [ ] 文件操作使用 `pathlib` 和 `encoding="utf-8"`。
+- [ ] 运行 `python3 -m pytest chapters/week_05/tests -q` 通过所有测试。
 
 ---
 
 ## 常见错误与提示
 
-### 错误 1：忘记关闭文件
+### 错误 1：追加记录时覆盖了旧内容
 
-**现象**：运行后 `accountbook.txt` 是空的
-
-**原因**：写入数据后没有调用 `close()`，数据还在缓冲区里
-
-**解决**：使用 `with` 语句自动关闭
-
-```python
-# ❌ 错误写法
-file = open("accountbook.txt", "w")
-file.write("...")
-# 忘记 close() 了！
-
-# ✅ 正确写法
-with open("accountbook.txt", "w", encoding="utf-8") as file:
-    file.write("...")
-# 自动关闭
-```
-
-### 错误 2：中文乱码
-
-**现象**：打开 `accountbook.txt`，中文显示为 `ä»å¤©å¼å¿`
-
-**原因**：写入和读取时编码不一致
-
-**解决**：统一使用 UTF-8
-
-```python
-# ✅ 正确写法
-with open("accountbook.txt", "r", encoding="utf-8") as file:
-    content = file.read()
-
-with open("accountbook.txt", "w", encoding="utf-8") as file:
-    file.write("中文内容")
-```
-
-### 错误 3：文件不存在报错
-
-**现象**：首次运行程序，报错 `FileNotFoundError`
-
-**原因**：尝试读取不存在的文件
-
-**解决**：先用 `pathlib.Path.exists()` 检查
+写日记这类场景应使用 `"a"` 追加模式：
 
 ```python
 from pathlib import Path
 
-data_file = Path("accountbook.txt")
+def add_diary_entry(content, filename="diary.txt"):
+    path = Path(filename)
+    with path.open("a", encoding="utf-8") as file:
+        file.write(content + "\n")
+```
 
-if data_file.exists():
-    content = data_file.read_text(encoding="utf-8")
+### 错误 2：中文乱码
+
+读写都显式指定 UTF-8：
+
+```python
+path.write_text("中文内容", encoding="utf-8")
+text = path.read_text(encoding="utf-8")
+```
+
+### 错误 3：首次运行文件不存在
+
+读取前先处理不存在的情况：
+
+```python
+from pathlib import Path
+
+path = Path("records.txt")
+if not path.exists():
+    records = []
 else:
-    print("首次运行，将创建新文件")
-    content = ""
+    records = path.read_text(encoding="utf-8").splitlines()
 ```
 
 ### 错误 4：分隔符冲突
 
-**现象**：备注里有 `:` 字符，解析出错
-
-**原因**：用 `split(":")` 分割所有冒号
-
-**解决**：用 `split(":", 3)` 限制分割次数（因为每行有 4 部分，只需要分割 3 次）
+只分割第一个 `": "`：
 
 ```python
-# ❌ 错误写法
-parts = line.split(":")  # 会分割所有冒号
-
-# ✅ 正确写法
-parts = line.split(":", 3)  # 最多分割 3 次，得到 4 部分
+date, content = line.split(": ", 1)
 ```
-
-### 提示
-
-- 如果你遇到困难，可以参考 `starter_code/solution.py`（由 example-engineer 提供）
-- 先让基础功能跑通，再考虑进阶功能
-- 用 `print()` 调试，打印中间变量，看看数据是不是你期望的样子
-- 文件操作最容易出错的是**路径**和**编码**，优先检查这两个地方
 
 ---
 
@@ -377,15 +223,9 @@ parts = line.split(":", 3)  # 最多分割 3 次，得到 4 部分
 
 完成作业后，你应该能：
 
-- [ ] 理解文件的基本概念，能用 `open()` 打开文件
-- [ ] 掌握 `with` 语句，理解"为什么要自动关闭文件"
-- [ ] 能用 `file.read()` 和 `file.write()` 读写文件
-- [ ] 理解"编码"（encoding）的概念，知道统一用 UTF-8 避免乱码
-- [ ] 能用 `pathlib` 处理文件路径
-- [ ] 能检查文件是否存在，避免 `FileNotFoundError`
-- [ ] 能用 `split()` 和 `strip()` 处理文件内容
-- [ ] 理解"持久化存储"的概念，知道什么时候用文件存储数据
-
----
-
-**祝你编程愉快！有问题随时问，小北也和你一起踩坑呢。**
+- [ ] 用 `open()`、`read()`、`write()` 读写文件。
+- [ ] 用 `with` 自动关闭文件。
+- [ ] 用 `pathlib.Path` 构造和检查路径。
+- [ ] 用 UTF-8 正确处理中文和 emoji。
+- [ ] 用追加模式保存持续增长的记录。
+- [ ] 处理文件不存在、空行、内容分隔符等边界情况。
