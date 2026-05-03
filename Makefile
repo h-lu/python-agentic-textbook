@@ -44,11 +44,11 @@ new: ## 创建新周 (W=01 T="标题")
 
 draft: ## 写正文初稿 — 规划→写→润色→QA→修订 (W=01)
 	@test -n "$(W)" || { echo "error: W is required (e.g. make draft W=01)"; exit 1; }
-	@echo "请在 Claude Code 中运行: /draft-chapter week_$$(printf '%02d' $(W))"
+	@echo "请在 Claude Code 中运行: /draft-chapter week_$$(printf '%02d' $$((10#$(W))))"
 
 polish: ## 深度润色已有章节 (W=01)
 	@test -n "$(W)" || { echo "error: W is required (e.g. make polish W=01)"; exit 1; }
-	@echo "请在 Claude Code 中运行: /polish-week week_$$(printf '%02d' $(W))"
+	@echo "请在 Claude Code 中运行: /polish-week week_$$(printf '%02d' $$((10#$(W))))"
 
 validate: ## 校验某周 (W=01, MODE=release|task|idle, V=1 开启详细输出)
 	@test -n "$(W)" || { echo "error: W is required (e.g. make validate W=01)"; exit 1; }
@@ -56,7 +56,7 @@ validate: ## 校验某周 (W=01, MODE=release|task|idle, V=1 开启详细输出)
 
 test: ## 跑某周测试 (W=01)
 	@test -n "$(W)" || { echo "error: W is required (e.g. make test W=01)"; exit 1; }
-	$(PYTHON) -m pytest chapters/week_$$(printf '%02d' $(W))/tests -q
+	$(PYTHON) -m pytest chapters/week_$$(printf '%02d' $$((10#$(W))))/tests -q
 
 release: ## 发布某周 (W=01)
 	@test -n "$(W)" || { echo "error: W is required (e.g. make release W=01)"; exit 1; }

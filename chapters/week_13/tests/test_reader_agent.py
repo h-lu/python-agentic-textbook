@@ -9,6 +9,7 @@ import os
 from pathlib import Path
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'starter_code'))
+sys.modules.pop("solution", None)
 
 try:
     from solution import NoteInfo, ReaderAgent

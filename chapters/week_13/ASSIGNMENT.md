@@ -280,7 +280,7 @@ reader → writer → reviewer → (失败) → writer → reviewer → (通过)
 
 ```bash
 # 运行完整测试
-python3 -m pytest chapters/week_13/tests/test_agent_team.py -v
+python3 -m pytest chapters/week_13/tests/test_iteration.py -v
 
 # 应该看到所有测试通过
 ```
@@ -352,9 +352,10 @@ chapters/week_13/
 │   ├── agent_team.py         # 练习 3：完整流程
 │   └── solution.py           # 参考实现（由 example-engineer 提供）
 ├── tests/
-│   ├── test_basic.py         # 练习 1 测试
-│   ├── test_reviewer.py      # 练习 2 测试
-│   └── test_agent_team.py    # 练习 3 测试
+│   ├── test_reader_agent.py  # 练习 1 Reader 测试
+│   ├── test_writer_agent.py  # 练习 1 Writer 测试
+│   ├── test_reviewer_agent.py # 练习 2 Reviewer 测试
+│   └── test_iteration.py     # 练习 3 迭代流程测试
 └── 你的代码文件
 ```
 
@@ -363,14 +364,14 @@ chapters/week_13/
 - [ ] 实现 `ReaderAgent`（能读取并分析笔记）
 - [ ] 实现 `WriterAgent`（能生成学习计划）
 - [ ] 实现 `ReviewerAgent`（能用 checklist 检查质量）
-- [ ] 通过 `python3 -m pytest chapters/week_13/tests/test_basic.py -v`
-- [ ] 通过 `python3 -m pytest chapters/week_13/tests/test_reviewer.py -v`
+- [ ] 通过 `python3 -m pytest chapters/week_13/tests/test_reader_agent.py chapters/week_13/tests/test_writer_agent.py -v`
+- [ ] 通过 `python3 -m pytest chapters/week_13/tests/test_reviewer_agent.py -v`
 
 ### 加分（挑战）
 
 - [ ] 实现失败驱动迭代（最多 3 次迭代）
 - [ ] `WriterAgent` 能根据 `issues` 修复问题（不是重新生成）
-- [ ] 通过 `python3 -m pytest chapters/week_13/tests/test_agent_team.py -v`
+- [ ] 通过 `python3 -m pytest chapters/week_13/tests/test_iteration.py -v`
 - [ ] 添加日志记录（用 `logging` 模块记录每个 agent 的运行过程）
 - [ ] 为 PyHelper 添加 `pyhelper plan generate` 命令（CLI 调用 agent team）
 

@@ -8,6 +8,8 @@
 
 **参考实现**：如果你遇到困难，可以参考 `starter_code/solution.py` 中的示例代码。
 
+**文件位置**：本仓库的测试会从 `starter_code/` 导入代码；下面提到的 `practice*.py` 和 `student_manager_fixed.py` 都请放在 `starter_code/` 目录下。
+
 ---
 
 ## 基础作业（必做）
@@ -16,7 +18,7 @@
 
 **目标**：掌握 `json` 模块的基本用法，能读写 JSON 文件。
 
-创建文件 `practice1_json_basics.py`，完成以下功能：
+创建文件 `starter_code/practice1_json_basics.py`，完成以下功能：
 
 1. **写入 JSON 文件**：创建一个包含学生信息的字典，写入 `student.json`
    - 字段：name（字符串）、age（整数）、grades（列表）、is_active（布尔值）
@@ -73,7 +75,7 @@
 
 **目标**：实现一个支持多种格式的数据导入导出工具。
 
-创建文件 `practice2_data_exchange.py`，实现以下函数：
+创建文件 `starter_code/practice2_data_exchange.py`，实现以下函数：
 
 ```python
 import json
@@ -165,7 +167,7 @@ python3 practice2_data_exchange.py
 
 **目标**：理解序列化的概念，能处理自定义数据类型。
 
-创建文件 `practice3_serialization.py`，完成以下功能：
+创建文件 `starter_code/practice3_serialization.py`，完成以下功能：
 
 1. **日期对象的序列化**：
    ```python
@@ -220,7 +222,7 @@ python3 practice2_data_exchange.py
 
 **目标**：学会处理损坏的数据和边界情况。
 
-创建文件 `practice4_defensive_programming.py`，实现一个健壮的 JSON 数据加载器：
+创建文件 `starter_code/practice4_defensive_programming.py`，实现一个健壮的 JSON 数据加载器：
 
 ```python
 import json
@@ -374,7 +376,7 @@ def load_books_collection(filepath):
 }
 ```
 
-创建文件 `practice5_data_migration.py`，实现：
+创建文件 `starter_code/practice5_data_migration.py`，实现：
 
 ```python
 def detect_version(data):
@@ -411,7 +413,7 @@ def migrate_data(input_path, output_path):
 
 **目标**：实现一个支持多种格式的配置管理器。
 
-创建文件 `practice6_config_manager.py`，实现一个 `ConfigManager` 类：
+创建文件 `starter_code/practice6_config_manager.py`，实现一个 `ConfigManager` 类：
 
 ```python
 class ConfigManager:
@@ -543,7 +545,7 @@ if __name__ == "__main__":
 #### 你的修复
 
 请修复上述问题，提交：
-1. 修复后的 `student_manager_fixed.py`
+1. 修复后的 `starter_code/student_manager_fixed.py`
 2. 一个简短的 `ai_review.md`，说明你发现了哪些问题，以及你是如何修复的
 
 **提示**：
@@ -561,10 +563,10 @@ if __name__ == "__main__":
 
 在提交前，请确认：
 
-- [ ] 练习 1 完成：`practice1_json_basics.py` 能正确读写 JSON 文件
-- [ ] 练习 2 完成：`practice2_data_exchange.py` 的导入导出功能正常
-- [ ] 练习 3 完成：`practice3_serialization.py` 能正确处理日期序列化
-- [ ] 练习 4 完成：`practice4_defensive_programming.py` 能处理各种错误情况
+- [ ] 练习 1 完成：`starter_code/practice1_json_basics.py` 能正确读写 JSON 文件
+- [ ] 练习 2 完成：`starter_code/practice2_data_exchange.py` 的导入导出功能正常
+- [ ] 练习 3 完成：`starter_code/practice3_serialization.py` 能正确处理日期序列化
+- [ ] 练习 4 完成：`starter_code/practice4_defensive_programming.py` 能处理各种错误情况
 - [ ] 运行 `python3 -m pytest chapters/week_10/tests -q` 通过所有测试
 - [ ] 代码已提交到 Git，至少有 2 次提交（draft + verify）
 
@@ -572,12 +574,12 @@ if __name__ == "__main__":
 
 ```bash
 # 第一次提交（草稿）
-git add chapters/week_10/practice*.py
+git add chapters/week_10/starter_code/practice*.py
 git commit -m "draft week_10: 完成 JSON 基础读写和导入导出"
 
 # 第二次提交（验证）
-git add chapters/week_10/practice*.py
-git add chapters/week_10/test_*.json
+git add chapters/week_10/starter_code/practice*.py
+git add chapters/week_10/test_*.json  # 如你创建了示例数据文件
 git commit -m "verify week_10: 完成防御性编程，所有测试通过"
 
 # 推送到远端
