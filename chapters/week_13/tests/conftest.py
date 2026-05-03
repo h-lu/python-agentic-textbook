@@ -11,7 +11,8 @@ import tempfile
 
 
 # 添加 starter_code 到路径
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'starter_code'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'starter_code'))
+sys.modules.pop("solution", None)
 
 
 # =====================

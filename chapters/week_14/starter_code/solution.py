@@ -33,7 +33,7 @@ from dataclasses import dataclass, asdict
 from datetime import datetime
 from enum import Enum
 from pathlib import Path
-from typing import List, Optional
+from typing import List, Optional, Tuple
 
 
 # =====================
@@ -82,17 +82,111 @@ DATA_DIR = Path.home() / ".taskmgr"
 TASKS_FILE = DATA_DIR / "tasks.json"
 LOG_FILE = DATA_DIR / "taskmgr.log"
 
-# 确保目录存在
-DATA_DIR.mkdir(parents=True, exist_ok=True)
-
-# 配置日志
+# 配置日志。不要在导入模块时创建用户目录；保存数据时再创建。
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(levelname)s - %(message)s",
-    filename=LOG_FILE,
     encoding="utf-8"
 )
 logger = logging.getLogger(__name__)
+
+
+# =====================
+# 发布交付物验证辅助函数
+# =====================
+
+REQUIRED_PROJECT_PATHS = [
+    "README.md",
+    "CHANGELOG.md",
+    "tests",
+]
+
+REQUIRED_README_SECTIONS = [
+    "## 安装",
+    "## 快速开始",
+    "## 主要功能",
+]
+
+REQUIRED_RELEASE_SECTIONS = [
+    "## 发布日期",
+    "## 主要变化",
+    "## 升级指南",
+]
+
+
+def is_semantic_version(version: str) -> bool:
+    """检查版本号是否符合 vMAJOR.MINOR.PATCH 格式。"""
+    import re
+
+    return re.match(r"^v?\d+\.\d+\.\d+$", version) is not None
+
+
+def parse_semantic_version(version: str) -> Tuple[int, int, int]:
+    """把语义化版本号解析为三元组。"""
+    if not is_semantic_version(version):
+        raise ValueError("版本号必须形如 v1.0.0")
+    major, minor, patch = version.lstrip("v").split(".")
+    return int(major), int(minor), int(patch)
+
+
+def validate_project_structure(project_dir: Path) -> List[str]:
+    """验证 Week 14 样例交付目录结构，返回问题列表。"""
+    issues = []
+    project_dir = Path(project_dir)
+
+    for relative_path in REQUIRED_PROJECT_PATHS:
+        if not (project_dir / relative_path).exists():
+            issues.append(f"缺少 {relative_path}")
+
+    package_dirs = [
+        item
+        for item in project_dir.iterdir()
+        if item.is_dir() and (item / "__init__.py").exists()
+    ] if project_dir.exists() else []
+    if not package_dirs:
+        issues.append("缺少带 __init__.py 的源代码包")
+
+    return issues
+
+
+def validate_readme_content(content: str) -> List[str]:
+    """验证 README 是否包含关键章节和可运行命令示例。"""
+    issues = []
+    if not content.strip().startswith("# "):
+        issues.append("README 缺少一级标题")
+    for section in REQUIRED_README_SECTIONS:
+        if section not in content:
+            issues.append(f"README 缺少 {section}")
+    if "```" not in content:
+        issues.append("README 缺少代码块示例")
+    return issues
+
+
+def validate_release_notes_content(content: str) -> List[str]:
+    """验证 release notes / CHANGELOG 内容。"""
+    issues = []
+    first_line = content.strip().splitlines()[0] if content.strip() else ""
+    if not any(is_semantic_version(part) for part in first_line.split()):
+        issues.append("发布说明标题缺少语义化版本号")
+    for section in REQUIRED_RELEASE_SECTIONS:
+        if section not in content:
+            issues.append(f"发布说明缺少 {section}")
+    return issues
+
+
+def validate_sample_deliverable(project_dir: Path) -> List[str]:
+    """验证一个本地样例交付目录，不检查真实 git push 或远程 release。"""
+    issues = validate_project_structure(project_dir)
+
+    readme = Path(project_dir) / "README.md"
+    if readme.exists():
+        issues.extend(validate_readme_content(readme.read_text(encoding="utf-8")))
+
+    changelog = Path(project_dir) / "CHANGELOG.md"
+    if changelog.exists():
+        issues.extend(validate_release_notes_content(changelog.read_text(encoding="utf-8")))
+
+    return issues
 
 
 # =====================

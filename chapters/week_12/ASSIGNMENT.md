@@ -32,6 +32,8 @@ habit delete "每天学 Python 30 分钟"
 
 你的任务：**实现一个完整的 habit-cli 工具**，支持上述功能。
 
+**文件位置**：本仓库的测试会运行 `starter_code/habit.py`（可调用 `starter_code/solution.py` 中的实现）。`habits.json` 和 `habit.log` 是程序运行时自动生成的数据/日志文件，不需要预先提交到仓库。
+
 ---
 
 ## 基础题（必做）：argparse 基础与子命令
@@ -296,14 +298,14 @@ AI 生成的代码经常有这些问题：
 
 ### 基础题
 
-- [ ] `habit.py`：主程序文件，包含 argparse 和子命令
-- [ ] `habits.json`：数据文件（自动生成）
+- [ ] `starter_code/habit.py`：主程序文件，包含 argparse 和子命令
+- [ ] `habits.json`：数据文件（程序运行时自动生成，不需要预先提交）
 
 ### 进阶题
 
 - [ ] 完整的子命令实现（add/list/checkin/log/delete）
 - [ ] 正确的退出码处理
-- [ ] `habit.log`：日志文件
+- [ ] `habit.log`：日志文件（程序运行时自动生成）
 
 ### 挑战题（可选）
 
@@ -313,7 +315,7 @@ AI 生成的代码经常有这些问题：
 
 ### AI 协作练习（可选）
 
-- [ ] AI 生成的骨架代码（保存为 `habit_ai_generated.py`）
+- [ ] AI 生成的骨架代码（可保存为 `habit_ai_generated.py`，作为可选审查材料）
 - [ ] 修复后的代码
 - [ ] 审查报告（`ai_review.md`）
 

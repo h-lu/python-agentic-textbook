@@ -8,6 +8,8 @@
 
 **参考实现**：如果你遇到困难，可以参考 `starter_code/solution.py` 中的示例代码。
 
+**文件位置**：本仓库的测试会从 `starter_code/` 导入代码；下面提到的 `practice*.py` 和 `library_system_fixed.py` 都请放在 `starter_code/` 目录下。
+
 ---
 
 ## 基础作业（必做）
@@ -16,7 +18,7 @@
 
 **目标**：掌握 `@dataclass` 装饰器的基本用法，能定义一个简单的数据类。
 
-创建文件 `practice1_student_dataclass.py`，完成以下功能：
+创建文件 `starter_code/practice1_student_dataclass.py`，完成以下功能：
 
 1. **定义 Student dataclass**：
    - 字段：name（字符串）、age（整数）、major（字符串）、gpa（浮点数）
@@ -70,7 +72,7 @@
 
 **目标**：掌握类型提示的语法，能正确标注函数参数和返回值。
 
-创建文件 `practice2_type_hints.py`，完成以下函数的类型提示：
+创建文件 `starter_code/practice2_type_hints.py`，完成以下函数的类型提示：
 
 ```python
 from typing import List, Optional, Dict
@@ -165,7 +167,7 @@ GPA 最高的学生: {'name': '阿码', 'major': '数学', 'gpa': 3.9}
 
 **目标**：掌握 `Enum` 的用法，能用它定义有限的状态集合。
 
-创建文件 `practice3_enum_status.py`，完成以下功能：
+创建文件 `starter_code/practice3_enum_status.py`，完成以下功能：
 
 1. **定义 EnrollmentStatus 枚举**：
    ```python
@@ -253,7 +255,7 @@ except ValueError as e:
 
 **目标**：掌握 dataclass 与 JSON 的相互转换，理解 `asdict()` 和 `from_dict()` 的用法。
 
-创建文件 `practice4_json_conversion.py`，完成以下功能：
+创建文件 `starter_code/practice4_json_conversion.py`，完成以下功能：
 
 1. **定义 Task dataclass**：
    ```python
@@ -365,7 +367,7 @@ print("从 JSON 加载:", loaded_task)
 
 **目标**：综合运用 dataclass、Enum 和状态管理，实现一个完整的选课系统。
 
-创建文件 `practice5_enrollment_system.py`，实现以下功能：
+创建文件 `starter_code/practice5_enrollment_system.py`，实现以下功能：
 
 1. **定义完整的 Enrollment dataclass**：
    ```python
@@ -514,7 +516,7 @@ def calculate_value(books):
     return total
 ```
 
-创建文件 `practice6_refactor_to_dataclass.py`，完成重构：
+创建文件 `starter_code/practice6_refactor_to_dataclass.py`，完成重构：
 
 1. **定义 Book dataclass**：
    - 包含所有字段（title, author, isbn, price, stock, category）
@@ -691,7 +693,7 @@ class Library:
 #### 你的修复
 
 请修复上述问题，提交：
-1. 修复后的 `library_system_fixed.py`
+1. 修复后的 `starter_code/library_system_fixed.py`
 2. 一个简短的 `ai_review.md`，说明你发现了哪些问题，以及你是如何修复的
 
 **提示**：
@@ -709,10 +711,10 @@ class Library:
 
 在提交前，请确认：
 
-- [ ] 练习 1 完成：`practice1_student_dataclass.py` 能正确定义和使用 dataclass
-- [ ] 练习 2 完成：`practice2_type_hints.py` 的类型提示正确且完整
-- [ ] 练习 3 完成：`practice3_enum_status.py` 能正确定义 Enum 和状态转换
-- [ ] 练习 4 完成：`practice4_json_conversion.py` 能正确转换 dataclass 和 JSON
+- [ ] 练习 1 完成：`starter_code/practice1_student_dataclass.py` 能正确定义和使用 dataclass
+- [ ] 练习 2 完成：`starter_code/practice2_type_hints.py` 的类型提示正确且完整
+- [ ] 练习 3 完成：`starter_code/practice3_enum_status.py` 能正确定义 Enum 和状态转换
+- [ ] 练习 4 完成：`starter_code/practice4_json_conversion.py` 能正确转换 dataclass 和 JSON
 - [ ] 运行 `python3 -m pytest chapters/week_11/tests -q` 通过所有测试
 - [ ] 代码已提交到 Git，至少有 2 次提交（draft + verify）
 
@@ -720,11 +722,11 @@ class Library:
 
 ```bash
 # 第一次提交（草稿）
-git add chapters/week_11/practice*.py
+git add chapters/week_11/starter_code/practice*.py
 git commit -m "draft week_11: 完成 dataclass 基础和类型提示练习"
 
 # 第二次提交（验证）
-git add chapters/week_11/practice*.py
+git add chapters/week_11/starter_code/practice*.py
 git commit -m "verify week_11: 完成状态管理和 JSON 转换，所有测试通过"
 
 # 推送到远端
