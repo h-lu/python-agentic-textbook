@@ -28,6 +28,7 @@ Week 14 作业参考实现 - 命令行任务管理器 v1.0.0
 import argparse
 import json
 import logging
+import os
 import sys
 from dataclasses import dataclass, asdict
 from datetime import datetime
@@ -78,7 +79,7 @@ class Task:
 # 日志配置（Week 12: logging）
 # =====================
 
-DATA_DIR = Path.home() / ".taskmgr"
+DATA_DIR = Path(os.environ.get("TASKMGR_HOME", Path.home() / ".taskmgr"))
 TASKS_FILE = DATA_DIR / "tasks.json"
 LOG_FILE = DATA_DIR / "taskmgr.log"
 
@@ -216,6 +217,7 @@ def load_tasks() -> List[Task]:
 def save_tasks(tasks: List[Task]) -> None:
     """保存任务列表（JSON 序列化）"""
     try:
+        DATA_DIR.mkdir(parents=True, exist_ok=True)
         with open(TASKS_FILE, "w", encoding="utf-8") as f:
             data = [task.to_dict() for task in tasks]
             json.dump(data, f, ensure_ascii=False, indent=2)

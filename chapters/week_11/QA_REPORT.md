@@ -66,7 +66,7 @@
 ## 测试结果
 
 ```
-============================== 88 passed in 0.08s ==============================
+============================== 7 passed in 0.14s ===============================
 ```
 
 所有测试通过。
@@ -93,5 +93,5 @@ python3 scripts/validate_week.py --week week_11 --mode release
 | RUBRIC.md | ✅ 完成 |
 | QA_REPORT.md | ✅ 完成（本文件） |
 | examples/ | ✅ 6个示例文件 |
-| tests/ | ✅ 5个测试文件，88个测试用例 |
+| tests/ | ✅ 1个测试文件，7个测试用例 |
 | starter_code/solution.py | ✅ 参考实现 |

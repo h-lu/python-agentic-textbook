@@ -18,14 +18,14 @@
 - id: week-11-state-transitions
   claim: 状态管理可以防止非法的状态转换
   evidence: CHAPTER.md 第4节用 Enum 定义 TaskStatus，mark_in_progress() 方法会检查状态并抛出 ValueError 阻止非法转换
-  verification: tests/test_state.py::TestStateTransitions::test_cannot_restart_done_task 验证了已完成的任务不能重新开始
+  verification: tests/test_week11.py::test_enrollment_status_transitions 验证了非法重复审核会被 ValueError 阻止
 
 - id: week-11-dataclass-json-serialization
   claim: dataclass 可以通过 to_dict()/from_dict() 与 JSON 格式相互转换
   evidence: CHAPTER.md 第5节展示了 asdict() 函数和自定义的 to_dict()/from_dict() 方法
-  verification: examples/05_task_refactored.py 和 tests/test_json_conversion.py 验证了双向转换
+  verification: examples/05_task_refactored.py 和 tests/test_week11.py::test_task_json_conversion 验证了双向转换
 
 - id: week-11-mutable-default-trap
   claim: "dataclass 中可变默认值必须使用 field 函数"
   evidence: CHAPTER.md 第2节和 PyHelper 进度中强调了可变默认值的正确写法
-  verification: starter_code/solution.py 和 tests/test_dataclass.py::TestFieldDefaults::test_mutable_default_with_factory 验证了这一点
+  verification: starter_code/solution.py 和 tests/test_week11.py::test_task_json_conversion 验证每个 Task 实例都有独立的 tags 列表

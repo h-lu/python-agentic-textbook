@@ -61,9 +61,7 @@ extract_level("[2026-02-09 14:32:01]  warning : 磁盘不足")
 
 **验证方法**：
 ```bash
-pytest chapters/week_09/tests/test_log_parser.py::test_clean_log_line -v
-pytest chapters/week_09/tests/test_log_parser.py::test_extract_timestamp -v
-pytest chapters/week_09/tests/test_log_parser.py::test_extract_level -v
+python3 -m pytest chapters/week_09/tests/test_week09.py::test_log_parser_contract -v
 ```
 
 **常见错误**：
@@ -129,7 +127,7 @@ filter_by_status(lines, "404")
 
 **验证方法**：
 ```bash
-pytest chapters/week_09/tests/test_csv_handler.py -v
+python3 -m pytest chapters/week_09/tests/test_week09.py::test_csv_handler_contract -v
 ```
 
 **常见错误**：
@@ -190,7 +188,7 @@ is_valid_phone("23812345678")   # 返回: False（不以1开头）
 
 **验证方法**：
 ```bash
-pytest chapters/week_09/tests/test_pattern_matcher.py -v
+python3 -m pytest chapters/week_09/tests/test_week09.py::test_pattern_matcher_contract -v
 ```
 
 **常见错误**：
@@ -252,7 +250,7 @@ find_slow_queries(logs, 100)
 
 **验证方法**：
 ```bash
-pytest chapters/week_09/tests/test_log_analyzer.py -v
+python3 -m pytest chapters/week_09/tests/test_week09.py::test_log_analyzer_contract -v
 ```
 
 **常见错误**：

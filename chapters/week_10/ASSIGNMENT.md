@@ -152,7 +152,7 @@ test_data = {
 
 **验证方法**：
 ```bash
-python3 practice2_data_exchange.py
+python3 -m pytest chapters/week_10/tests/test_week10.py::test_practice2_data_exchange -q
 ```
 
 **常见错误**：

@@ -120,7 +120,7 @@ save_task("task.json", task)
 阿码在旁边说："我记得 Week 01 学过 `sys.argv` ——你可以从命令行读取参数啊。"
 
 ```python
-# examples/01_argv_before.py
+# examples/01_simple_argparse.py
 import sys
 
 if len(sys.argv) < 2:
@@ -155,7 +155,7 @@ python task.py "写作业"
 argparse 是 Python 标准库的一部分，专门用来解析命令行参数。先看一个最简单的例子：
 
 ```python
-# examples/01_argparse_first.py
+# examples/01_simple_argparse.py
 import argparse
 
 # 创建解析器
@@ -219,7 +219,7 @@ parser.add_argument("--priority", help="任务优先级", default="medium")
 完整例子：
 
 ```python
-# examples/01_positional_optional.py
+# examples/02_optional_args.py
 import argparse
 
 parser = argparse.ArgumentParser(description="任务管理工具")
@@ -306,7 +306,7 @@ git commit --message "fix bug"
 argparse 可以同时定义这两种形式：
 
 ```python
-# examples/02_short_long_options.py
+# examples/02_optional_args.py
 import argparse
 
 parser = argparse.ArgumentParser(description="任务管理工具")
@@ -349,7 +349,7 @@ python task.py "写作业" -p high --tags "Python,作业"
 小北想加一个功能：列出任务时，可以按状态过滤（`--all` / `--pending` / `--done`），但这些参数不能同时用——你不能说"列出所有已完成任务"，这不是自相矛盾吗？
 
 ```python
-# examples/02_mutually_exclusive.py
+# examples/03_mutually_exclusive.py
 import argparse
 
 parser = argparse.ArgumentParser(description="任务列表工具")
@@ -482,7 +482,7 @@ elif args.command == "done":
 argparse 的 `add_subparsers()` 可以创建子命令结构：
 
 ```python
-# examples/03_subcommands.py
+# examples/04_subcommands.py
 import argparse
 
 # 创建主解析器
@@ -595,7 +595,7 @@ python todo.py add --help
 小北看着代码里的 `if args.command == "add"` 逻辑，觉得可以更干净：
 
 ```python
-# examples/03_subcommands_functions.py
+# examples/04_subcommands.py
 import argparse
 
 def cmd_add(args):
@@ -707,7 +707,7 @@ $ ./my_script.sh
 Unix/Linux 系统有一个约定：**退出码 0 表示成功，非 0 表示失败**。
 
 ```python
-# examples/04_exit_codes.py
+# examples/05_exit_codes.py
 import sys
 import argparse
 
@@ -775,7 +775,7 @@ fi
 结合第 3 节的子命令架构，每个子命令可以返回不同的退出码：
 
 ```python
-# examples/04_exit_codes_subcommands.py
+# examples/05_exit_codes.py
 import sys
 import argparse
 
@@ -834,7 +834,7 @@ if __name__ == "__main__":
 Week 08 你学过 pytest，现在可以测试 CLI 的退出码：
 
 ```python
-# tests/test_cli_exit_codes.py
+# tests/test_week12_habit_cli.py（作业契约测试中的退出码思路）
 import pytest
 import subprocess
 
@@ -932,7 +932,7 @@ print("添加任务：写作业")
 先看一个简单的 logging 例子：
 
 ```python
-# examples/05_logging_first.py
+# examples/06_logging.py
 import logging
 
 # 配置日志
@@ -991,7 +991,7 @@ logging.error("这是错误")      # 会记录
 把 logging 集成到 todo-cli 中：
 
 ```python
-# examples/05_logging_cli.py
+# examples/06_logging.py
 import argparse
 import logging
 import sys

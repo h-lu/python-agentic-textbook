@@ -14,8 +14,11 @@
     # 测试 reader agent
     python3 chapters/week_13/examples/13_pyhelper_agent_team.py
 
-    # 作为模块导入
-    from chapters.week_13.examples.pyhelper_agent_team import agent_team_pipeline
+    # 作为模块导入（文件名以数字开头时用 importlib）
+    from importlib import import_module
+    agent_team_pipeline = import_module(
+        "chapters.week_13.examples.13_pyhelper_agent_team"
+    ).agent_team_pipeline
 
 预期输出：
     [INFO] 读取笔记:/tmp/test_week06.md
@@ -416,7 +419,7 @@ if __name__ == "__main__":
 CLI 集成（在其他文件中）：
   ```python
   import argparse
-  from pyhelper_agent_team import generate_study_plans
+  from pyhelper.agent_team import generate_study_plans
 
   parser = argparse.ArgumentParser()
   subparsers = parser.add_subparsers()

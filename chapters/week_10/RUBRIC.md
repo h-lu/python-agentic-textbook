@@ -131,8 +131,8 @@
 
 ```bash
 $ python3 -m pytest chapters/week_10/tests -q
-............                                                      [100%]
-12 passed in 0.5s
+.......                                                          [100%]
+7 passed in 0.5s
 ```
 
 **测试通过**：不扣分
@@ -155,13 +155,13 @@ Reviewer 会手动验证以下内容：
 
 ### 代码正确性检查
 
-- [ ] 运行 `python3 practice1_json_basics.py` 是否正常？
+- [ ] 运行 `python3 chapters/week_10/starter_code/practice1_json_basics.py` 是否正常？
 - [ ] 生成的 JSON 文件格式是否正确？
-- [ ] 运行 `python3 practice2_data_exchange.py` 是否正常？
+- [ ] 运行 `python3 chapters/week_10/starter_code/practice2_data_exchange.py` 是否正常？
 - [ ] 导入导出功能是否完整？
-- [ ] 运行 `python3 practice3_serialization.py` 是否正常？
+- [ ] 运行 `python3 chapters/week_10/starter_code/practice3_serialization.py` 是否正常？
 - [ ] 日期序列化和反序列化是否正确？
-- [ ] 运行 `python3 practice4_defensive_programming.py` 是否正常？
+- [ ] 运行 `python3 chapters/week_10/starter_code/practice4_defensive_programming.py` 是否正常？
 
 ### JSON 处理能力检查
 

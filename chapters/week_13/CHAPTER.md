@@ -97,7 +97,7 @@ PyHelper 本周推进:
   4. tester agent:为计划功能生成 pytest 测试
   5. reviewer agent:检查生成的代码质量(review checklist)
 - 涉及的本周概念:agent team、review checklist、失败驱动迭代
-- 建议示例文件:examples/13_agent_team.py(展示 agent team 协作)
+- 建议示例文件:examples/03_full_agent_team.py、examples/13_pyhelper_agent_team.py(展示 agent team 协作与 PyHelper 集成)
 -->
 
 ## 1. 一个人不够用?——理解 agent team 模式
@@ -816,7 +816,7 @@ print(f"\n最终计划:Week {plan.week} - {plan.title}")
 运行:
 
 ```bash
-python 03_full_agent_team.py
+python3 chapters/week_13/examples/03_full_agent_team.py
 # 输出:
 # [reader] 读取笔记:Week 06 - 异常处理
 #
