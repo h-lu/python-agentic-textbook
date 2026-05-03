@@ -39,7 +39,7 @@
 ### 测试支撑
 
 ```python
-# tests/test_basic.py
+# tests/test_reader_agent.py / tests/test_writer_agent.py
 def test_reader_extract_info():
     """测试 Reader 能提取笔记信息"""
     note = NoteInfo(title="异常处理", topics=["异常处理"], difficulty="medium")
@@ -48,7 +48,14 @@ def test_reader_extract_info():
 
 def test_writer_generates_plan():
     """测试 Writer 能生成学习计划"""
-    plan = StudyPlan(week=6, title="异常处理", prerequisites=["函数"], priority="medium")
+    plan = StudyPlan(
+        week=6,
+        title="异常处理",
+        prerequisites=["函数"],
+        priority="medium",
+        topics=["异常处理"],
+        estimated_hours=7,
+    )
     assert plan.week == 6
     assert len(plan.prerequisites) > 0
 ```
@@ -62,7 +69,7 @@ def test_writer_generates_plan():
 | 评分项 | 分值 | 评分标准 |
 |--------|------|---------|
 | ReviewerAgent 能检测所有问题 | 10 分 | 检测 4 类问题：前置知识为空、前置知识无效、优先级为空、时长不合理 |
-| ReviewResult 定义正确 | 5 分 | `passed` 和 `issues` 字段完整 |
+| ReviewResult 定义正确 | 5 分 | 作为通用审查消息格式，`passed` 和 `issues` 字段完整 |
 | 边界情况检查 | 10 分 | 空列表、空字符串、超出范围的值都能检测 |
 
 ### Checklist 完整性（10 分）
@@ -83,27 +90,39 @@ def test_writer_generates_plan():
 
 ### 扣分项
 
-- ❌ Reviewer 返回 `bool` 而非 `ReviewResult`（无法知道具体问题）：**-10 分**
+- ❌ Reviewer 只返回 `bool`，没有返回具体 `issues` 列表（无法知道具体问题）：**-10 分**
 - ❌ 没有检查边界情况（空输入、None）：**-5 分**
 - ❌ 检查逻辑写反（`if plan.prerequisites:` 而非 `if not plan.prerequisites:`）：**-5 分**
 
 ### 测试支撑
 
 ```python
-# tests/test_reviewer.py
+# tests/test_reviewer_agent.py
 def test_reviewer_catches_empty_prerequisites():
     """测试 Reviewer 能检测空前置知识"""
-    plan = StudyPlan(week=6, title="异常处理", prerequisites=[], priority="medium")
-    result = reviewer.review_plan(plan, all_topics=["函数", "文件"])
-    assert not result.passed
-    assert "缺少前置知识" in result.issues
+    plan = StudyPlan(
+        week=6,
+        title="异常处理",
+        prerequisites=[],
+        priority="medium",
+        topics=["异常处理"],
+        estimated_hours=7,
+    )
+    issues = reviewer.review_plan(plan, all_topics=["函数", "文件"])
+    assert "缺少前置知识" in issues
 
 def test_reviewer_catches_invalid_priority():
     """测试 Reviewer 能检测无效优先级"""
-    plan = StudyPlan(week=6, title="异常处理", prerequisites=["函数"], priority="")
-    result = reviewer.review_plan(plan, all_topics=["函数"])
-    assert not result.passed
-    assert "优先级未设置" in result.issues
+    plan = StudyPlan(
+        week=6,
+        title="异常处理",
+        prerequisites=["函数"],
+        priority="",
+        topics=["异常处理"],
+        estimated_hours=7,
+    )
+    issues = reviewer.review_plan(plan, all_topics=["函数"])
+    assert "优先级未设置" in issues
 ```
 
 ---
@@ -143,7 +162,7 @@ def test_reviewer_catches_invalid_priority():
 ### 测试支撑
 
 ```python
-# tests/test_agent_team.py
+# tests/test_iteration.py
 def test_failure_driven_iteration():
     """测试失败驱动迭代"""
     analysis = NoteAnalysis(week=6, title="异常处理", topics=["异常处理"], difficulty="medium")
@@ -227,14 +246,14 @@ def test_max_iterations():
 # 运行所有测试
 python3 -m pytest chapters/week_13/tests -v
 
-# 只测基础
-python3 -m pytest chapters/week_13/tests/test_basic.py -v
+# 只测基础 Reader/Writer
+python3 -m pytest chapters/week_13/tests/test_reader_agent.py chapters/week_13/tests/test_writer_agent.py -v
 
 # 只测进阶
-python3 -m pytest chapters/week_13/tests/test_reviewer.py -v
+python3 -m pytest chapters/week_13/tests/test_reviewer_agent.py -v
 
 # 只测挑战
-python3 -m pytest chapters/week_13/tests/test_agent_team.py -v
+python3 -m pytest chapters/week_13/tests/test_iteration.py -v
 
 # 查看测试覆盖率
 python3 -m pytest chapters/week_13/tests --cov=. --cov-report=term-missing

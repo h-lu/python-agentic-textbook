@@ -8,13 +8,13 @@
 
 - id: A09-002
   claim: str.strip() 默认去除首尾空白字符，可指定自定义字符集
-  evidence: examples/01_string_basics.py 和 tests/test_week09.py 中的 test_strip 系列测试
-  verification: pytest chapters/week_09/tests/test_week09.py::TestStringMethods -v
+  evidence: examples/01_string_basics.py 和 tests/test_week09.py 中的 test_log_parser_contract
+  verification: python3 -m pytest chapters/week_09/tests/test_week09.py::test_log_parser_contract -v
 
 - id: A09-003
   claim: str.split() 按分隔符拆分字符串，返回列表；str.join() 用字符串连接可迭代对象
-  evidence: examples/02_split_join.py 和 tests/test_week09.py 中的 test_split 和 test_join 测试
-  verification: pytest chapters/week_09/tests/test_week09.py::TestSplitAndJoin -v
+  evidence: examples/02_split_join.py 和 tests/test_week09.py 中的 test_csv_handler_contract
+  verification: python3 -m pytest chapters/week_09/tests/test_week09.py::test_csv_handler_contract -v
 
 - id: A09-004
   claim: 正则表达式使用特殊元字符（如 . * + ? ^ $）定义匹配模式
@@ -23,13 +23,13 @@
 
 - id: A09-005
   claim: re.search() 扫描整个字符串找第一个匹配，re.match() 只从开头匹配
-  evidence: examples/03_regex_intro.py 和 tests/test_week09.py 中的 test_re_match_vs_search
-  verification: pytest chapters/week_09/tests/test_week09.py::TestRegularExpressions::test_re_match_vs_search -v
+  evidence: examples/03_regex_intro.py 中的 match/search 对比示例
+  verification: python3 chapters/week_09/examples/03_regex_intro.py
 
 - id: A09-006
   claim: re.findall() 返回所有非重叠匹配，有分组时返回元组列表
-  evidence: examples/04_re_module.py 和 tests/test_week09.py 中的 test_re_findall 和 test_re_groups
-  verification: pytest chapters/week_09/tests/test_week09.py::TestRegularExpressions -v
+  evidence: examples/04_re_module.py 中的 findall 和分组示例
+  verification: python3 chapters/week_09/examples/04_re_module.py
 
 - id: A09-007
   claim: 原始字符串 r"..." 可避免反斜杠转义问题，推荐用于正则表达式
@@ -44,9 +44,9 @@
 - id: A09-009
   claim: PyHelper 的 search_notes() 可用字符串方法实现关键词搜索
   evidence: examples/pyhelper/text_utils.py 中的 search_notes 函数
-  verification: pytest chapters/week_09/examples/pyhelper/tests/test_text_utils.py -v
+  verification: python3 -m pytest chapters/week_09/examples/pyhelper/tests/test_text_utils.py::TestSearchNotes -v
 
 - id: A09-010
   claim: PyHelper 的 extract_tags() 可用正则表达式从笔记中提取 #标签
   evidence: examples/pyhelper/text_utils.py 中的 extract_tags 函数
-  verification: pytest chapters/week_09/examples/pyhelper/tests/test_text_utils.py::test_extract_tags -v
+  verification: python3 -m pytest chapters/week_09/examples/pyhelper/tests/test_text_utils.py::TestExtractTags -v

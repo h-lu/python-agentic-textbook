@@ -138,7 +138,7 @@ students = [
 
 **验证方法**：
 ```bash
-python3 practice2_type_hints.py
+python3 chapters/week_11/starter_code/practice2_type_hints.py
 ```
 
 **输出示例**：

@@ -155,10 +155,10 @@ python3 -m pytest chapters/week_09/tests -v
 
 | 测试文件 | 必须覆盖的功能 |
 |----------|----------------|
-| `test_log_parser.py` | clean_log_line, extract_timestamp, extract_level |
-| `test_csv_handler.py` | parse_csv_line, filter_by_status, format_as_table |
-| `test_pattern_matcher.py` | find_ip_addresses, find_emails, is_valid_phone |
-| `test_log_analyzer.py` | extract_urls, analyze_error_types, find_slow_queries |
+| `test_week09.py::test_log_parser_contract` | clean_log_line, extract_timestamp, extract_level |
+| `test_week09.py::test_csv_handler_contract` | parse_csv_line, filter_by_status, format_as_table |
+| `test_week09.py::test_pattern_matcher_contract` | find_ip_addresses, find_emails, is_valid_phone |
+| `test_week09.py::test_log_analyzer_contract` | extract_urls, analyze_error_types, find_slow_queries |
 
 ---
 

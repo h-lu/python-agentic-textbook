@@ -44,4 +44,4 @@
 $ python3 scripts/validate_week.py --week week_12 --mode release
 ```
 
-验证通过（待执行）。
+验证通过。

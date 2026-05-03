@@ -91,7 +91,7 @@ PyHelper 本周推进：
   3. 添加 import_notes(file_path) 函数 - 支持从 JSON 文件导入
   4. 添加数据版本兼容性处理（处理旧格式数据迁移）
 - 涉及的本周概念：JSON 序列化、数据契约、导入导出设计、异常处理（JSONDecodeError）
-- 建议示例文件：examples/pyhelper/storage_json.py（重构 storage 模块）
+- 建议示例文件：examples/pyhelper/storage.py（JSON 版本重构 storage 模块）
 -->
 
 ## 1. 当自定义格式成为枷锁

@@ -185,7 +185,7 @@ class TestIterativeGenerationMaxIterations:
         assert plan.week == 8
 
 
-@pytest.mark.skipif(not SOLUTION_AVAILABLE, reason="solution.py 尚尚不实现")
+@pytest.mark.skipif(not SOLUTION_AVAILABLE, reason="solution.py 尚未实现")
 class TestIterativeGenerationEdgeCases:
     """测试迭代生成边界情况"""
 

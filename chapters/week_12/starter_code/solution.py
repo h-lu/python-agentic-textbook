@@ -3,6 +3,7 @@
 
 import argparse
 import json
+import logging
 import sys
 from datetime import date
 from pathlib import Path
@@ -18,10 +19,21 @@ def today_string():
 
 
 def write_log(level, message):
-    """把操作写入 habit.log。"""
+    """用 logging 模块把操作写入 habit.log。"""
     LOG_FILE.parent.mkdir(parents=True, exist_ok=True)
-    with LOG_FILE.open("a", encoding="utf-8") as file:
-        file.write(f"{today_string()} - {level} - {message}\n")
+    logger = logging.getLogger("week12_habit_cli")
+    logger.setLevel(logging.DEBUG)
+    logger.propagate = False
+
+    handler = logging.FileHandler(LOG_FILE, encoding="utf-8")
+    handler.setFormatter(logging.Formatter("%(asctime)s - %(levelname)s - %(message)s"))
+    logger.addHandler(handler)
+    try:
+        level_number = getattr(logging, level, logging.INFO)
+        logger.log(level_number, message)
+    finally:
+        logger.removeHandler(handler)
+        handler.close()
 
 
 def load_data():

@@ -79,13 +79,14 @@ AI 生成的代码常见问题：
 [writer] 生成学习计划: Week 6 - 异常处理
   前置知识: ['函数', '文件']
   优先级: medium
+  预估时长: 7 小时
 ```
 
 ### 提示
 
 1. 用 `@dataclass` 定义消息格式：
    - `NoteInfo`（reader 的输出）：title, topics, difficulty
-   - `StudyPlan`（writer 的输出）：week, title, prerequisites, priority
+   - `StudyPlan`（writer 的输出）：week, title, prerequisites, priority, topics, estimated_hours
 
 2. Reader agent 用简单的正则或字符串操作提取信息（不需要复杂的 NLP）：
    - 从文件名提取周次（如 `week06` → `6`）
@@ -112,12 +113,10 @@ echo "# Week 06: 异常处理
 
 让程序不崩。try/except 是你的朋友。" > notes/week06_exceptions.md
 
-# 运行你的代码
-python3 starter_code/agent_basic.py
+# 运行基础测试
+python3 -m pytest chapters/week_13/tests/test_reader_agent.py chapters/week_13/tests/test_writer_agent.py -v
 
-# 应该看到：
-# [reader] 读取笔记: Week 06: 异常处理
-# [writer] 生成学习计划: Week 6 - 异常处理
+# 应该看到 ReaderAgent 和 WriterAgent 相关测试通过
 ```
 
 ---
@@ -163,15 +162,19 @@ plan = StudyPlan(
 
 ### 提示
 
-1. 定义 `ReviewResult` dataclass：
+1. 保留 `ReviewResult` dataclass 作为通用审查消息格式：
    - `passed: bool`（是否通过审查）
    - `issues: List[str]`（问题列表）
 
-2. Reviewer agent 接收两个参数：
+2. 本练习中的 `review_plan` 直接返回 `List[str]`：
+   - 空列表表示通过
+   - 非空列表表示需要修复的问题
+
+3. Reviewer agent 接收两个参数：
    - `plan: StudyPlan`（要审查的计划）
    - `all_topics: List[str]`（课程所有主题，用于检查前置知识是否有效）
 
-3. 检查逻辑用简单的 `if` 判断即可：
+4. 检查逻辑用简单的 `if` 判断即可：
    ```python
    if plan.week >= 6 and not plan.prerequisites:
        issues.append("缺少前置知识")
@@ -179,7 +182,7 @@ plan = StudyPlan(
 
 ### 常见错误
 
-- ❌ Reviewer 返回的是 `bool` 而不是 `ReviewResult`（无法知道具体哪里有问题）
+- ❌ Reviewer 只返回 `bool`，没有返回具体 `issues` 列表（无法知道哪里有问题）
 - ❌ 检查逻辑写反了（如 `if plan.prerequisites:` 而不是 `if not plan.prerequisites:`）
 - ❌ 忘记导入 `List` 类型（`from typing import List`）
 
@@ -187,10 +190,9 @@ plan = StudyPlan(
 
 ```bash
 # 运行进阶测试
-python3 starter_code/agent_reviewer.py
+python3 -m pytest chapters/week_13/tests/test_reviewer_agent.py -v
 
-# 应该看到：
-# [reviewer] 审查失败: ['缺少前置知识', '优先级未设置', '估算时长不合理: 20 小时']
+# 应该看到 ReviewerAgent 相关测试通过
 ```
 
 ---
@@ -347,15 +349,14 @@ AI 生成了一个 `ReviewAgent` 类，用于检查学习计划的质量。
 ```
 chapters/week_13/
 ├── starter_code/
-│   ├── agent_basic.py        # 练习 1：Reader + Writer
-│   ├── agent_reviewer.py     # 练习 2：加 Reviewer
-│   ├── agent_team.py         # 练习 3：完整流程
-│   └── solution.py           # 参考实现（由 example-engineer 提供）
+│   └── solution.py           # 参考实现：Reader/Writer/Reviewer/迭代流程
 ├── tests/
 │   ├── test_reader_agent.py  # 练习 1 Reader 测试
 │   ├── test_writer_agent.py  # 练习 1 Writer 测试
 │   ├── test_reviewer_agent.py # 练习 2 Reviewer 测试
-│   └── test_iteration.py     # 练习 3 迭代流程测试
+│   ├── test_iteration.py     # 练习 3 迭代流程测试
+│   ├── test_dataclasses.py   # 消息格式测试
+│   └── test_smoke.py         # 基础冒烟测试
 └── 你的代码文件
 ```
 

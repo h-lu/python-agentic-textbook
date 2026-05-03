@@ -40,8 +40,10 @@ import argparse
 import csv
 import json
 import logging
+import os
 import re
 import sys
+import tempfile
 from dataclasses import dataclass, asdict
 from datetime import datetime
 from enum import Enum
@@ -110,13 +112,21 @@ class StudyPlan:
 # 日志配置（Week 12）
 # =====================
 
-LOG_DIR = Path.home() / ".pyhelper"
+LOG_DIR = Path(os.environ.get("PYHELPER_HOME", Path.home() / ".pyhelper"))
 LOG_FILE = LOG_DIR / "pyhelper.log"
 DATA_FILE = LOG_DIR / "notes.json"
 PLAN_FILE = LOG_DIR / "plan.json"
 
-# 确保目录存在
-LOG_DIR.mkdir(parents=True, exist_ok=True)
+try:
+    LOG_DIR.mkdir(parents=True, exist_ok=True)
+    with open(LOG_FILE, "a", encoding="utf-8"):
+        pass
+except OSError:
+    LOG_DIR = Path(tempfile.gettempdir()) / "pyhelper"
+    LOG_DIR.mkdir(parents=True, exist_ok=True)
+    LOG_FILE = LOG_DIR / "pyhelper.log"
+    DATA_FILE = LOG_DIR / "notes.json"
+    PLAN_FILE = LOG_DIR / "plan.json"
 
 # 配置日志
 logging.basicConfig(

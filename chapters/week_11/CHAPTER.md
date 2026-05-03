@@ -571,7 +571,7 @@ task.mark_in_progress()  # ValueError: 已完成的任务不能重新开始
 Week 08 你学过 pytest，现在正好派上用场。为状态转换写测试：
 
 ```python
-# tests/test_task_state.py
+# tests/test_week11.py（作业契约测试中的状态转换思路）
 import pytest
 from task_state import Task, TaskStatus
 

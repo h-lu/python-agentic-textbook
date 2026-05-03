@@ -5,13 +5,13 @@
 
 - id: week_12_argparse_auto_help
   claim: argparse 自动生成帮助信息
-  evidence: examples/01_simple_argparse.py 运行 `python task.py --help` 会自动生成 usage 和参数说明
-  verification: 运行命令验证帮助信息自动生成
+  evidence: examples/01_simple_argparse.py 运行 `python3 chapters/week_12/examples/01_simple_argparse.py --help` 会自动生成 usage 和参数说明
+  verification: 运行该命令验证帮助信息自动生成
 
 - id: week_12_subcommands_add_parser
   claim: add_subparsers() 创建子命令架构
   evidence: examples/04_subcommands.py 使用 subparsers.add_parser() 创建 add/list/done 子命令
-  verification: 运行 `python 04_subcommands.py add "任务"` 验证子命令路由
+  verification: 运行 `python3 chapters/week_12/examples/04_subcommands.py add "任务"` 验证子命令路由
 
 - id: week_12_exit_code_zero_success
   claim: 退出码 0 表示成功，非零表示失败
@@ -26,7 +26,7 @@
 - id: week_12_pyhelper_cli_subcommands
   claim: PyHelper 支持多个子命令（add/list/search/export/stats）
   evidence: examples/pyhelper/cli.py 实现了完整的子命令架构
-  verification: 运行 `python examples/pyhelper/cli.py --help` 查看所有子命令
+  verification: 运行 `python3 -m chapters.week_12.examples.pyhelper.cli --help` 查看所有子命令
 
 - id: week_12_mutually_exclusive_group
   claim: 互斥参数组防止冲突选项同时使用

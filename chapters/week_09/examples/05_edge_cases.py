@@ -119,9 +119,12 @@ trailing_split = "a,b,".split(",")
 print(f'"a,b," split: {trailing_split}')  # 输出: ['a', 'b', ''] —— 末尾有空字符串
 
 # 各种空白字符
-print(f'"hello\\n".strip(): {repr("hello\n".strip())}')
-print(f'"hello\\t".strip(): {repr("hello\t".strip())}')
-print(f'"hello\\r\\n".strip(): {repr("hello\r\n".strip())}')
+newline_stripped = "hello\n".strip()
+tab_stripped = "hello\t".strip()
+crlf_stripped = "hello\r\n".strip()
+print(f'"hello\\n".strip(): {repr(newline_stripped)}')
+print(f'"hello\\t".strip(): {repr(tab_stripped)}')
+print(f'"hello\\r\\n".strip(): {repr(crlf_stripped)}')
 
 
 # =====================

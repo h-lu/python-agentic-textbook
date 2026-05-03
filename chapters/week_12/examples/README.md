@@ -166,7 +166,7 @@ cat ~/.pyhelper/pyhelper.log
 运行所有示例测试：
 
 ```bash
-python3 -m pytest chapters/week_12/tests/test_examples.py -v
+python3 -m pytest chapters/week_12/tests/test_week12_habit_cli.py -v
 ```
 
 ## 数据文件
@@ -175,7 +175,7 @@ python3 -m pytest chapters/week_12/tests/test_examples.py -v
 
 - `todo_cli.json` - todo-cli 的数据文件
 - `todo_cli.log` - todo-cli 的日志文件
-- `~/.pyhelper/notes.json` - PyHelper 的笔记数据
-- `~/.pyhelper/pyhelper.log` - PyHelper 的日志
+- `~/.pyhelper/notes.json` - PyHelper 的笔记数据（可用 `PYHELPER_HOME` 改写目录；只读环境会回退到 `/tmp/pyhelper`）
+- `~/.pyhelper/pyhelper.log` - PyHelper 的日志（同上）
 
 可以安全删除这些文件重新开始。

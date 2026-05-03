@@ -27,6 +27,7 @@ PyHelper CLI 入口（Week 12：命令行工具）
 import argparse
 import json
 import logging
+import os
 import sys
 from datetime import datetime
 from enum import Enum
@@ -93,12 +94,27 @@ class Note:
 # 日志配置（Week 12）
 # =====================
 
-# 日志文件路径
-LOG_DIR = Path.home() / ".pyhelper"
-LOG_FILE = LOG_DIR / "pyhelper.log"
+def resolve_data_dir() -> Path:
+    """返回可写的数据目录；只读 HOME 中运行时回退到 /tmp。"""
+    candidates = [
+        Path(os.environ.get("PYHELPER_HOME", Path.home() / ".pyhelper")),
+        Path("/tmp/pyhelper"),
+    ]
+    for candidate in candidates:
+        try:
+            candidate.mkdir(parents=True, exist_ok=True)
+            probe = candidate / ".write_test"
+            probe.write_text("", encoding="utf-8")
+            probe.unlink()
+            return candidate
+        except OSError:
+            continue
+    raise OSError("没有可写的 PyHelper 数据目录")
 
-# 确保日志目录存在
-LOG_DIR.mkdir(parents=True, exist_ok=True)
+
+# 日志文件路径
+LOG_DIR = resolve_data_dir()
+LOG_FILE = LOG_DIR / "pyhelper.log"
 
 # 配置日志
 logging.basicConfig(
