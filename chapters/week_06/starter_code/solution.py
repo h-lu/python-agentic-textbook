@@ -173,10 +173,72 @@ def get_positive_integer_with_retry(prompt, max_attempts=3):
             return int(value_str)
 
         remaining = max_attempts - attempt - 1
-        if remaining > 0:
+        if value_str.isdigit() or (value_str.startswith("-") and value_str[1:].isdigit()):
+            print(f"错误：请输入大于 0 的整数（剩余尝试次数：{remaining}）")
+        else:
             print(f"错误：请输入一个正整数（剩余尝试次数：{remaining}）")
 
     raise ValueError(f"输入错误次数过多，超过 {max_attempts} 次")
+
+
+def get_positive_integer(prompt):
+    """
+    获取一个正整数（会重试直到输入正确）
+
+    这是作业题 5 的接口；无最大重试次数。
+    """
+    while True:
+        value_str = input(prompt)
+
+        if value_str.startswith("-") and value_str[1:].isdigit():
+            print("错误：请输入大于 0 的整数")
+            continue
+
+        if not value_str.isdigit():
+            print("错误：请输入一个正整数")
+            continue
+
+        value = int(value_str)
+        if value <= 0:
+            print("错误：请输入大于 0 的整数")
+            continue
+
+        return value
+
+
+def get_age(min_age=18, max_age=120):
+    """
+    获取年龄，并在年龄超出范围时抛出 ValueError
+
+    这是作业题 6 的接口。
+    """
+    age = get_positive_integer(f"请输入你的年龄（{min_age}-{max_age}）：")
+
+    if age < min_age:
+        raise ValueError(f"年龄必须大于等于 {min_age}")
+    if age > max_age:
+        raise ValueError(f"年龄超出合理范围（最大 {max_age}）")
+
+    return age
+
+
+def get_menu_choice(min_choice, max_choice):
+    """
+    获取菜单选择（会重试直到输入正确）
+
+    这是作业题 8 的接口。
+    """
+    while True:
+        try:
+            choice = int(input(f"请输入选择（{min_choice}-{max_choice}）："))
+        except ValueError:
+            print("错误：请输入数字，不要输入文字")
+            continue
+
+        if min_choice <= choice <= max_choice:
+            return choice
+
+        print(f"错误：请输入 {min_choice} 到 {max_choice} 之间的数字")
 
 
 def get_choice_with_retry(prompt, valid_choices, max_attempts=3):

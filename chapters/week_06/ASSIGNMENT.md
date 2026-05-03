@@ -2,7 +2,7 @@
 
 **截止时间**：Week 07 上课前
 **预计用时**：基础 30-45 分钟 | 进阶 45-60 分钟 | 挑战 60-90 分钟
-**提交方式**：提交到你的 Git 仓库，跑通 `pytest` 后发起 PR
+**提交方式**：在 `chapters/week_06/starter_code/solution.py` 中完成实现，跑通 `pytest` 后发起 PR
 
 ---
 
@@ -69,7 +69,7 @@ print(f"结果：{result}")
 - 没有区分不同异常类型（-3 分）
 - 错误消息不清晰（-2 分）
 
-**提交**：`chapters/week_06/tests/test_basic_q1_safe_divider.py` 会测试你的实现。
+**提交**：在 `chapters/week_06/starter_code/solution.py` 中实现 `safe_divide()`；`chapters/week_06/tests/test_week06.py` 会测试这个函数。
 
 ---
 
@@ -108,6 +108,8 @@ print(f"{name} 的分数：{scores[name]}")
 
 **提示**：EAFP 风格的核心是"先尝试，失败再处理"，不要提前检查。
 
+**提交**：在 `chapters/week_06/starter_code/solution.py` 中实现 `get_dictionary_value(dictionary, key, default=None)`；`chapters/week_06/tests/test_week06.py` 会测试这个函数。
+
 ---
 
 ### 题 3：文件读取不崩溃（10 分）
@@ -141,6 +143,8 @@ with open(filename, "r", encoding="utf-8") as file:
 ```
 
 **思考题**（不测试）：如果用 LBYL 风格（先 `os.path.exists()` 检查）会有什么问题？（提示：竞态条件）
+
+**提交**：在 `chapters/week_06/starter_code/solution.py` 中实现 `safe_read_file(filepath)` 和 `safe_write_file(filepath, content)`；`chapters/week_06/tests/test_week06.py` 会测试文件读写行为。
 
 ---
 
@@ -238,6 +242,8 @@ def get_positive_integer(prompt: str) -> int:
 
 **提示**：用 `str.isdigit()` 检查字符串是否为数字。
 
+**提交**：在 `chapters/week_06/starter_code/solution.py` 中实现 `get_positive_integer(prompt)`。自动测试还会覆盖同文件中的 `is_positive_integer()` 和 `get_positive_integer_with_retry()`。
+
 ---
 
 ### 题 6：用 raise 上报错误（15 分）
@@ -307,6 +313,8 @@ except ValueError as e:
 
 **思考题**：为什么用 `raise` 而不是 `print`？（提示：调用者需要知道"成功还是失败"）
 
+**提交**：在 `chapters/week_06/starter_code/solution.py` 中实现 `get_age(min_age=18, max_age=120)`。自动测试还会覆盖同文件中的 `validate_age()`、`InvalidInputError` 和 `OutOfRangeError`。
+
 ---
 
 ## 挑战作业（20 分）
@@ -361,6 +369,8 @@ ValueError: 输入错误次数过多，超过 3 次
 - 用 `range(max_attempts)` 创建循环
 - 用 `max_attempts - attempt - 1` 计算剩余次数
 
+**提交**：在 `chapters/week_06/starter_code/solution.py` 中实现 `get_positive_integer_with_retry(prompt, max_attempts=3)`；`chapters/week_06/tests/test_week06.py` 会测试这个函数。
+
 ---
 
 ### 题 8：健壮的菜单选择（10 分）
@@ -406,6 +416,8 @@ def get_menu_choice(min_choice: int, max_choice: int) -> int:
 - 验证输入是否在 `[min_choice, max_choice]` 范围内
 - 给出清晰的错误提示
 
+**提交**：在 `chapters/week_06/starter_code/solution.py` 中实现 `get_menu_choice(min_choice, max_choice)`。自动测试当前覆盖同文件中的 `get_choice_with_retry(prompt, valid_choices, max_attempts=3)`。
+
 ---
 
 ## AI 协作练习（可选，10 分）
@@ -441,7 +453,7 @@ def safe_divide_ai():
 
 **你的修复**：
 
-在 `chapters/week_06/tests/test_ai_collaboration.py` 中提交：
+在 `chapters/week_06/ai_review.md` 中提交：
 1. **问题报告**：列出你发现的至少 3 个问题
 2. **修复后的代码**：修复这些问题后的代码
 3. **测试用例**：至少 3 个测试用例，证明修复有效
@@ -501,7 +513,7 @@ def safe_divide_ai():
    - 用 `try/except` 捕获文件读取错误
    - 出错时给提示并创建新的数据文件
 
-**提交**：修改后的 `06_pyhelper.py`
+**提交**：修改后的 `chapters/week_06/examples/06_pyhelper.py`
 
 **测试方法**：
 1. 运行 PyHelper
@@ -531,6 +543,7 @@ def safe_divide_ai():
 在发起 PR 前，请确认：
 
 - [ ] 运行 `python3 -m pytest chapters/week_06/tests -q` 通过所有测试
+- [ ] `chapters/week_06/starter_code/solution.py` 暴露 `safe_divide`、`get_dictionary_value`、`safe_read_file`、`get_positive_integer`、`get_age`、`get_positive_integer_with_retry`、`get_menu_choice` 等作业接口
 - [ ] PyHelper 输入 `"abc"` 不会崩溃，会提示错误
 - [ ] 除法器输入除以零不会崩溃，会提示错误
 - [ ] 至少提交了 2 次 Git（draft + verify）

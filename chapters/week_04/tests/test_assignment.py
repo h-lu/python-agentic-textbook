@@ -15,7 +15,9 @@ import pytest
 import sys
 import os
 
-# 添加 starter_code 到路径，以便导入函数
+# 添加 starter_code 到路径，以便导入函数。
+# 多周测试会重复使用模块名 solution；导入前清理缓存，避免拿到其他周的 solution.py。
+sys.modules.pop("solution", None)
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'starter_code'))
 from solution import (
     # 基础作业

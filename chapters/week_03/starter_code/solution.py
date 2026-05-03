@@ -38,6 +38,16 @@ def celsius_to_fahrenheit(c):
     return c * 9/5 + 32
 
 
+def rectangle_area(width, height):
+    """计算矩形面积"""
+    return width * height
+
+
+def rectangle_perimeter(width, height):
+    """计算矩形周长"""
+    return (width + height) * 2
+
+
 def fahrenheit_to_celsius(f):
     """华氏度转摄氏度"""
     return (f - 32) * 5/9
@@ -153,6 +163,7 @@ if __name__ == "__main__":
    - 所有换算函数都接受参数
    - 所有换算函数都返回计算结果
    - 调用者决定如何处理结果（这里是打印）
+   - rectangle_area() 和 rectangle_perimeter() 对应基础作业中的矩形练习
 
 3. 函数分解：
    - show_menu(): 显示菜单
