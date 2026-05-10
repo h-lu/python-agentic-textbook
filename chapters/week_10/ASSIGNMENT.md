@@ -340,7 +340,7 @@ def load_books_collection(filepath):
 
 ---
 
-## 进阶作业（可选）
+## 综合作业（必做，纳入自动验收）
 
 ### 练习 5：数据迁移工具
 
@@ -464,7 +464,7 @@ config.export("settings.txt", format="txt")
 
 ---
 
-## AI 协作练习（可选）
+## AI 协作练习（必做，纳入自动验收）
 
 ### 练习 7：审查 AI 生成的 JSON 处理代码
 
@@ -567,6 +567,9 @@ if __name__ == "__main__":
 - [ ] 练习 2 完成：`starter_code/practice2_data_exchange.py` 的导入导出功能正常
 - [ ] 练习 3 完成：`starter_code/practice3_serialization.py` 能正确处理日期序列化
 - [ ] 练习 4 完成：`starter_code/practice4_defensive_programming.py` 能处理各种错误情况
+- [ ] 练习 5 完成：`starter_code/practice5_data_migration.py` 能完成 v1 → v2 数据迁移
+- [ ] 练习 6 完成：`starter_code/practice6_config_manager.py` 能读写嵌套配置并导出
+- [ ] AI 协作修复完成：`starter_code/student_manager_fixed.py` 能处理缺文件、坏数据和中文
 - [ ] 运行 `python3 -m pytest chapters/week_10/tests -q` 通过所有测试
 - [ ] 代码已提交到 Git，至少有 2 次提交（draft + verify）
 
@@ -574,11 +577,11 @@ if __name__ == "__main__":
 
 ```bash
 # 第一次提交（草稿）
-git add chapters/week_10/starter_code/practice*.py
+git add chapters/week_10/starter_code/practice*.py chapters/week_10/starter_code/student_manager_fixed.py
 git commit -m "draft week_10: 完成 JSON 基础读写和导入导出"
 
 # 第二次提交（验证）
-git add chapters/week_10/starter_code/practice*.py
+git add chapters/week_10/starter_code/practice*.py chapters/week_10/starter_code/student_manager_fixed.py
 git add chapters/week_10/test_*.json  # 如你创建了示例数据文件
 git commit -m "verify week_10: 完成防御性编程，所有测试通过"
 
@@ -597,11 +600,11 @@ git push origin week_10
 - [x] 练习 3：序列化与反序列化
 - [x] 练习 4：防御性数据编程
 
-### 进阶练习（可选）
+### 综合练习（自动验收）
 - [ ] 练习 5：数据迁移工具
 - [ ] 练习 6：配置管理器
 
-### AI 协作练习（可选）
+### AI 协作练习（必做，纳入自动验收）
 - [ ] 练习 7：审查 AI 生成的代码
 
 ### 自测结果

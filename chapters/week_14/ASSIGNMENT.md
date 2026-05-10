@@ -599,18 +599,14 @@ pyhelper plan generate
 
 ```
 chapters/week_14/
-├── 你的项目/
+├── submission/              # 你的最终交付项目（自动测试入口）
 │   ├── README.md              # 练习 2：项目说明
 │   ├── CHANGELOG.md           # 练习 3：版本历史
-│   ├── your_project/          # 练习 1：整理后的源代码
+│   ├── pyhelper/              # 练习 1：整理后的源代码包（可替换为你的包名）
 │   │   ├── __init__.py
-│   │   ├── cli.py
-│   │   ├── commands/
-│   │   ├── models.py
-│   │   ├── storage.py
-│   │   └── utils.py
+│   │   └── cli.py
 │   ├── tests/                 # 练习 1：测试
-│   │   └── test_commands.py
+│   │   └── test_cli.py
 │   └── examples/              # 使用示例
 ├── ai_generated/              # AI 协作练习：AI 生成的内容
 │   ├── README_ai.md
@@ -655,12 +651,17 @@ chapters/week_14/
 
 ### 验证命令
 
+本仓库的自动测试会检查 `chapters/week_14/submission/`，请把最终项目放在这个目录下。
+
 ```bash
 # 检查项目结构
-ls -la your_project/
+ls -la chapters/week_14/submission/
 
-# 运行测试
-python3 -m pytest tests/ -v
+# 运行你的项目测试
+cd chapters/week_14/submission && python3 -m pytest tests/ -v
+
+# 运行教材验收测试
+cd ../../.. && python3 -m pytest chapters/week_14/tests/test_deliverable_validation.py -q
 
 # 检查 README
 cat README.md

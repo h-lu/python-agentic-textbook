@@ -12,23 +12,17 @@ import os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'starter_code'))
 sys.modules.pop("solution", None)
 
-# 尝试导入 solution.py 中的内容
-try:
-    from solution import (
-        NoteInfo,
-        StudyPlan,
-        ReviewResult,
-        ReaderAgent,
-        WriterAgent,
-        ReviewerAgent,
-        iterative_plan_generation
-    )
-    SOLUTION_AVAILABLE = True
-except ImportError:
-    SOLUTION_AVAILABLE = False
+# 导入自动测试入口 solution.py 中的内容
+from solution import (
+    NoteInfo,
+    StudyPlan,
+    ReviewResult,
+    ReaderAgent,
+    WriterAgent,
+    ReviewerAgent,
+    iterative_plan_generation
+)
 
-
-@pytest.mark.skipif(not SOLUTION_AVAILABLE, reason="solution.py 尚未实现")
 class TestDataClasses:
     """测试 dataclass 定义"""
 
@@ -70,7 +64,6 @@ class TestDataClasses:
         assert result.issues == []
 
 
-@pytest.mark.skipif(not SOLUTION_AVAILABLE, reason="solution.py 尚未实现")
 class TestAgentClasses:
     """测试 Agent 类存在且可实例化"""
 
@@ -93,7 +86,6 @@ class TestAgentClasses:
         assert hasattr(agent, 'review_plan')
 
 
-@pytest.mark.skipif(not SOLUTION_AVAILABLE, reason="solution.py 尚未实现")
 class TestModuleFunctions:
     """测试模块函数存在且可调用"""
 

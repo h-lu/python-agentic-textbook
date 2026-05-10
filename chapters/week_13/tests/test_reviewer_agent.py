@@ -10,14 +10,8 @@ import os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'starter_code'))
 sys.modules.pop("solution", None)
 
-try:
-    from solution import StudyPlan, ReviewerAgent
-    SOLUTION_AVAILABLE = True
-except ImportError:
-    SOLUTION_AVAILABLE = False
+from solution import StudyPlan, ReviewerAgent
 
-
-@pytest.mark.skipif(not SOLUTION_AVAILABLE, reason="solution.py 尚未实现")
 class TestReviewerAgentBasic:
     """测试 ReviewerAgent 基本功能"""
 
@@ -44,7 +38,6 @@ class TestReviewerAgentBasic:
         assert isinstance(result, list)
 
 
-@pytest.mark.skipif(not SOLUTION_AVAILABLE, reason="solution.py 尚未实现")
 class TestReviewerAgentHappyPath:
     """测试 ReviewerAgent 正常情况（Happy Path）"""
 
@@ -101,7 +94,6 @@ class TestReviewerAgentHappyPath:
         assert isinstance(issues, list)
 
 
-@pytest.mark.skipif(not SOLUTION_AVAILABLE, reason="solution.py 尚未实现")
 class TestReviewerAgentPrerequisiteCheck:
     """测试前置知识检查"""
 
@@ -192,7 +184,6 @@ class TestReviewerAgentPrerequisiteCheck:
         assert len(invalid_issues) >= 2
 
 
-@pytest.mark.skipif(not SOLUTION_AVAILABLE, reason="solution.py 尚未实现")
 class TestReviewerAgentPriorityCheck:
     """测试优先级检查"""
 
@@ -233,7 +224,6 @@ class TestReviewerAgentPriorityCheck:
             assert not any("优先级未设置" in issue for issue in issues)
 
 
-@pytest.mark.skipif(not SOLUTION_AVAILABLE, reason="solution.py 尚未实现")
 class TestReviewerAgentHoursCheck:
     """测试时长检查"""
 
@@ -319,7 +309,6 @@ class TestReviewerAgentHoursCheck:
             assert not any("估算时长" in issue for issue in issues)
 
 
-@pytest.mark.skipif(not SOLUTION_AVAILABLE, reason="solution.py 尚未实现")
 class TestReviewerAgentEdgeCases:
     """测试 ReviewerAgent 边界情况"""
 
@@ -376,7 +365,6 @@ class TestReviewerAgentEdgeCases:
         assert isinstance(issues, list)
 
 
-@pytest.mark.skipif(not SOLUTION_AVAILABLE, reason="solution.py 尚未实现")
 class TestReviewerAgentMultipleIssues:
     """测试同时检测多个问题"""
 

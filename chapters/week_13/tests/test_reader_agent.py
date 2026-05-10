@@ -11,14 +11,8 @@ from pathlib import Path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'starter_code'))
 sys.modules.pop("solution", None)
 
-try:
-    from solution import NoteInfo, ReaderAgent
-    SOLUTION_AVAILABLE = True
-except ImportError:
-    SOLUTION_AVAILABLE = False
+from solution import NoteInfo, ReaderAgent
 
-
-@pytest.mark.skipif(not SOLUTION_AVAILABLE, reason="solution.py 尚未实现")
 class TestReaderAgentBasic:
     """测试 ReaderAgent 基本功能"""
 
@@ -39,7 +33,6 @@ class TestReaderAgentBasic:
         assert hasattr(result, 'difficulty')
 
 
-@pytest.mark.skipif(not SOLUTION_AVAILABLE, reason="solution.py 尚未实现")
 class TestReaderAgentHappyPath:
     """测试 ReaderAgent 正常情况（Happy Path）"""
 
@@ -80,7 +73,6 @@ class TestReaderAgentHappyPath:
         assert isinstance(result.topics, list)
 
 
-@pytest.mark.skipif(not SOLUTION_AVAILABLE, reason="solution.py 尚未实现")
 class TestReaderAgentEdgeCases:
     """测试 ReaderAgent 边界情况"""
 
@@ -157,7 +149,6 @@ class TestReaderAgentEdgeCases:
         assert isinstance(result, NoteInfo)
 
 
-@pytest.mark.skipif(not SOLUTION_AVAILABLE, reason="solution.py 尚未实现")
 class TestReaderAgentErrorCases:
     """测试 ReaderAgent 错误处理"""
 
@@ -179,7 +170,6 @@ class TestReaderAgentErrorCases:
             agent.read_note(temp_dir)
 
 
-@pytest.mark.skipif(not SOLUTION_AVAILABLE, reason="solution.py 尚未实现")
 class TestReaderAgentTopicExtraction:
     """测试主题提取逻辑"""
 
@@ -223,7 +213,6 @@ class TestReaderAgentTopicExtraction:
         assert len(result.topics) >= 1
 
 
-@pytest.mark.skipif(not SOLUTION_AVAILABLE, reason="solution.py 尚未实现")
 class TestReaderAgentDifficultyInference:
     """测试难度推断逻辑"""
 

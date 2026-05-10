@@ -361,7 +361,7 @@ print("从 JSON 加载:", loaded_task)
 
 ---
 
-## 进阶作业（可选）
+## 综合作业（必做，纳入自动验收）
 
 ### 练习 5：实现带状态转换的 Enrollment dataclass
 
@@ -578,7 +578,7 @@ print(f"加载了 {len(loaded_books)} 本书")
 
 ---
 
-## AI 协作练习（可选）
+## AI 协作练习（必做，纳入自动验收）
 
 ### 练习 7：审查 AI 生成的 dataclass 代码
 
@@ -715,6 +715,9 @@ class Library:
 - [ ] 练习 2 完成：`starter_code/practice2_type_hints.py` 的类型提示正确且完整
 - [ ] 练习 3 完成：`starter_code/practice3_enum_status.py` 能正确定义 Enum 和状态转换
 - [ ] 练习 4 完成：`starter_code/practice4_json_conversion.py` 能正确转换 dataclass 和 JSON
+- [ ] 练习 5 完成：`starter_code/practice5_enrollment_system.py` 能完成完整选课状态转换
+- [ ] 练习 6 完成：`starter_code/practice6_refactor_to_dataclass.py` 能完成 Book dataclass 重构
+- [ ] AI 协作修复完成：`starter_code/library_system_fixed.py` 能处理借阅状态和边界情况
 - [ ] 运行 `python3 -m pytest chapters/week_11/tests -q` 通过所有测试
 - [ ] 代码已提交到 Git，至少有 2 次提交（draft + verify）
 
@@ -722,11 +725,11 @@ class Library:
 
 ```bash
 # 第一次提交（草稿）
-git add chapters/week_11/starter_code/practice*.py
+git add chapters/week_11/starter_code/practice*.py chapters/week_11/starter_code/library_system_fixed.py
 git commit -m "draft week_11: 完成 dataclass 基础和类型提示练习"
 
 # 第二次提交（验证）
-git add chapters/week_11/starter_code/practice*.py
+git add chapters/week_11/starter_code/practice*.py chapters/week_11/starter_code/library_system_fixed.py
 git commit -m "verify week_11: 完成状态管理和 JSON 转换，所有测试通过"
 
 # 推送到远端
@@ -744,11 +747,11 @@ git push origin week_11
 - [x] 练习 3：用 Enum 定义状态
 - [x] 练习 4：dataclass 与 JSON 相互转换
 
-### 进阶练习（可选）
+### 综合练习（自动验收）
 - [ ] 练习 5：实现带状态转换的 Enrollment dataclass
 - [ ] 练习 6：重构字典密集的项目为 dataclass
 
-### AI 协作练习（可选）
+### AI 协作练习（必做，纳入自动验收）
 - [ ] 练习 7：审查 AI 生成的 dataclass 代码
 
 ### 自测结果

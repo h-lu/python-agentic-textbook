@@ -10,14 +10,8 @@ import os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'starter_code'))
 sys.modules.pop("solution", None)
 
-try:
-    from solution import NoteInfo, StudyPlan, WriterAgent
-    SOLUTION_AVAILABLE = True
-except ImportError:
-    SOLUTION_AVAILABLE = False
+from solution import NoteInfo, StudyPlan, WriterAgent
 
-
-@pytest.mark.skipif(not SOLUTION_AVAILABLE, reason="solution.py 尚未实现")
 class TestWriterAgentBasic:
     """测试 WriterAgent 基本功能"""
 
@@ -47,7 +41,6 @@ class TestWriterAgentBasic:
         assert hasattr(result, 'estimated_hours')
 
 
-@pytest.mark.skipif(not SOLUTION_AVAILABLE, reason="solution.py 尚未实现")
 class TestWriterAgentHappyPath:
     """测试 WriterAgent 正常情况（Happy Path）"""
 
@@ -128,7 +121,6 @@ class TestWriterAgentHappyPath:
         assert plan.title == "Week 08: 单元测试入门"
 
 
-@pytest.mark.skipif(not SOLUTION_AVAILABLE, reason="solution.py 尚未实现")
 class TestWriterAgentEdgeCases:
     """测试 WriterAgent 边界情况"""
 
@@ -194,7 +186,6 @@ class TestWriterAgentEdgeCases:
         assert isinstance(plan.prerequisites, list)
 
 
-@pytest.mark.skipif(not SOLUTION_AVAILABLE, reason="solution.py 尚未实现")
 class TestWriterAgentIteration:
     """测试 WriterAgent 迭代修复功能"""
 
@@ -307,7 +298,6 @@ class TestWriterAgentIteration:
         assert plan.estimated_hours == 10  # hard → 10 小时
 
 
-@pytest.mark.skipif(not SOLUTION_AVAILABLE, reason="solution.py 尚未实现")
 class TestWriterAgentPrerequisiteInference:
     """测试前置知识推断"""
 
@@ -366,7 +356,6 @@ class TestWriterAgentPrerequisiteInference:
         assert isinstance(plan.prerequisites, list)
 
 
-@pytest.mark.skipif(not SOLUTION_AVAILABLE, reason="solution.py 尚未实现")
 class TestWriterAgentPriorityMapping:
     """测试优先级映射逻辑"""
 

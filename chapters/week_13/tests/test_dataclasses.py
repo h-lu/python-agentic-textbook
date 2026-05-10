@@ -10,21 +10,15 @@ import os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'starter_code'))
 sys.modules.pop("solution", None)
 
-try:
-    from solution import (
-        NoteInfo,
-        StudyPlan,
-        ReviewResult,
-        create_note_info,
-        create_study_plan,
-        create_review_result
-    )
-    SOLUTION_AVAILABLE = True
-except ImportError:
-    SOLUTION_AVAILABLE = False
+from solution import (
+    NoteInfo,
+    StudyPlan,
+    ReviewResult,
+    create_note_info,
+    create_study_plan,
+    create_review_result
+)
 
-
-@pytest.mark.skipif(not SOLUTION_AVAILABLE, reason="solution.py 尚未实现")
 class TestNoteInfo:
     """测试 NoteInfo dataclass"""
 
@@ -85,7 +79,6 @@ class TestNoteInfo:
         assert note_info.difficulty == "medium"
 
 
-@pytest.mark.skipif(not SOLUTION_AVAILABLE, reason="solution.py 尚未实现")
 class TestStudyPlan:
     """测试 StudyPlan dataclass"""
 
@@ -170,7 +163,6 @@ class TestStudyPlan:
         assert plan.estimated_hours == 7
 
 
-@pytest.mark.skipif(not SOLUTION_AVAILABLE, reason="solution.py 尚未实现")
 class TestReviewResult:
     """测试 ReviewResult dataclass"""
 
@@ -218,7 +210,6 @@ class TestReviewResult:
         assert result.issues == ["优先级未设置", "时长不合理"]
 
 
-@pytest.mark.skipif(not SOLUTION_AVAILABLE, reason="solution.py 尚未实现")
 class TestDataclassIntegration:
     """测试 dataclass 在 agent 之间的传递"""
 

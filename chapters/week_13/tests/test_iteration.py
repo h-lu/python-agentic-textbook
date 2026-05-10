@@ -10,18 +10,12 @@ import os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'starter_code'))
 sys.modules.pop("solution", None)
 
-try:
-    from solution import (
-        NoteInfo,
-        StudyPlan,
-        iterative_plan_generation
-    )
-    SOLUTION_AVAILABLE = True
-except ImportError:
-    SOLUTION_AVAILABLE = False
+from solution import (
+    NoteInfo,
+    StudyPlan,
+    iterative_plan_generation
+)
 
-
-@pytest.mark.skipif(not SOLUTION_AVAILABLE, reason="solution.py 尚未实现")
 class TestIterativeGenerationBasic:
     """测试迭代生成基本功能"""
 
@@ -43,7 +37,6 @@ class TestIterativeGenerationBasic:
         assert isinstance(result, StudyPlan)
 
 
-@pytest.mark.skipif(not SOLUTION_AVAILABLE, reason="solution.py 尚未实现")
 class TestIterativeGenerationHappyPath:
     """测试迭代生成正常情况（Happy Path）"""
 
@@ -93,7 +86,6 @@ class TestIterativeGenerationHappyPath:
         assert plan.priority in ["high", "medium"]
 
 
-@pytest.mark.skipif(not SOLUTION_AVAILABLE, reason="solution.py 尚未实现")
 class TestIterativeGenerationWithIssues:
     """测试带问题的迭代生成"""
 
@@ -148,7 +140,6 @@ class TestIterativeGenerationWithIssues:
         assert 4 <= plan.estimated_hours <= 15
 
 
-@pytest.mark.skipif(not SOLUTION_AVAILABLE, reason="solution.py 尚未实现")
 class TestIterativeGenerationMaxIterations:
     """测试最大迭代次数限制"""
 
@@ -185,7 +176,6 @@ class TestIterativeGenerationMaxIterations:
         assert plan.week == 8
 
 
-@pytest.mark.skipif(not SOLUTION_AVAILABLE, reason="solution.py 尚未实现")
 class TestIterativeGenerationEdgeCases:
     """测试迭代生成边界情况"""
 
@@ -246,7 +236,6 @@ class TestIterativeGenerationEdgeCases:
         assert len(plan.topics) == 4
 
 
-@pytest.mark.skipif(not SOLUTION_AVAILABLE, reason="solution.py 尚未实现")
 class TestIterativeGenerationPreservation:
     """测试迭代过程中信息保留"""
 
@@ -292,7 +281,6 @@ class TestIterativeGenerationPreservation:
         assert plan.week == 7
 
 
-@pytest.mark.skipif(not SOLUTION_AVAILABLE, reason="solution.py 尚未实现")
 class TestIterativeGenerationConvergence:
     """测试迭代收敛性"""
 

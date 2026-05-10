@@ -349,7 +349,7 @@ AI 生成了一个 `ReviewAgent` 类，用于检查学习计划的质量。
 ```
 chapters/week_13/
 ├── starter_code/
-│   └── solution.py           # 参考实现：Reader/Writer/Reviewer/迭代流程
+│   └── solution.py           # 你的主要实现：Reader/Writer/Reviewer/迭代流程（自动测试入口）
 ├── tests/
 │   ├── test_reader_agent.py  # 练习 1 Reader 测试
 │   ├── test_writer_agent.py  # 练习 1 Writer 测试
@@ -357,7 +357,6 @@ chapters/week_13/
 │   ├── test_iteration.py     # 练习 3 迭代流程测试
 │   ├── test_dataclasses.py   # 消息格式测试
 │   └── test_smoke.py         # 基础冒烟测试
-└── 你的代码文件
 ```
 
 ### 必做（基础 + 进阶）
@@ -387,7 +386,7 @@ chapters/week_13/
 
 ### 如果遇到困难
 
-1. **先看示例**：`starter_code/solution.py` 包含完整的参考实现
+1. **先看接口要求**：自动测试会从 `starter_code/solution.py` 导入 Reader/Writer/Reviewer 和迭代函数
 2. **再看本周 CHAPTER.md**：第 1-3 节有详细的代码示例
 3. **回顾之前的知识**：
    - Week 11 的 `@dataclass`（定义消息格式）

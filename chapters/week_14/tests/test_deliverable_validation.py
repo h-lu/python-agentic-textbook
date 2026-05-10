@@ -4,6 +4,7 @@ These tests validate local sample deliverable directories only. They do not
 require creating or pushing real git tags.
 """
 
+import subprocess
 import sys
 from pathlib import Path
 
@@ -97,3 +98,17 @@ def test_validate_sample_deliverable_reports_missing_files(tmp_path):
     assert "缺少 CHANGELOG.md" in issues
     assert "缺少 tests" in issues
     assert "缺少带 __init__.py 的源代码包" in issues
+
+
+def test_week14_submission_contract():
+    submission = Path(__file__).resolve().parents[1] / "submission"
+    assert validate_sample_deliverable(submission) == []
+
+    result = subprocess.run(
+        [sys.executable, "-m", "pytest", "tests", "-q"],
+        cwd=submission,
+        text=True,
+        capture_output=True,
+        timeout=10,
+    )
+    assert result.returncode == 0, result.stdout + result.stderr
