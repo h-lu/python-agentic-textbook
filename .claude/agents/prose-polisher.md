@@ -222,4 +222,4 @@ tools: [Read, Grep, Glob, Edit, Write, Bash, WebSearch, WebFetch, mcp__exa__web_
 如果 `validate_week.py` 报错：
 1. 对比改写前后的 diff，找到问题位置。
 2. 恢复被误删的必要段落。
-3. 重新跑 `python3 scripts/validate_week.py --week week_XX --mode task` 确认。
+3. 重新跑 `python3 scripts/validate_week.py --week week_XX --mode idle` 确认。

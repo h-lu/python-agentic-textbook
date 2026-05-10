@@ -16,7 +16,7 @@
 
 **目标**：学会使用 `import` 导入 Python 标准库模块。
 
-创建文件 `practice1_standard_library.py`，完成以下功能：
+在 `starter_code/` 下创建文件 `practice1_standard_library.py`，完成以下功能：
 
 1. 使用 `import math` 导入 math 模块
 2. 使用 `from random import choice, randint` 导入 random 模块的特定函数
@@ -61,10 +61,10 @@
 - 标记完成
 - 保存到文件
 
-你的任务是把这"一坨代码"拆成以下结构：
+你的任务是把这"一坨代码"拆成以下结构（放在 `starter_code/` 下）：
 
 ```
-todo_app/
+starter_code/todo_app/
 ├── main.py              # 主入口，菜单循环
 ├── storage.py           # 文件读写操作
 ├── todo_manager.py      # 待办事项的业务逻辑
@@ -100,7 +100,7 @@ todo_app/
 ```bash
 # 单独测试每个模块
 python3 storage.py
-python3 todo_manager.py
+python3 chapters/week_07/starter_code/todo_app/todo_manager.py
 python3 input_handler.py
 
 # 运行主程序
@@ -118,7 +118,7 @@ python3 main.py
 
 **目标**：理解并正确使用 `if __name__ == "__main__":` 守卫。
 
-创建一个模块 `calculator.py`，包含以下功能：
+在 `starter_code/` 下创建一个模块 `calculator.py`，包含以下功能：
 
 1. 四个运算函数：`add`, `subtract`, `multiply`, `divide`
 2. 每个 `divide` 函数要处理除零错误（返回 `None`）
@@ -140,11 +140,11 @@ assert divide(5, 0) is None
 **验证**：
 ```bash
 # 直接运行应该执行测试
-python3 calculator.py
+python3 chapters/week_07/starter_code/calculator.py
 # 应该输出：所有测试通过！
 
 # 导入时不应该执行测试
-python3 -c "from calculator import add; print(add(2, 3))"
+PYTHONPATH=chapters/week_07/starter_code python3 -c "from calculator import add; print(add(2, 3))"
 # 应该只输出：5（不输出测试信息）
 ```
 
@@ -404,7 +404,7 @@ main()
 ```bash
 # 第一次提交（草稿）
 git add chapters/week_07/practice*.py
-git add chapters/week_07/todo_app/
+git add chapters/week_07/starter_code/todo_app/
 git commit -m "draft week_07: 完成基础练习 1-3"
 
 # 第二次提交（验证）

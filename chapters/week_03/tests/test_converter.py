@@ -687,3 +687,17 @@ def test_pure_function():
     original_value = 10
     km_to_miles(original_value)
     assert original_value == 10
+
+# Anchor contract alias — modular design should be visible in the submitted solution.
+def test_modular_design():
+    import importlib.util
+    from pathlib import Path
+
+    solution_path = Path(__file__).resolve().parents[1] / "starter_code" / "solution.py"
+    spec = importlib.util.spec_from_file_location("week03_solution_for_modular_design", solution_path)
+    module = importlib.util.module_from_spec(spec)
+    assert spec.loader is not None
+    spec.loader.exec_module(module)
+
+    for name in ["show_menu", "get_choice", "get_number", "do_conversion", "main"]:
+        assert callable(getattr(module, name))

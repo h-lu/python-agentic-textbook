@@ -4,79 +4,15 @@ Week 05: 日记本工具测试
 测试日记本的写日记、读日记、搜日记功能
 """
 
-import pytest
+import sys
 from pathlib import Path
-from datetime import datetime
 
 
-# ========================================
-# 假设的日记本工具函数（实际实现应该由学生完成）
-# 这些测试定义了预期的接口和行为
-# ========================================
+STARTER = Path(__file__).resolve().parents[1] / "starter_code"
+sys.path.insert(0, str(STARTER))
+sys.modules.pop("solution", None)
 
-def add_diary_entry(content, filename="diary.txt"):
-    """
-    添加一条日记（追加模式）
-
-    Args:
-        content: 日记内容
-        filename: 日记文件路径
-    """
-    today = datetime.now().strftime("%Y-%m-%d")
-    entry = f"{today}: {content}\n"
-
-    with open(filename, "a", encoding="utf-8") as f:
-        f.write(entry)
-
-
-def read_all_diaries(filename="diary.txt"):
-    """
-    读取所有日记
-
-    Args:
-        filename: 日记文件路径
-
-    Returns:
-        list: 日记条目列表，每个元素是一行日记
-    """
-    diary_file = Path(filename)
-
-    if not diary_file.exists():
-        return []
-
-    content = diary_file.read_text(encoding="utf-8")
-    lines = content.strip().split("\n")
-
-    # 过滤空行
-    return [line for line in lines if line.strip()]
-
-
-def search_diaries(keyword, filename="diary.txt"):
-    """
-    按关键词搜索日记
-
-    Args:
-        keyword: 搜索关键词
-        filename: 日记文件路径
-
-    Returns:
-        list: 包含关键词的日记条目列表
-    """
-    lines = read_all_diaries(filename)
-    return [line for line in lines if keyword in line]
-
-
-def count_diaries(filename="diary.txt"):
-    """
-    统计日记条数
-
-    Args:
-        filename: 日记文件路径
-
-    Returns:
-        int: 日记条数
-    """
-    return len(read_all_diaries(filename))
+from solution import add_diary_entry, count_diaries, read_all_diaries, search_diaries
 
 
 # ========================================

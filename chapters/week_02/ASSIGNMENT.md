@@ -20,7 +20,7 @@
 
 ### 任务描述
 
-编写一个猜数字游戏程序 `guess_number.py`。程序会随机生成一个 1-100 之间的数字，玩家需要在最多 5 次机会内猜中它。
+在 `chapters/week_02/starter_code/solution.py` 中编写一个猜数字游戏程序。程序会随机生成一个 1-100 之间的数字，玩家需要在最多 5 次机会内猜中它。
 
 ### 功能要求
 
@@ -323,7 +323,8 @@ else:
 chapters/week_02/
 ├── ASSIGNMENT.md           # 本文件
 ├── RUBRIC.md               # 评分标准
-├── guess_number.py         # 你的作业代码（基础/进阶版本）
+├── starter_code/
+│   └── solution.py         # 你的作业代码（基础/进阶版本）
 └── guess_number_bonus.py   # 挑战版本（可选）
 ```
 
@@ -348,7 +349,7 @@ python3 -m pytest chapters/week_02/tests -q
 
 ## 参考实现
 
-如果你遇到困难，可以参考 `starter_code/solution.py` 中的实现。但建议先自己尝试，遇到困难时再查看。
+本仓库的 `starter_code/solution.py` 是自动测试入口；学生版可以先保留 TODO，再逐步补全。
 
 **提示：** 参考实现只是一种写法，你的代码可能完全不同，但只要能正确运行并满足要求就是好的。
 

@@ -733,3 +733,73 @@ def test_callable():
 
     # 类也是可调用的（调用构造函数）
     assert callable(list) is True
+
+# ---------------------------------------------------------------------------
+# Anchor contract aliases — keep ANCHORS.yml executable and stable.
+# ---------------------------------------------------------------------------
+
+def test_function_definition():
+    def greet(name):
+        return f"你好，{name}"
+
+    assert greet("小北") == "你好，小北"
+
+
+def test_parameters():
+    def multiply(a, b):
+        return a * b
+
+    assert multiply(3, 4) == 12
+    assert multiply(5, 6) == 30
+
+
+def test_return_values():
+    def add(a, b):
+        return a + b
+
+    result = add(2, 3)
+    assert result == 5
+    assert result * 2 == 10
+
+
+def test_scope():
+    global_name = "outside"
+
+    def make_local_name():
+        local_name = "inside"
+        return global_name, local_name
+
+    assert make_local_name() == ("outside", "inside")
+    assert "local_name" not in globals()
+
+
+def test_print_vs_return():
+    def add_with_print(a, b):
+        print(a + b)
+
+    def add_with_return(a, b):
+        return a + b
+
+    assert add_with_print(1, 2) is None
+    assert add_with_return(1, 2) == 3
+
+
+def test_call_without_definition():
+    calls = []
+
+    def record_call():
+        calls.append("called")
+
+    assert calls == []
+    record_call()
+    assert calls == ["called"]
+
+
+def test_avoid_globals():
+    total = 10
+
+    def add_bonus(value, bonus):
+        return value + bonus
+
+    assert add_bonus(total, 5) == 15
+    assert total == 10

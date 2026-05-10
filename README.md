@@ -12,7 +12,7 @@
 | 工程进阶 | 06–10 | 能写 200–500 行小项目，有测试，会用 PR |
 | 综合实战 | 11–14 | 独立完成可交付的 CLI 工具项目 |
 
-每周交付一个**章包**（正文 + 示例 + 作业 + 测试 + QA），由 9 个 AI agent 协作产出，经校验脚本和 hooks 自动把关。
+每周交付一个**章包**（正文 + 示例 + 作业 + 测试 + QA），由 10 个 AI agent 协作产出，经校验脚本和 hooks 自动把关。
 
 详细大纲见 [`chapters/SYLLABUS.md`](chapters/SYLLABUS.md)，目录见 [`chapters/TOC.md`](chapters/TOC.md)。
 
@@ -24,6 +24,7 @@ git clone <repo-url> && cd python-agentic-textbook
 
 # 2. 一键环境搭建
 make setup            # 创建 .venv 并安装依赖
+# 依赖声明见 requirements-dev.txt
 
 # 3. 批量创建 14 周目录
 make scaffold         # 从 TOC.md 读取标题，生成所有周的模板
@@ -80,12 +81,14 @@ shared/
   gitea_workflow.md        # Gitea PR 协作流程
 
 .claude/
-  agents/                  # 9 个专职 Agent（writer/polisher/qa/planner/...）
-  skills/                  # 9 个 Skill 命令（/draft-chapter、/release-week、...）
+  agents/                  # 10 个专职 Agent（writer/polisher/qa/planner/...）
+  skills/                  # Skill 命令（/draft-chapter、/release-week、...）
   hooks/                   # 自动校验（TaskCompleted / TeammateIdle）
   settings.json            # Claude Code 项目配置
 
 scripts/                   # 校验/构建脚本
+web-textbook/              # Next.js 静态教材站点（npm ci && npm run build）
+templates/docusaurus-site/ # 旧版/备用 Docusaurus 模板
 Makefile                   # 快捷命令入口
 ```
 
@@ -107,7 +110,7 @@ Makefile                   # 快捷命令入口
 
 | Hook | 触发时机 | 作用 |
 |------|---------|------|
-| `TaskCompleted` | agent 标记任务完成时 | 跑 `validate_week.py --mode task` |
+| `TaskCompleted` | agent 标记任务完成时 | 跑 `validate_week.py --mode idle` |
 | `TeammateIdle` | teammate 空闲时 | 跑 `validate_week.py --mode idle` |
 
 hooks 优先使用项目内 `.venv` 运行校验脚本，建议先跑 `make setup`。

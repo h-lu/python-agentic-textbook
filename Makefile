@@ -50,7 +50,7 @@ polish: ## 深度润色已有章节 (W=01)
 	@test -n "$(W)" || { echo "error: W is required (e.g. make polish W=01)"; exit 1; }
 	@echo "请在 Claude Code 中运行: /polish-week week_$$(printf '%02d' $$((10#$(W))))"
 
-validate: ## 校验某周 (W=01, MODE=release|task|idle, V=1 开启详细输出)
+validate: ## 校验某周 (W=01, MODE=release|idle|drafting, V=1 开启详细输出)
 	@test -n "$(W)" || { echo "error: W is required (e.g. make validate W=01)"; exit 1; }
 	$(PYTHON) $(SCRIPTS)/validate_week.py --week $(W) --mode $(or $(MODE),release) $(if $(V),--verbose)
 

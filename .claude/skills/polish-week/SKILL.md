@@ -55,7 +55,7 @@ date '+%Y-%m-%d' > shared/current_date.txt
 ### 4. 验证
 
 ```bash
-python3 scripts/validate_week.py --week week_XX --mode task
+python3 scripts/validate_week.py --week week_XX --mode idle
 ```
 
 如果你准备发布（并且已清空 QA 阻塞项），再跑：

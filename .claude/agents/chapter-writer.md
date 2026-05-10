@@ -202,7 +202,7 @@ tools: [Read, Grep, Glob, Edit, Write, WebSearch, WebFetch, mcp__exa__web_search
 如果 `validate_week.py` 报错：
 1. 读取错误信息，定位问题文件和具体条目。
 2. 修复 CHAPTER.md 中的对应问题（缺 DoD 提及、TODO 过多等）。
-3. 重新跑 `python3 scripts/validate_week.py --week week_XX --mode task` 确认通过。
+3. 重新跑 `python3 scripts/validate_week.py --week week_XX --mode idle` 确认通过。
 
 ## 交付
 

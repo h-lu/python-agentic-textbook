@@ -223,7 +223,7 @@ python3 scripts/validate_week.py --week week_XX --mode idle
 - 同步 `TERMS.yml` -> `shared/glossary.yml`
 - 检查循环角色使用一致性（对照 `shared/characters.yml`）
 - 修复 `ANCHORS.yml` 问题
-- 运行 `validate_week.py --mode task`
+- 运行 `validate_week.py --mode idle`
 
 **调用 `technical-reviewer`**（与 consistency-editor 并行）：
 - 审读 `CHAPTER.md`：概念定义准确性、代码示例正确性

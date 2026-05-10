@@ -33,7 +33,7 @@ npm run dev
 ## 构建
 
 ```bash
-# 构建静态网站
+# 构建静态网站（会先生成 .structure-cache.json）
 npm run build
 
 # 构建产物在 out/ 目录
@@ -76,7 +76,7 @@ vercel deploy
 │       └── design-system.ts     # 设计系统
 ├── public/
 │   └── chapters/        # Markdown 源文件
-└── .structure-cache.json  # 章节元数据缓存
+└── .structure-cache.json  # 构建时自动生成的章节元数据缓存
 ```
 
 ## 课程阶段

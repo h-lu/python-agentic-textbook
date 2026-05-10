@@ -14,6 +14,7 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import shlex
 import subprocess
 import sys
 from pathlib import Path
@@ -185,6 +186,41 @@ def _maybe_extract_pytest_nodeid(verification: str) -> str | None:
     return None
 
 
+
+def _run_anchor_verification(errors: list[str], root: Path, week: str, verification: str, anchor_id: str | None) -> None:
+    """Run machine-checkable anchor verifications.
+
+    Natural-language/manual verifications are still allowed, but pytest nodeids and
+    pytest commands must actually pass in release mode. This prevents anchors from
+    being only syntactically present while their executable claims rot.
+    """
+    v = verification.strip()
+    nodeid = _maybe_extract_pytest_nodeid(v)
+    if nodeid:
+        file_part, rest = nodeid.split("::", 1)
+        if not (root / file_part).exists() and (root / "chapters" / week / file_part).exists():
+            nodeid = f"chapters/{week}/{file_part}::{rest}"
+        cmd = [sys.executable, "-m", "pytest", nodeid, "-q"]
+    else:
+        first_line = v.splitlines()[0].strip()
+        if first_line.startswith("python3 -m pytest ") or first_line.startswith("python -m pytest "):
+            parts = shlex.split(first_line)
+            cmd = [sys.executable, "-m", "pytest", *parts[3:]]
+        elif first_line.startswith("pytest "):
+            parts = shlex.split(first_line)
+            cmd = [sys.executable, "-m", "pytest", *parts[1:]]
+        else:
+            return
+
+    proc = subprocess.run(cmd, cwd=root, text=True, capture_output=True)
+    if proc.returncode != 0:
+        output = "\n".join(part for part in [proc.stdout.strip(), proc.stderr.strip()] if part)
+        tail = output[-800:] if output else "no output"
+        add_error(
+            errors,
+            f"ANCHORS.yml item ({anchor_id}) executable verification failed: {' '.join(cmd)}\n{tail}",
+        )
+
 def _check_anchors(errors: list[str], root: Path, week: str) -> None:
     week_dir = root / "chapters" / week
     anchors_path = week_dir / "ANCHORS.yml"
@@ -237,6 +273,8 @@ def _check_anchors(errors: list[str], root: Path, week: str) -> None:
                     f"ANCHORS.yml item #{i+1} ({anchor_id}) verification refers to missing test file: {file_part!r}",
                 )
 
+        _run_anchor_verification(errors, root, week, verification, anchor_id)
+
 
 def _check_qa_blocking(errors: list[str], qa_report_path: Path) -> None:
     text = qa_report_path.read_text(encoding="utf-8")
@@ -266,8 +304,10 @@ def _check_qa_blocking(errors: list[str], qa_report_path: Path) -> None:
             if "-->" in stripped:
                 in_comment = False
             continue
-        if "- [ ]" in line:
-            add_error(errors, "QA blocking item not resolved (found unchecked '- [ ]' under '## 阻塞项')")
+        lowered = stripped.lower()
+        unresolved_markers = ("- [ ]", "todo", "blocker", "未解决", "未完成", "待修复")
+        if any(marker in lowered for marker in unresolved_markers) or "- [ ]" in line:
+            add_error(errors, "QA blocking item not resolved under '## 阻塞项'")
             break
 
 

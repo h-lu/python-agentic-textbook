@@ -68,8 +68,8 @@ def _check_tests(tests_dir: Path) -> str:
 
 
 def _run_validate(root: Path, week: str) -> tuple[bool, str]:
-    """Run validate_week in task mode and return (passed, summary)."""
-    cmd = [sys.executable, str(root / "scripts" / "validate_week.py"), "--week", week, "--mode", "task"]
+    """Run validate_week in idle mode and return (passed, summary)."""
+    cmd = [sys.executable, str(root / "scripts" / "validate_week.py"), "--week", week, "--mode", "idle"]
     proc = subprocess.run(cmd, cwd=root, text=True, capture_output=True)
     if proc.returncode == 0:
         return True, "PASS"
@@ -150,7 +150,7 @@ def main() -> int:
     # Validation
     print("\nValidation:")
     v_ok, v_summary = _run_validate(root, week)
-    print(f"  validate_week (task): {v_summary}")
+    print(f"  validate_week (idle): {v_summary}")
     if not v_ok:
         todos.append("Fix validate_week errors")
 
@@ -168,7 +168,7 @@ def main() -> int:
         print("\nAll checks passed! Ready for: make release W=" + week.split("_")[1])
 
     print("=" * 60)
-    return 0
+    return 1 if todos else 0
 
 
 if __name__ == "__main__":

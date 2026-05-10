@@ -30,7 +30,7 @@ disable-model-invocation: true
 - 同步 `TERMS.yml` -> `shared/glossary.yml`
 - 检查循环角色使用一致性（对照 `shared/characters.yml`）
 - 修复 `ANCHORS.yml` 问题（依赖 `validate_week.py` 报错定位）
-- consistency-editor 内部会跑 `validate_week.py --mode task`
+- consistency-editor 内部会跑 `validate_week.py --mode idle`
 
 **1b. 调用 `technical-reviewer`**（与 consistency-editor 并行）：
 - 审读 `CHAPTER.md`：概念定义准确性、代码示例正确性

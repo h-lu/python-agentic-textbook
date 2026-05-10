@@ -48,7 +48,7 @@ tools: [Read, Grep, Glob, Edit, Write, Bash]
 - 如果需要较大重写（>20 行），改成 TODO 并指派给对应工种。
 - 修复完成后，必须跑验证确认通过：
   ```bash
-  python3 scripts/validate_week.py --week week_XX --mode task
+  python3 scripts/validate_week.py --week week_XX --mode idle
   ```
 
 ## 失败恢复
@@ -60,4 +60,4 @@ tools: [Read, Grep, Glob, Edit, Write, Bash]
 
 ## 完成标志
 
-只有当 `validate_week.py --mode task` 通过后，才标记你的任务为完成。
+只有当 `validate_week.py --mode idle` 通过后，才标记你的任务为完成。

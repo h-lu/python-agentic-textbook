@@ -89,7 +89,7 @@ def test_add_task_whitespace_only():
 # 测试类型: 反例
 # 覆盖场景: 错误的预期结果
 # 预期结果: 测试失败（用于演示失败情况，实际使用时可以删除或标记为 xfail）
-@pytest.mark.xfail(reason="故意失败的测试，用于演示")
+@pytest.mark.demo
 def test_add_task_wrong_expectation():
     """故意写错预期的测试（演示用）"""
     tasks = []
@@ -307,10 +307,10 @@ def test_add_task_multiple_dimensions(initial_count, task_name):
 
 # 测试类型: 边界
 # 覆盖场景: 标记为预期失败的测试
-# 预期结果: 测试失败但不影响整体结果
-@pytest.mark.xfail(reason="演示：已知问题，待修复")
+# 预期结果: 作为演示测试，不进入默认验收
+@pytest.mark.demo
 def test_add_task_unicode_edge_case():
-    """演示 xfail：已知问题的测试"""
+    """演示：已知问题的测试"""
     tasks = []
     # 假设这是一个已知会导致问题的输入
     add_task(tasks, "\x00")  # null 字符

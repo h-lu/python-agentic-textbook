@@ -139,12 +139,12 @@ def _run_validate_book(root: Path) -> int:
         sys.executable,
         str(root / "scripts" / "validate_book.py"),
         "--mode",
-        "fast",
+        "release",
         "--strict",
     ]
     proc = subprocess.run(cmd, cwd=root, text=True, capture_output=True)
     if proc.returncode != 0:
-        print("[release-week] validate-book failed (cross-week consistency gate).", file=sys.stderr)
+        print("[release-week] validate-book failed (cross-week release gate).", file=sys.stderr)
         if proc.stdout.strip():
             print(proc.stdout.rstrip(), file=sys.stderr)
         if proc.stderr.strip():
