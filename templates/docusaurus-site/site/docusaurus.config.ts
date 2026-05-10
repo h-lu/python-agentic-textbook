@@ -16,8 +16,8 @@ const config: Config = {
   favicon: 'img/favicon.ico',
 
   // 站点 URL 配置（部署时根据实际情况修改）
-  url: 'https://python-agentic-textbook.netlify.app',
-  baseUrl: '/',
+  url: 'https://hblu.top',
+  baseUrl: '/python/',
 
   // GitHub 配置
   organizationName: 'h-lu',
