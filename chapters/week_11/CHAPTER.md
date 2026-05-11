@@ -89,7 +89,6 @@ PyHelper 本周推进：
   3. 重构状态管理逻辑（笔记状态：draft/published/archived）
   4. 添加 dataclass 与 JSON 序列化的转换函数
 - 涉及的本周概念：dataclass、类型提示、字段默认值、状态管理
-- 建议示例文件：examples/pyhelper/models.py（新增 dataclass 模型）
 -->
 
 ## 1. 当字典不够用时
@@ -209,11 +208,11 @@ print(f"已完成：{task1.completed}")
 
 ### @dataclass 装饰器做了什么？
 
-小北盯着这段代码，有些疑惑："这不就是一个类（class）吗？Week 03 我们学过啊。`@dataclass` 有什么特别的？"
+小北盯着这段代码，有些疑惑：“这不就是一个类（class）吗？`@dataclass` 有什么特别的？”
 
-好问题。`@dataclass` 这个装饰器（decorator）自动为你生成了很多"样板代码"：`__init__`、`__repr__`、`__eq__` 这些方法——你不用写一行。
+如果你以前见过普通的 `class`，你可能知道手写 `__init__`、`__repr__`、`__eq__` 很繁琐。没见过也没关系——现在你只需要先把 dataclass 理解成“带字段说明的数据盒子”。
 
-还记得 Week 03 学的**函数定义**吗？当时你学过 `def __init__(self, ...)` 是类初始化数据的地方。`__repr__` 和 `__eq__` 也是 Week 03 提过的特殊方法。dataclass 把这些都自动生成了——你不用再手写这些**样板代码**。
+`@dataclass` 会自动帮你生成初始化、打印展示和相等比较等常用行为，所以你可以把注意力放在“数据应该有哪些字段”上。
 
 "等等，"阿码插话，"如果我不写 `@dataclass`，自己手写这些方法，要写多少代码？"
 

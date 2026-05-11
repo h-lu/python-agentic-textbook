@@ -97,7 +97,6 @@ def print_menu():
 
 "完美的总结！"老潘笑了。
 
-**建议示例文件**：`01_single_file_mess.py`
 
 ---
 
@@ -211,7 +210,6 @@ print(f"圆周率：{pi}")
 
 "完美的类比！"老潘笑了，"所以加模块名前缀就像说'数学班的小明'和'英语班的小明'，不会混淆。"
 
-**建议示例文件**：`02_import_module.py`
 
 ---
 
@@ -239,7 +237,6 @@ pi = 3.14  # 覆盖了导入的 pi
 print(pi)  # 输出: 3.14（不是 math.pi 的精确值）
 ```
 
-**建议示例文件**：`03_from_import.py`
 
 ---
 
@@ -262,7 +259,6 @@ plt.plot([1, 2, 3], [4, 5, 6])
 plt.show()
 ```
 
-**建议示例文件**：`04_import_alias.py`
 
 ---
 
@@ -315,7 +311,6 @@ print(f"他的分数：{lucky_score}")
 
 "哦！"小北恍然大悟，"原来模块是这样用的——把别人的工具和自己的数据结合起来！"
 
-**建议示例文件**：`05_random_dict.py`
 
 ---
 
@@ -335,7 +330,6 @@ print(f"他的分数：{lucky_score}")
 
 "第三方库也能用 `import` 导入，"老潘说，"但需要先用 `pip` 安装。这个我们后面会讲。现在先用好标准库。"
 
-**建议示例文件**：`06_standard_library_demo.py`
 
 ---
 
@@ -432,7 +426,8 @@ def save_learning_log(learning_log):
 
 "这里用到了 Week 05 学的 `pathlib`，"老潘点评道，"很好——你在复用之前学过的知识。"
 
-**建议示例文件**：`storage.py`
+> 注意：上面为了让第一次模块化示例更短，暂时用了 `except Exception as e`。这是教学简化版。正式项目中，应优先捕获 `FileNotFoundError`、`PermissionError`、`UnicodeDecodeError` 等具体异常，避免把真正的 bug 藏起来。
+
 
 ---
 
@@ -465,7 +460,6 @@ if __name__ == "__main__":
 
 "对，"老潘点头，"`from storage import load_learning_log, save_learning_log` 会从 `storage.py` 文件中导入这两个函数，然后你就可以像使用本地函数一样使用它们。"
 
-**建议示例文件**：`main.py`
 
 ---
 
@@ -481,7 +475,6 @@ if __name__ == "__main__":
 
 "完美的总结！"老潘点头。
 
-**建议示例文件**：`07_main_with_storage.py`
 
 ---
 
@@ -597,7 +590,6 @@ $ python3 main.py
 
 "对，"老潘点头，"记住：**模块文件必须放在 Python 能找到的地方**。"
 
-**建议示例文件**：`08_module_search_path.py`
 
 ---
 
@@ -628,7 +620,6 @@ pyhelper/
 
 "没错，"老潘点头，"这就是模块化的价值——**降低认知负担**。"
 
-**建议示例文件**：`09_split_modules_demo.py`
 
 ---
 
@@ -769,7 +760,6 @@ learning_log = load_learning_log()
 
 "完美的总结！"老潘点头，"这就是 `__name__` 守卫的价值——**让模块既能当工具，也能当程序**。"
 
-**建议示例文件**：`10_name_guard.py`
 
 ---
 
@@ -816,7 +806,6 @@ if __name__ == "__main__":
 
 "没错，"老潘点头，"这就是 Python 的魅力——基础概念在不同的场景下反复出现，每次都有新的价值。"
 
-**建议示例文件**：`11_name_guard_with_test.py`
 
 ---
 
@@ -866,7 +855,6 @@ if __name__ == "__main__":
 
 这样，`records.py` 既能被其他模块导入使用，也能独立运行。
 
-**建议示例文件**：`12_name_guard_patterns.py`
 
 ---
 
@@ -910,7 +898,6 @@ ImportError: cannot import name 'load_learning_log' from 'storage'
 
 "完美的总结！"老潘点头，"记住：**函数定义应该在守卫外面，测试代码应该在守卫里面**。"
 
-**建议示例文件**：`13_name_guard_common_mistake.py`
 
 ---
 
@@ -1029,7 +1016,6 @@ def get_data_file():
 
 "完美的类比！"老潘点头，"这就是**相对路径**的好处——不依赖当前工作目录。Week 05 你学的 `pathlib`，现在在模块化项目里又派上新用场了。"
 
-**建议示例文件**：`pathlib_in_project.py`
 
 ---
 
@@ -1066,7 +1052,6 @@ pyhelper/                    # 项目根目录
 
 "完美的总结！"老潘点头。
 
-**建议示例文件**：`project_structure_demo/`
 
 ---
 
@@ -1104,7 +1089,6 @@ from storage import load_learning_log   # 绝对导入（可能混淆）
 
 "完美的类比！"老潘笑了。
 
-**建议示例文件**：`relative_import_demo.py`
 
 ---
 
@@ -1126,7 +1110,6 @@ from storage import load_learning_log   # 绝对导入（可能混淆）
 
 "没错，"老潘说，"**重构是持续的过程**，不是一次性的。"
 
-**建议示例文件**：`15_when_to_use_packages.py`
 
 ---
 
@@ -1228,7 +1211,6 @@ if __name__ == "__main__":
     save_learning_log(learning_log)
 ```
 
-**建议示例文件**：`storage.py`
 
 ---
 
@@ -1290,7 +1272,6 @@ if __name__ == "__main__":
     print(f"内容：{content}")
 ```
 
-**建议示例文件**：`input_handler.py`
 
 ---
 
@@ -1337,7 +1318,6 @@ if __name__ == "__main__":
     print(f"\n建议：{advice}")
 ```
 
-**建议示例文件**：`encouragement.py`
 
 ---
 
@@ -1400,7 +1380,6 @@ if __name__ == "__main__":
 
 这里用到了**相对导入**（`from input_handler import ...`），因为 `records.py` 和 `input_handler.py` 在同一个目录下。
 
-**建议示例文件**：`records.py`
 
 ---
 
@@ -1463,7 +1442,6 @@ if __name__ == "__main__":
     main()
 ```
 
-**建议示例文件**：`main.py`
 
 ---
 
@@ -1542,7 +1520,6 @@ $ python3 main.py
 
 老潘点点头："下周我们会给 PyHelper 添加**测试**（testing）——用 pytest 自动验证每个模块的功能是否正确。"
 
-**建议示例文件**：`pyhelper_modular/`
 
 ---
 

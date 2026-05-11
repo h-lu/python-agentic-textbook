@@ -100,7 +100,6 @@ PyHelper 本周推进：
   4. 写 release notes（v1.0.0 发布说明）
   5. 创建 Git tag（v1.0.0）
 - 涉及的本周概念：release notes、tag 发布
-- 建议示例文件：examples/14_pyhelper_v1.py（最终版本）
 -->
 
 ## 1. 代码需要"收个尾"——整理项目结构
@@ -547,7 +546,7 @@ YYYY-MM-DD
 ```bash
 git clone https://github.com/yourname/pyhelper.git
 cd pyhelper
-git tag v1.0.0  # 检出 v1.0.0 版本
+git checkout v1.0.0  # 检出 v1.0.0 版本
 pip install -e .
 ```
 

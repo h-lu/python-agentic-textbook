@@ -102,7 +102,6 @@ PyHelper 本周推进：
   4. 返回正确的退出码（成功 0，失败 1）
   5. 用 logging 记录操作日志到文件
 - 涉及的本周概念：argparse、子命令、退出码、logging
-- 建议示例文件：examples/pyhelper/cli.py（新增 CLI 入口）
 -->
 
 ## 1. 从脚本到工具——你的第一个 argparse 程序
@@ -366,7 +365,7 @@ args = parser.parse_args()
 if args.all:
     print("列出所有任务")
 elif args.pending:
-    print("列出来完成任务")
+    print("列出未完成任务")
 elif args.done:
     print("列出已完成任务")
 else:
@@ -382,7 +381,7 @@ python task.py --all
 # 输出：列出所有任务
 
 python task.py --pending
-# 输出：列出来完成任务
+# 输出：列出未完成任务
 
 python task.py --all --pending
 # 输出：error: argument --pending: not allowed with argument --all
@@ -513,7 +512,7 @@ elif args.command == "list":
     if args.all:
         print("列出所有任务")
     elif args.pending:
-        print("列出来完成任务")
+        print("列出未完成任务")
     else:
         print("列出所有任务（默认）")
 elif args.command == "done":
@@ -540,7 +539,7 @@ python todo.py add "写作业" --priority high
 
 # 列出任务
 python todo.py list --pending
-# 输出：列出来完成任务
+# 输出：列出未完成任务
 
 # 标记完成
 python todo.py done 1
@@ -608,7 +607,7 @@ def cmd_list(args):
     if args.all:
         print("列出所有任务")
     elif args.pending:
-        print("列出来完成任务")
+        print("列出未完成任务")
     else:
         print("列出所有任务（默认）")
 

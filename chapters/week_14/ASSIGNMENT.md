@@ -12,9 +12,18 @@
 2. 整理项目结构（删除冗余、统一风格、补全测试）
 3. 写 README.md（项目的"门面"）
 4. 写 release notes（假设发布 v1.0.0）
-5. 用 Git tag 创建版本发布
+5. 了解如何用 Git tag 创建版本发布（挑战项）
 
 这不是"练习"，而是**真实的工程实践**——从"能跑的代码"到"可发布的软件"。
+
+本周最低交付线：
+
+1. `submission/README.md`：包含安装、快速开始、主要功能和至少一个可运行示例；
+2. `submission/CHANGELOG.md`：包含 v1.0.0、发布日期、主要变化和升级指南；
+3. `submission/pyhelper/` 或你的包目录：至少包含 `__init__.py` 和一个核心模块；
+4. `submission/tests/`：至少有一个能通过的 pytest 测试。
+
+Git tag、GitHub Release、知识地图和 AI 审查报告是挑战项。
 
 ---
 
@@ -25,7 +34,7 @@
 1. 理解**代码收敛**的概念和步骤（删除冗余、统一风格、补全测试）
 2. 撰写专业的 README（让用户 30 秒内了解项目）
 3. 写清晰的 release notes（告诉用户"改了什么"）
-4. 用 Git tag 做版本发布（语义化版本规范）
+4. 了解 Git tag 与语义化版本规范（挑战项）
 5. 回顾全书知识，建立自己的学习地图
 
 ---
@@ -423,7 +432,7 @@ git push origin v1.0.0
 ```bash
 git clone https://github.com/yourname/pyhelper.git
 cd pyhelper
-git tag v1.0.0  # 检出 v1.0.0 版本
+git checkout v1.0.0  # 检出 v1.0.0 版本
 pip install -e .
 ```
 

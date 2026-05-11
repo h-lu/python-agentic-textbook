@@ -186,7 +186,7 @@
 **Python**：`pytest` 断言、基础 fixture、参数化测试
 **Agentic**：TDD 小步循环——写一个失败测试 → 最小实现 → 通过 → 重构
 **Git/PR**：延续 PR 流程
-**贯穿案例**：给 Week 06 的计算器补全测试套件
+**贯穿案例**：Todo Manager 测试套件——从手动测试 add_task/mark_done，到用 pytest、fixture、参数化和 TDD 覆盖核心行为
 **PyHelper 进度**：给核心功能补全 pytest 测试
 
 | 维度 | 说明 |
@@ -217,7 +217,7 @@
 
 ### Week 10：数据交换的艺术——JSON 与序列化
 
-**Python**：JSON / YAML 序列化与反序列化、配置文件、数据契约
+**Python**：JSON 序列化与反序列化、配置文件、数据契约；YAML 作为延伸格式了解即可
 **Agentic**：把"输入格式"写成可验证契约（用 tests + anchors 守护）
 **Git/PR**：延续 PR 流程
 **贯穿案例**：配置管理器——读取 / 验证 / 合并配置文件
@@ -341,7 +341,7 @@ print/input/变量 (W01)
     │     │     │     │     │     └── 模块化 (W07)
     │     │     │     │     │           ├── pytest (W08)
     │     │     │     │     │           │     └── 文本处理 (W09)
-    │     │     │     │     │           │           └── JSON/YAML (W10)
+    │     │     │     │     │           │           └── JSON（YAML 延伸）(W10)
     │     │     │     │     │           │                 └── dataclass (W11)
     │     │     │     │     │           │                       └── CLI (W12)
     │     │     │     │     │           │                             └── Agent Team (W13)

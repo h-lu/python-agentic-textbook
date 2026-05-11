@@ -98,9 +98,11 @@ starter_code/todo_app/
 
 **验证方法**：
 ```bash
+cd chapters/week_07/starter_code/todo_app
+
 # 单独测试每个模块
 python3 storage.py
-python3 chapters/week_07/starter_code/todo_app/todo_manager.py
+python3 todo_manager.py
 python3 input_handler.py
 
 # 运行主程序

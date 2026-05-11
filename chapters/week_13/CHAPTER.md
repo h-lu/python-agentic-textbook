@@ -11,6 +11,10 @@
 
 ---
 
+本周你不需要接入真实的大模型 API。我们先用普通 Python 类来模拟 agent team：ReaderAgent 负责读文件，WriterAgent 负责生成计划，ReviewerAgent 负责检查质量。等你理解了“职责分工 + 消息传递 + 审查清单”，以后再把其中某个 agent 换成真实 AI 调用，就不会乱。
+
+在本周的代码里，agent 可以先理解成“有固定职责的对象/函数模块”。真正接入 AI API 是以后可以做的扩展。
+
 ## 前情提要
 
 上周小北给 PyHelper 加上了完整的 CLI 界面——`pyhelper add`、`pyhelper list`、`pyhelper search`、`pyhelper export`、`pyhelper stats`,所有功能都能通过命令行调用了。
@@ -97,7 +101,6 @@ PyHelper 本周推进:
   4. tester agent:为计划功能生成 pytest 测试
   5. reviewer agent:检查生成的代码质量(review checklist)
 - 涉及的本周概念:agent team、review checklist、失败驱动迭代
-- 建议示例文件:examples/03_full_agent_team.py、examples/13_pyhelper_agent_team.py(展示 agent team 协作与 PyHelper 集成)
 -->
 
 ## 1. 一个人不够用?——理解 agent team 模式

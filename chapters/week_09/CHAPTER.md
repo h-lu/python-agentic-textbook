@@ -89,7 +89,6 @@ PyHelper 本周推进：
   2. `filter_by_date(start_date, end_date)` - 按日期范围过滤
   3. `extract_tags()` - 从笔记中提取标签（如 #Python #学习）
 - 涉及的本周概念：字符串方法（find/in）、正则表达式（提取标签）、边界处理（空搜索词）
-- 建议示例文件：examples/pyhelper/text_utils.py（新增模块）
 -->
 
 ## 1. 字符串不只是文字

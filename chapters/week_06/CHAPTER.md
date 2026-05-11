@@ -54,6 +54,16 @@ ValueError: invalid literal for int() with base 10: 'abc'
 6. 理解 LBYL vs EAFP 两种编程哲学,知道什么时候用哪种
 7. 能设计"输入校验"函数,防止程序因坏输入崩溃
 
+本周最低通过线：
+
+- 会用 `try/except ValueError` 处理非数字输入；
+- 会用 `except ZeroDivisionError` 处理除零；
+- 会捕获 `FileNotFoundError`；
+- 知道不要写裸的 `except:`；
+- 能写一个“输入不合法就重试”的函数。
+
+`else/finally`、`raise`、LBYL/EAFP 对比属于进阶掌握内容。
+
 ---
 
 <!--
@@ -179,7 +189,6 @@ ValueError: invalid literal for int() with base 10: 'abc'
 
 "这就是这周要学的——**异常处理**（exception handling）,"老潘说,"不是祈祷'用户别乱输',而是假设'用户一定会乱输',然后让程序优雅地处理。"
 
-**建议示例文件**：`01_crashing_calculator.py`
 
 ---
 
@@ -227,7 +236,6 @@ except:
 
 小北倒吸一口冷气："这太糟糕了！那我赶紧把裸的 `except:` 改掉……"
 
-**建议示例文件**：`02_catch_all_exceptions.py`
 
 ---
 
@@ -303,7 +311,6 @@ except ZeroDivisionError:
 
 小北松了一口气："这样用户就知道自己错在哪了,而不是看到一堆红色的报错信息一脸茫然。"
 
-**建议示例文件**：`03_specific_exceptions.py`
 
 ---
 
@@ -337,7 +344,6 @@ except ZeroDivisionError:
 
 "哈哈,"老潘笑了,"记住,不要捕获你'预期不到'的异常。你只捕获你能处理的,其他的让它崩——这样你才能发现真正的 bug。"
 
-**建议示例文件**：`04_multiple_exceptions.py`
 
 ---
 
@@ -394,7 +400,6 @@ safe_divide()
 
 这里用到了 Week 03 学的**函数**——把除法逻辑封装成函数,用 `return` 提前退出。
 
-**建议示例文件**：`05_safe_divider.py`
 
 ---
 
@@ -480,7 +485,6 @@ except ZeroDivisionError:
 - `else`：没出错时做什么
 - `finally`：无论是否出错都要做的事（下面会讲）"
 
-**建议示例文件**：`06_else_clause.py`
 
 ---
 
@@ -566,7 +570,6 @@ finally:
 
 这里 `finally` 确保临时文件**一定会被删除**,即使 `do_something_with_file()` 抛出了异常。
 
-**建议示例文件**：`07_finally_cleanup.py`
 
 ---
 
@@ -599,7 +602,6 @@ finally 执行了
 
 `with` 会在退出块时自动关闭文件,`finally` 会在这之后执行。
 
-**建议示例文件**：`08_with_and_finally.py`
 
 ---
 
@@ -665,7 +667,6 @@ safe_divide()  # 输入除以零
 
 你会发现,无论是否出错,`=== 计算结束 ===` 都会打印。
 
-**建议示例文件**：`09_complete_exception_handler.py`
 
 ---
 
@@ -748,7 +749,6 @@ else:
 
 "对,EAFP 就像'快速试错'——失败了成本很低,但成功了就省了一步检查。"
 
-**建议示例文件**：`10_eafp_dict.py`
 
 ---
 
@@ -824,7 +824,6 @@ except ValueError:
 
 "没错,"老潘说,"而字典访问这种场景,大部分时候键都存在,失败频率低,这时候 EAFP 就更高效。"
 
-**建议示例文件**：`12_lbyl_input.py`
 
 ---
 
@@ -886,7 +885,6 @@ print(f"老潘的分数：{missing_score}")
 
 这里 `get_positive_integer` 用 LBYL（用户输入验证）,`get_dictionary_value` 用 EAFP（字典访问）。不同的场景用不同的风格。
 
-**建议示例文件**：`13_mixed_style.py`
 
 ---
 
@@ -982,7 +980,6 @@ ValueError: 年龄不能为负数
 
 "对,这就是 `raise` 的价值,"老潘说,"它不只是'报错',它是'上报问题'——让调用者知道'这里出了问题,你需要处理'。"
 
-**建议示例文件**：`14_basic_raise.py`
 
 ---
 
@@ -1035,7 +1032,6 @@ except ValueError as e:
 
 现在,调用者可以"捕获"异常,根据失败与否决定是否发送通知。
 
-**建议示例文件**：`15_why_raise.py`
 
 ---
 
@@ -1083,7 +1079,6 @@ except ValueError as e:
 
 `get_age` 函数会调用 `get_positive_integer`,然后**额外检查**年龄是否在 18-120 之间。如果不满足,它会**主动抛出** `ValueError`。
 
-**建议示例文件**：`16_input_validation_functions.py`
 
 ---
 
@@ -1132,7 +1127,6 @@ raise ValueError(f"年龄 {age} 超出合理范围（0-120）,请重新输入")
 
 "看你的用户,"老潘说,"关键是**清晰**,不是语言。如果你的用户是中国人,用中文；如果是国际用户,用英文。但无论用什么语言,都要遵循'出了什么错、为什么、怎么修复'这三个原则。"
 
-**建议示例文件**：`17_error_messages.py`
 
 ---
 
@@ -1203,7 +1197,6 @@ print("\n=== 信息收集完成 ===")
 
 这个程序会持续提示用户,直到输入正确为止。无论用户输入什么,它都不会崩溃。
 
-**建议示例文件**：`18_robust_input_processor.py`
 
 ---
 
@@ -1260,7 +1253,6 @@ except ValueError as e:
 
 "没错,"老潘笑了,"这就是异常的真正价值：它不只是'错误处理',它还是'函数和调用者之间的沟通机制'。"
 
-**建议示例文件**：`19_retry_with_limit.py`
 
 ---
 
@@ -1519,7 +1511,6 @@ if __name__ == "__main__":
 
 老潘看到这段代码会说什么？"这就对了。用户永远会做你想不到的事情。你无法预测他们会输入什么,但你可以让程序'不怕坏输入'——这就是防御性编程。"
 
-**建议示例文件**：`06_pyhelper.py`
 
 ---
 

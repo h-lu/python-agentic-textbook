@@ -259,7 +259,7 @@ except ValueError as e:
 
 1. **定义 Task dataclass**：
    ```python
-   from dataclasses import dataclass, asdict
+   from dataclasses import dataclass, asdict, field
    from typing import List
    import json
 
@@ -269,12 +269,7 @@ except ValueError as e:
        title: str
        priority: str
        completed: bool = False
-       tags: List[str] = None
-
-       def __post_init__(self):
-           """初始化后处理，设置 tags 默认值"""
-           if self.tags is None:
-               self.tags = []
+       tags: List[str] = field(default_factory=list)
    ```
 
 2. **实现转换方法**：
@@ -810,16 +805,6 @@ class Task:
     tags: List[str] = field(default_factory=list)  # 正确
 ```
 
-或者用 `__post_init__`：
-```python
-@dataclass
-class Task:
-    tags: List[str] = None
-
-    def __post_init__(self):
-        if self.tags is None:
-            self.tags = []
-```
 
 **Q4: `Optional[str]` 和 `str = None` 有什么区别？**
 

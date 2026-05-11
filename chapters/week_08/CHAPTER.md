@@ -81,7 +81,6 @@ PyHelper 本周推进：
 - 上周状态：PyHelper 已拆成多模块项目（storage.py, input_handler.py, records.py, main.py）
 - 本周改进：为核心模块（storage.py 和 records.py）添加 pytest 测试
 - 涉及的本周概念：pytest 断言、fixture（用于准备测试数据）、参数化测试（测试多种输入）
-- 建议示例文件：examples/pyhelper/tests/
 -->
 
 ## 1. 手动测试的困境
