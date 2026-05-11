@@ -2,19 +2,19 @@
 
 ## 测试文件概览
 
-为 Week 05（文件读写）创建了 4 个测试文件，共 110 个测试用例：
+为 Week 05（文件读写）创建了 5 个测试文件，共 112 个测试用例（含作业契约测试）：
 
-### 1. test_file_basics.py - 文件基础测试 (42 个测试)
+### 1. test_file_basics.py - 文件基础测试 (25 个测试)
 
 **测试类：**
 
-- **TestFileWrite** (4 个测试)
+- **TestFileWrite**
   - 单行写入
   - 多行写入
   - 换行符使用
   - 不换行时内容连接
 
-- **TestFileRead** (6 个测试)
+- **TestFileRead**
   - read() 读取全部内容
   - readlines() 返回列表
   - readline() 读取单行
@@ -22,105 +22,105 @@
   - 读取空文件
   - 使用 strip() 去除换行符
 
-- **TestWithStatement** (2 个测试)
+- **TestWithStatement**
   - with 语句自动关闭文件
   - with 确保数据落盘
 
-- **TestFileModes** (4 个测试)
+- **TestFileModes**
   - "w" 写入模式覆盖已有内容
   - "a" 追加模式添加到末尾
   - 追加模式创建不存在的文件
   - "r" 读取模式文件不存在时报错
 
-- **TestFileHandling** (4 个测试)
+- **TestFileHandling**
   - split() 分割行内容
   - split() 处理多个分隔符
   - 将字典写入文件
   - 从文件读取并重建字典
 
-- **TestEdgeCases** (6 个测试)
+- **TestEdgeCases**
   - 写入空字符串
   - 写入特殊字符
   - 写入超长行
   - 写入 Unicode emoji
   - 处理空行
 
-### 2. test_pathlib.py - pathlib 测试 (38 个测试)
+### 2. test_pathlib.py - pathlib 测试 (31 个测试)
 
 **测试类：**
 
-- **TestPathBasics** (4 个测试)
+- **TestPathBasics**
   - 创建 Path 对象
   - Path.home() 获取用户主目录
   - Path.cwd() 获取当前工作目录
   - 用 / 运算符拼接路径
 
-- **TestPathProperties** (4 个测试)
+- **TestPathProperties**
   - 获取文件名 (name)
   - 获取扩展名 (suffix)
   - 获取父目录 (parent)
   - 获取文件名不含扩展名 (stem)
 
-- **TestPathOperations** (4 个测试)
+- **TestPathOperations**
   - 检查文件是否存在 (exists())
   - 判断文件/目录 (is_file/is_dir)
   - 创建多级目录 (mkdir with parents)
   - exist_ok 参数避免重复创建
 
-- **TestPathReadWrite** (5 个测试)
+- **TestPathReadWrite**
   - write_text() 基本用法
   - read_text() 基本用法
   - 读写中文内容
   - 读写多行文本
   - 读写空文件
 
-- **TestPathCrossPlatform** (3 个测试)
+- **TestPathCrossPlatform**
   - 路径分隔符自动适配
   - Path 对象是操作系统感知的
   - 相对路径的使用
 
-- **TestPathPractical** (4 个测试)
+- **TestPathPractical**
   - 构建数据文件路径（模拟 PyHelper）
   - 读取前检查文件是否存在
   - 列出目录中的文件
   - 获取文件大小
 
-- **TestPathEdgeCases** (5 个测试)
+- **TestPathEdgeCases**
   - 处理带空格的路径
   - 处理 Unicode 文件名
   - 空文件名
   - 多个点的文件名
   - 末尾斜杠行为
 
-### 3. test_encoding.py - 编码测试 (23 个测试)
+### 3. test_encoding.py - 编码测试 (25 个测试)
 
 **测试类：**
 
-- **TestUTF8Encoding** (5 个测试)
+- **TestUTF8Encoding**
   - UTF-8 读写中文
   - 读写混合语言文本
   - pathlib 的 UTF-8 读写
   - 中文在字典格式中的存储
   - Unicode emoji 字符
 
-- **TestEncodingBasics** (4 个测试)
+- **TestEncodingBasics**
   - 字符串编码为字节
   - 字节解码为字符串
   - 不同编码产生不同字节
   - 错误编码解码会失败
 
-- **TestEncodingInFileOperations** (3 个测试)
+- **TestEncodingInFileOperations**
   - UTF-8 写入和读取匹配
   - 用错误编码读取会报错
   - 中文必须指定正确编码
 
-- **TestSpecialCharacters** (4 个测试)
+- **TestSpecialCharacters**
   - 换行符处理
   - 制表符和空格
   - 引号和反斜杠
   - 各种标点符号
 
-- **TestEncodingEdgeCases** (6 个测试)
+- **TestEncodingEdgeCases**
   - 空字符串编码
   - 很长的中文文本
   - ASCII 和中文混合
@@ -128,12 +128,12 @@
   - BOM (Byte Order Mark)
   - 生僻中文字符
 
-- **TestPracticalEncodingScenarios** (3 个测试)
+- **TestPracticalEncodingScenarios**
   - 中文日记的存储和读取
   - 带日期的学习记录
   - 搜索中文内容
 
-### 4. test_diary_app.py - 日记本工具测试 (30 个测试)
+### 4. test_diary_app.py - 日记本工具测试 (29 个测试)
 
 **包含的实现函数：**
 - `add_diary_entry()` - 添加日记条目
@@ -143,7 +143,7 @@
 
 **测试类：**
 
-- **TestAddDiaryEntry** (6 个测试)
+- **TestAddDiaryEntry**
   - 添加单条日记
   - 添加多条日记
   - 追加模式不覆盖
@@ -151,7 +151,7 @@
   - 添加包含特殊字符的日记
   - 添加长日记
 
-- **TestReadDiaries** (6 个测试)
+- **TestReadDiaries**
   - 读取不存在的文件
   - 读取单条日记
   - 读取多条日记
@@ -159,7 +159,7 @@
   - 空行过滤
   - 读取中文内容
 
-- **TestSearchDiaries** (6 个测试)
+- **TestSearchDiaries**
   - 搜索单个关键词
   - 多个匹配结果
   - 搜索不存在的内容
@@ -167,22 +167,27 @@
   - 搜索日期格式
   - 部分匹配搜索
 
-- **TestCountDiaries** (3 个测试)
+- **TestCountDiaries**
   - 统计空日记
   - 统计单条日记
   - 统计多条日记
 
-- **TestDiaryIntegration** (3 个测试)
+- **TestDiaryIntegration**
   - 完整的写-读-搜工作流
   - 数据持久化验证
   - Unicode 内容正确保存
 
-- **TestDiaryEdgeCases** (4 个测试)
+- **TestDiaryEdgeCases**
   - 空日记内容
   - 很长的日记条目
   - 特殊字符在日记中
   - 搜索空关键词
   - 连续添加操作
+
+### 5. test_assignment_contract.py - 作业契约测试 (2 个测试)
+
+- 作业入口文件存在
+- 必要函数 / 运行契约保持稳定
 
 ## 测试覆盖矩阵
 
@@ -221,7 +226,7 @@ python3 -m pytest chapters/week_05/tests -v
 ## 测试结果
 
 ```
-110 passed in 0.19s
+112 passed
 ```
 
 所有测试通过 ✅

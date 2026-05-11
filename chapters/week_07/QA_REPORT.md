@@ -58,7 +58,7 @@
 ### 测试结果
 ```bash
 $ python3 -m pytest chapters/week_07/tests -q
-115 passed in ~1s
+120 passed
 ```
 
 ---

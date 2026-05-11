@@ -51,10 +51,7 @@ python3 -m pytest chapters/week_02/tests -k "test_score_grade_excellent" -v
 ### 安静模式（-q）
 ```bash
 $ python3 -m pytest chapters/week_02/tests -q
-........................................................................ [ 48%]
-........................................................................ [ 96%]
-......                                                                   [100%]
-150 passed in 0.14s
+153 passed
 ```
 - 只显示进度条和总结
 - 适合快速验证
@@ -117,7 +114,7 @@ python3 -m pytest chapters/week_02/tests -k "test_score_grade_excellent" -v
 ### Q: 测试会修改我的代码吗？
 不会。测试只运行断言，不会修改任何源代码文件。
 
-### Q: 为什么有 150 个测试？
+### Q: 为什么有 153 个测试？
 这是为了全面覆盖 Week 02 的所有知识点：
 - 条件判断的各种情况
 - 循环的各种模式
@@ -129,10 +126,11 @@ python3 -m pytest chapters/week_02/tests -k "test_score_grade_excellent" -v
 | 文件 | 测试数量 | 覆盖内容 |
 |------|---------|---------|
 | test_smoke.py | 12 | 基础功能验证 |
-| test_conditionals.py | 30 | if/elif/else 逻辑 |
-| test_loops.py | 35 | for/while 循环 |
-| test_booleans.py | 73 | 布尔表达式 |
-| **总计** | **150** | **Week 02 全部内容** |
+| test_assignment_contract.py | 2 | 作业入口契约 |
+| test_conditionals.py | 37 | if/elif/else 逻辑 |
+| test_loops.py | 38 | for/while 循环 |
+| test_booleans.py | 64 | 布尔表达式 |
+| **总计** | **153** | **Week 02 全部内容** |
 
 ## 下一步
 

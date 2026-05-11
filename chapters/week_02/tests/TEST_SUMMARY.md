@@ -2,9 +2,9 @@
 
 ## 概览
 
-- **总测试文件数**：4 个
-- **总测试用例数**：150 个
-- **测试通过率**：100% (150/150)
+- **总测试文件数**：5 个（含 `test_assignment_contract.py`）
+- **总测试用例数**：153 个
+- **测试通过率**：以当前 `python3 -m pytest chapters/week_02/tests -q` 输出为准
 - **代码行数**：约 1500 行
 
 ## 测试文件结构
@@ -14,14 +14,15 @@ chapters/week_02/tests/
 ├── __init__.py                  # 包初始化文件
 ├── README.md                    # 测试文档（使用说明、运行命令）
 ├── test_smoke.py                # 基线测试（12 个测试）
-├── test_conditionals.py         # 条件判断测试（30 个测试）
-├── test_loops.py                # 循环测试（35 个测试）
-└── test_booleans.py             # 布尔表达式测试（73 个测试）
+├── test_assignment_contract.py  # 作业契约测试（2 个测试）
+├── test_conditionals.py         # 条件判断测试（37 个测试）
+├── test_loops.py                # 循环测试（38 个测试）
+└── test_booleans.py             # 布尔表达式测试（64 个测试）
 ```
 
 ## 测试覆盖矩阵
 
-### 1. 条件判断（test_conditionals.py - 30 个测试）
+### 1. 条件判断（test_conditionals.py - 37 个测试）
 
 | 测试类别 | 测试数量 | 覆盖内容 |
 |---------|---------|---------|
@@ -39,7 +40,7 @@ chapters/week_02/tests/
 - 60/80/90 分（评级边界）
 - 0/99（无效难度）
 
-### 2. 循环（test_loops.py - 35 个测试）
+### 2. 循环（test_loops.py - 38 个测试）
 
 | 测试类别 | 测试数量 | 覆盖内容 |
 |---------|---------|---------|
@@ -58,7 +59,7 @@ chapters/week_02/tests/
 - `for...else` 的 else 执行条件
 - while 循环的退出条件
 
-### 3. 布尔表达式（test_booleans.py - 73 个测试）
+### 3. 布尔表达式（test_booleans.py - 64 个测试）
 
 | 测试类别 | 测试数量 | 覆盖内容 |
 |---------|---------|---------|
@@ -138,10 +139,7 @@ test_guess_number_too_low()         # 测试猜数字"太小"的情况
 
 ```bash
 $ python3 -m pytest chapters/week_02/tests -q
-........................................................................ [ 48%]
-........................................................................ [ 96%]
-......                                                                   [100%]
-150 passed in 0.14s
+153 passed
 ```
 
 **测试通过率：100%**
@@ -150,10 +148,10 @@ $ python3 -m pytest chapters/week_02/tests -q
 
 | CHAPTER.md 章节 | 对应测试文件 | 测试数量 |
 |----------------|------------|---------|
-| 1. 如果这样，那就那样（if/elif/else） | test_conditionals.py | 30 |
-| 2. 让它一直猜，直到猜中（while 循环） | test_loops.py（部分） | 15 |
-| 3. 数到几就停（for 循环 + range） | test_loops.py（部分） | 20 |
-| 4. 当条件变得复杂（布尔表达式） | test_booleans.py | 73 |
+| 1. 如果这样，那就那样（if/elif/else） | test_conditionals.py | 37 |
+| 2. 让它一直猜，直到猜中（while 循环） | test_loops.py（部分） | 约一半 |
+| 3. 数到几就停（for 循环 + range） | test_loops.py（部分） | 约一半 |
+| 4. 当条件变得复杂（布尔表达式） | test_booleans.py | 64 |
 | 贯穿案例（猜数字游戏） | 跨多个文件 | 10+ |
 | PyHelper 进度 | test_conditionals.py | 4 |
 
@@ -175,7 +173,7 @@ $ python3 -m pytest chapters/week_02/tests -q
 
 ## 总结
 
-Week 02 的测试套件全面覆盖了条件判断、循环和布尔表达式的所有核心知识点。150 个测试用例确保了学生能够：
+Week 02 的测试套件全面覆盖了条件判断、循环和布尔表达式的所有核心知识点。153 个测试用例确保了学生能够：
 
 - ✅ 正确使用 if/elif/else 进行条件判断
 - ✅ 理解条件的顺序性和边界值

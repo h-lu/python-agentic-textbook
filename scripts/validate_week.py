@@ -14,6 +14,7 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import os
 import shlex
 import subprocess
 import sys
@@ -212,7 +213,9 @@ def _run_anchor_verification(errors: list[str], root: Path, week: str, verificat
         else:
             return
 
-    proc = subprocess.run(cmd, cwd=root, text=True, capture_output=True)
+    env = os.environ.copy()
+    env.setdefault("PYTEST_DISABLE_PLUGIN_AUTOLOAD", "1")
+    proc = subprocess.run(cmd, cwd=root, text=True, capture_output=True, env=env)
     if proc.returncode != 0:
         output = "\n".join(part for part in [proc.stdout.strip(), proc.stderr.strip()] if part)
         tail = output[-800:] if output else "no output"
@@ -476,7 +479,9 @@ def _run_pytest(errors: list[str], root: Path, week: str) -> None:
     week_tests = root / "chapters" / week / "tests"
     cmd = [sys.executable, "-m", "pytest", str(week_tests), "-q"]
     verbose(f"running: {' '.join(cmd)}")
-    proc = subprocess.run(cmd, cwd=root, text=True, capture_output=True)
+    env = os.environ.copy()
+    env.setdefault("PYTEST_DISABLE_PLUGIN_AUTOLOAD", "1")
+    proc = subprocess.run(cmd, cwd=root, text=True, capture_output=True, env=env)
     if proc.returncode != 0:
         add_error(errors, "pytest failed")
         if proc.stdout:

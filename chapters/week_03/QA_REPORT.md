@@ -52,7 +52,7 @@
 
 ### pytest
 ```
-215 passed in 0.71s
+225 passed
 ```
 
 ## 修订历史
@@ -73,7 +73,7 @@
 
 ### 第3轮（2026-02-22）
 - 验证：release mode validation 通过
-- 测试：215 tests passed
+- 测试：225 tests passed
 - 结论：✅ 发布条件满足
 
 ## 详细评语

@@ -3,7 +3,7 @@
 > "Unix 哲学：让每个程序做好一件事。"
 > — Doug McIlroy，Unix 管道机制发明者
 
-2025-2026 年，命令行工具（CLI）正在经历一场复兴。GitHub 上 stars 过万的 CLI 项目如 `eza`（现代 ls 替代品）、`zellij`（终端工作区管理器）、`gitui`（Git TUI 工具）等，都是纯命令行界面但体验极佳的工具。这种复兴背后有两个驱动力：一是 DevOps 和云原生技术的普及（服务器上只能用命令行），二是 AI 编程助手让写 CLI 工具的门槛大幅降低——你不再需要记忆 argparse 的所有 API，让 AI 生成骨架，你专注于业务逻辑即可。
+近几年，命令行工具（CLI）重新受到关注。`eza`（现代 ls 替代品）、`zellij`（终端工作区管理器）、`gitui`（Git TUI 工具）等项目说明：纯命令行界面也可以有很好的体验。这种趋势背后有两个驱动力：一是 DevOps 和云原生技术的普及（服务器上常常只能用命令行），二是 AI 编程助手让写 CLI 工具的门槛降低——你不再需要记忆 argparse 的所有 API，可以让 AI 生成骨架，再由你审查和补齐业务逻辑。
 
 更重要的趋势是 **"CLI as API"** 的理念——命令行工具不只是给人用的，也是脚本和其他程序调用的接口。2025 年的 [CobraConf（命令行工具开发者大会）](https://www.cobraconf.com/)讨论最多的主题之一就是"如何设计既适合人类交互、又适合程序调用的 CLI"。退出码、标准输出、JSON 模式、子命令设计——这些你即将学习的概念，正是专业 CLI 工具的标志。
 
@@ -393,7 +393,7 @@ argparse 自动检测互斥参数冲突——如果用户同时用 `--all` 和 `
 >
 > argparse 的样板代码（add_argument、参数类型、help 文本）很适合 AI 生成。2026 年，AI 编程助手（GitHub Copilot、Cursor、Claude Code）在 CLI 工具开发上已经成为主流——因为 argparse 的 API 很规则，AI 很容易学会。
 >
-> 现实案例：GitHub 社区有开发者分享"用 Copilot CLI 在 80 分钟内构建项目健康检查工具"的经验——AI 帮助快速生成 argparse 骨架代码，开发者专注于业务逻辑。[2025 年的一项实战案例](https://dev.to/srijan-x/building-devpulse-a-project-health-checker-in-80-minutes-with-github-copilot-cli-2gh6)显示，用 AI 辅助开发 CLI 工具可以将编码时间缩短 60% 以上。
+> 现实案例：GitHub 社区有开发者分享过用 AI 辅助快速构建项目健康检查工具的经验——AI 帮助生成 argparse 骨架代码，开发者专注于业务逻辑。这里的价值不在于记住具体用时，而在于看到分工：AI 起草结构，人类确认接口、错误处理和输出契约。
 >
 > 2026 年还出现了专门的 CLI 编码工具：Claude Code、Aider、OpenCode、Gemini CLI 等，它们都"终端优先"——直接在命令行里和 AI 对话来修改代码。Addy Osmani 在他的[2026 年 LLM 编码工作流](https://medium.com/@addyosmani/my-llm-coding-workflow-going-into-2026-52fe1681325e)中专门提到，AI 代理为命令行使用设计是关键趋势。
 >

@@ -106,11 +106,12 @@ python3 -m pytest chapters/week_03/tests/test_converter.py -k "parameterized" -v
 
 | 测试文件 | 测试用例数 | 覆盖主题 |
 |---------|----------|---------|
-| test_smoke.py | 35 | 基础功能 |
-| test_functions.py | 90+ | 函数核心概念 |
-| test_converter.py | 60+ | 单位换算 |
-| test_pyhelper.py | 70+ | PyHelper 功能 |
-| **总计** | **215+** | **Week 03 全部内容** |
+| test_smoke.py | 25 | 基础功能 |
+| test_assignment_contract.py | 2 | 作业入口契约 |
+| test_functions.py | 65 | 函数核心概念 |
+| test_converter.py | 79 | 单位换算 |
+| test_pyhelper.py | 54 | PyHelper 功能 |
+| **总计** | **225** | **Week 03 全部内容** |
 
 ## 测试覆盖的核心概念
 

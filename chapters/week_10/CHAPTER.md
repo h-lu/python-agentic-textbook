@@ -3,7 +3,7 @@
 > "数据的可移植性比代码的可移植性更重要。"
 > — Douglas Crockford，JSON 格式发明者
 
-2025 年，全球活跃着超过 2 亿个 API，预计到 2030 年将增长到 17 亿个。根据 Postman 的《2025 State of the API Report》，REST API 以 93% 的采用率稳居主导地位，而 JSON 作为 REST API 的默认数据格式，已成为现代软件世界的通用语言。更值得注意的是，Gartner 预测到 2026 年，AI 和大语言模型将驱动 API 使用量增长 30%——从 OpenAI 的 API 到 Claude 的函数调用，从微服务架构到云原生应用，JSON 是这一切的基石。
+今天的软件世界由 API 连接：网页前端调用后端服务，手机 App 调用云端接口，AI 应用调用大模型和工具服务。JSON 作为 REST API、配置文件和模型工具调用中最常见的数据格式之一，已经成为现代软件世界的通用语言。从 OpenAI 的 API 到 Claude 的工具调用，从微服务架构到云原生应用，JSON 都是重要的基石。
 
 但 JSON 不仅仅是一种格式——它代表了一种思维方式：**结构化数据的可移植性**。当你的 PyHelper 学习记录能以 JSON 格式存储时，它就不再局限于一个程序——你可以把数据导入到其他工具中分析，可以分享给朋友，甚至可以作为训练数据喂给 AI。本周，你将学会如何让数据"流动"起来。
 
@@ -309,7 +309,7 @@ print(loaded_notes)
 >
 > 2026 年，AI 工具正在重塑 JSON 数据的处理方式。从结构化数据提取到 Schema 验证，AI 的能力已经超越了简单的代码生成。
 >
-> **LLM 的结构化输出能力**：OpenAI 的 GPT-4 在 Structured Outputs 模式下对 JSON Schema 的合规性达到了 **100%**。相比之下，LLM 对 JSON 的解析准确率（98-100%）显著高于 YAML（89-94%）。这意味着在 AI 工作流中，JSON 正成为首选的数据交换格式。
+> **LLM 的结构化输出能力**：现代大模型越来越重视结构化输出和 JSON Schema 约束。不同模型、不同提示词和不同 schema 的表现会变化，但方向很明确：在 AI 工作流中，JSON 正成为首选的数据交换格式之一。
 >
 > **AI 驱动的数据提取工具**：
 > - **Firecrawl**：开发者优先的结构化数据平台，能将任意网站转换为 LLM-ready 的 JSON/Markdown 格式
@@ -653,7 +653,7 @@ books = [migrate_book_data(b, from_version=1) for b in books]
 
 > **AI 时代小专栏：API 数据交互与 AI 应用**
 >
-> JSON 是现代 API 的通用语言，而 API 是 AI 应用的基石。2026 年，JSON 在 AI 工作流中的地位愈发重要——OpenAI 的 ChatGPT 已拥有 **2.5 亿月活用户**，超过 **90% 的财富 500 强公司**集成了 OpenAI API，累计 API 调用量达 **1.2 万亿次**。
+> JSON 是现代 API 的通用语言，而 API 是 AI 应用的基石。随着聊天机器人、代码助手和自动化 agent 进入更多工作流，JSON 在 AI 应用中的地位愈发重要：它负责把用户请求、工具参数、模型输出和日志记录串起来。
 >
 > **AI API 的 JSON 格式**：OpenAI、Claude、Gemini 等大模型 API 都使用 JSON 进行请求和响应。一个典型的 OpenAI API 响应结构如下：
 > ```json
@@ -683,7 +683,7 @@ books = [migrate_book_data(b, from_version=1) for b in books]
 >
 > **Azure OpenAI 的监控指标**：在生产环境中，API 的 JSON 响应还包含关键的性能指标，如 `ActiveTokens`（活跃令牌数）、`GeneratedTokens`（生成令牌数）等，用于监控和优化成本。
 >
-> 根据 Postman 2025 报告，89% 的开发者现在在日常工作中使用生成式 AI，而 71% 的互联网流量已经是 API 调用。掌握 JSON，就是掌握了与这个 AI 驱动世界对话的语法——你刚学的 `json.load()` 和 `json.dump()`，正是理解这些 API 响应的基础。
+> 掌握 JSON，就是掌握了与这个 AI 驱动世界对话的语法——你刚学的 `json.load()` 和 `json.dump()`，正是理解这些 API 响应的基础。
 >
 > 参考（访问日期：2026-02-09）：
 > - [OpenAI Usage Statistics 2026](https://fueler.io/blog/openai-usage-revenue-valuation-growth-statistics)

@@ -129,8 +129,7 @@
 
 ```bash
 $ python3 -m pytest chapters/week_07/tests -q
-.............                                                      [100%]
-13 passed in 0.5s
+120 passed
 ```
 
 **测试通过**：不扣分

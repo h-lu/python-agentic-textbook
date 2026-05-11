@@ -2,15 +2,16 @@
 
 ## 交付内容
 
-### 测试文件（4 个）
+### 测试文件（5 个）
 
 | 文件 | 大小 | 测试数量 | 说明 |
 |------|------|---------|------|
 | test_smoke.py | 2.6 KB | 12 | 基线测试，验证 Python 基础功能 |
-| test_conditionals.py | 9.8 KB | 30 | 条件判断（if/elif/else）测试 |
-| test_loops.py | 11 KB | 35 | 循环（for/while/range）测试 |
-| test_booleans.py | 15 KB | 73 | 布尔表达式和逻辑运算测试 |
-| **总计** | **38.4 KB** | **150** | **完整测试覆盖** |
+| test_assignment_contract.py | - | 2 | 作业入口契约测试 |
+| test_conditionals.py | 9.8 KB | 37 | 条件判断（if/elif/else）测试 |
+| test_loops.py | 11 KB | 38 | 循环（for/while/range）测试 |
+| test_booleans.py | 15 KB | 64 | 布尔表达式和逻辑运算测试 |
+| **总计** | - | **153** | **完整测试覆盖** |
 
 ### 文档文件（4 个）
 
@@ -23,7 +24,7 @@
 
 ## 测试覆盖的知识点
 
-### 1. 条件判断（30 个测试）
+### 1. 条件判断（37 个测试）
 
 #### if/elif/else 结构
 - ✅ 单分支 if 语句
@@ -48,7 +49,7 @@
 - ✅ 难度选择（简单/中等/困难/无效）
 - ✅ PyHelper 心情推荐
 
-### 2. 循环（35 个测试）
+### 2. 循环（38 个测试）
 
 #### range() 函数
 - ✅ `range(n)` - 0 到 n-1
@@ -84,7 +85,7 @@
 - ✅ 阶乘计算
 - ✅ FizzBuzz 游戏
 
-### 3. 布尔表达式（73 个测试）
+### 3. 布尔表达式（64 个测试）
 
 #### 比较运算符
 - ✅ `==` 相等
@@ -183,7 +184,7 @@ $ python3 -m pytest chapters/week_02/tests -q
 ........................................................................ [ 48%]
 ........................................................................ [ 96%]
 ......                                                                   [100%]
-150 passed in 0.14s
+153 passed
 ```
 
 ### 按文件运行
@@ -192,14 +193,14 @@ $ python3 -m pytest chapters/week_02/tests -q
 $ python3 -m pytest chapters/week_02/tests/test_smoke.py -v
 12 passed in 0.02s
 
-$ python3 -m pytest chapters/week_02/tests/test_conditionals.py -v
-30 passed in 0.03s
+$ python3 -m pytest chapters/week_02/tests/test_conditionals.py -q
+37 passed
 
-$ python3 -m pytest chapters/week_02/tests/test_loops.py -v
-35 passed in 0.04s
+$ python3 -m pytest chapters/week_02/tests/test_loops.py -q
+38 passed
 
-$ python3 -m pytest chapters/week_02/tests/test_booleans.py -v
-73 passed in 0.06s
+$ python3 -m pytest chapters/week_02/tests/test_booleans.py -q
+64 passed
 ```
 
 ### 关键词过滤
@@ -216,9 +217,9 @@ $ python3 -m pytest chapters/week_02/tests -k "guess" -v
 
 | CHAPTER.md 章节 | 测试文件 | 测试数量 | 对应关系 |
 |----------------|---------|---------|---------|
-| 1. 如果这样，那就那样 | test_conditionals.py | 30 | if/elif/else、条件判断 |
+| 1. 如果这样，那就那样 | test_conditionals.py | 37 | if/elif/else、条件判断 |
 | 2. 让它一直猜，直到猜中 | test_loops.py（部分） | 15 | while 循环 |
-| 3. 数到几就停 | test_loops.py（部分） | 20 | for 循环、range() |
+| 3. 数到几就停 | test_loops.py（部分） | 20+ | for 循环、range() |
 | 4. 当条件变得复杂 | test_booleans.py | 73 | 布尔表达式、逻辑运算 |
 | 贯穿案例 | 跨多个文件 | 10+ | 猜数字游戏 |
 | PyHelper 进度 | test_conditionals.py | 4 | 心情推荐逻辑 |
@@ -246,7 +247,7 @@ $ python3 -m pytest chapters/week_02/tests -k "guess" -v
 ## 质量保证
 
 ### 代码质量
-- ✅ 所有测试通过（150/150）
+- ✅ 所有测试通过（153/153）
 - ✅ 无语法错误
 - ✅ 无逻辑错误
 - ✅ 清晰的命名
@@ -288,8 +289,8 @@ $ python3 -m pytest chapters/week_02/tests -k "guess" -v
 
 Week 02 测试套件提供了：
 
-- **150 个测试用例**，全面覆盖条件判断、循环和布尔表达式
-- **4 个测试文件**，按知识点组织
+- **153 个测试用例**，全面覆盖条件判断、循环和布尔表达式
+- **5 个测试文件**，按知识点和作业契约组织
 - **4 个文档文件**，提供完整的使用说明和参考
 - **100% 通过率**，确保测试质量
 - **实际应用场景**，连接理论与实践
@@ -299,6 +300,6 @@ Week 02 测试套件提供了：
 ---
 
 **交付日期**：2026-02-08
-**测试框架**：pytest 9.0.2
-**Python 版本**：3.12.5
+**测试框架**：pytest（以本仓库开发环境为准）
+**Python 版本**：以本仓库开发环境为准
 **状态**：✅ 所有测试通过

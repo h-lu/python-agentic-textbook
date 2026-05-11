@@ -5,10 +5,11 @@
 ### ✅ 核心测试文件
 - ✅ `__init__.py` - 测试包初始化文件
 - ✅ `conftest.py` - pytest 配置和共享 fixtures
-- ✅ `test_smoke.py` - 基线测试（35 个测试）
-- ✅ `test_functions.py` - 函数核心测试（92 个测试）
-- ✅ `test_converter.py` - 单位换算器测试（61 个测试）
-- ✅ `test_pyhelper.py` - PyHelper 测试（77 个测试）
+- ✅ `test_smoke.py` - 基线测试（25 个测试）
+- ✅ `test_functions.py` - 函数核心测试（65 个测试）
+- ✅ `test_converter.py` - 单位换算器测试（79 个测试）
+- ✅ `test_pyhelper.py` - PyHelper 测试（54 个测试）
+- ✅ `test_assignment_contract.py` - 作业契约测试（2 个测试）
 
 ### ✅ 文档文件
 - ✅ `README.md` - 测试套件完整说明
@@ -20,20 +21,21 @@
 
 ### 总体统计
 ```
-总测试数：265 个
-通过：265 个（100%）
+总测试数：225 个
+通过：225 个（100%）
 失败：0 个
 跳过：0 个
-执行时间：0.17 秒
+执行时间：以当前环境输出为准
 ```
 
 ### 按文件统计
 | 文件 | 测试数 | 覆盖主题 |
 |------|--------|---------|
-| test_smoke.py | 35 | 基础功能验证 |
-| test_functions.py | 92 | 函数核心概念 |
-| test_converter.py | 61 | 单位换算器 |
-| test_pyhelper.py | 77 | PyHelper 功能 |
+| test_smoke.py | 25 | 基础功能验证 |
+| test_functions.py | 65 | 函数核心概念 |
+| test_converter.py | 79 | 单位换算器 |
+| test_pyhelper.py | 54 | PyHelper 功能 |
+| test_assignment_contract.py | 2 | 作业入口契约 |
 
 ## 测试覆盖
 
@@ -182,7 +184,7 @@ $ python3 -m pytest chapters/week_03/tests -q
 ........................................................................ [ 33%]
 ........................................................................ [ 66%]
 .......................................................................  [100%]
-215 passed in 0.17s
+225 passed
 ```
 
 ### ✅ 代码质量检查
@@ -226,7 +228,7 @@ $ python3 -m pytest chapters/week_03/tests -q
 ## 总结
 
 Week 03 测试套件已完整交付，包含：
-- ✅ 265 个测试用例，100% 通过
+- ✅ 225 个测试用例，100% 通过
 - ✅ 覆盖所有核心概念
 - ✅ 完整的文档和指南
 - ✅ 高质量的代码组织

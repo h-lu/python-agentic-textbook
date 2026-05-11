@@ -2,7 +2,7 @@
 
 ## 概述
 
-为 Week 07（模块化与项目结构）设计了完整的测试套件，共 115 个测试用例，覆盖所有核心知识点。
+为 Week 07（模块化与项目结构）设计了完整的测试套件，共 120 个测试用例，覆盖所有核心知识点。
 
 ## 核心知识点覆盖
 
@@ -36,9 +36,10 @@
 ```
 chapters/week_07/tests/
 ├── test_smoke.py                    # 冒烟测试 (35 个)
-├── test_import_basics.py            # import 基础 (39 个)
-├── test_modules_and_name_guard.py   # 模块与 __name__ 守卫 (23 个)
-├── test_packages_and_imports.py     # 包与导入 (18 个)
+├── test_assignment_contract.py      # 作业契约 (5 个)
+├── test_import_basics.py            # import 基础 (40 个)
+├── test_modules_and_name_guard.py   # 模块与 __name__ 守卫 (19 个)
+├── test_packages_and_imports.py     # 包与导入 (21 个)
 └── README.md                        # 测试文档
 ```
 
@@ -47,10 +48,11 @@ chapters/week_07/tests/
 | 文件 | 测试数 | 主要内容 |
 |------|--------|---------|
 | test_smoke.py | 35 | Python 基础功能验证 |
-| test_import_basics.py | 39 | import 语句、搜索路径、标准库 |
-| test_modules_and_name_guard.py | 23 | 模块概念、__name__ 守卫 |
-| test_packages_and_imports.py | 18 | 包结构、相对/绝对导入 |
-| **总计** | **115** | **Week 07 所有核心概念** |
+| test_import_basics.py | 40 | import 语句、搜索路径、标准库 |
+| test_modules_and_name_guard.py | 19 | 模块概念、__name__ 守卫 |
+| test_packages_and_imports.py | 21 | 包结构、相对/绝对导入 |
+| test_assignment_contract.py | 5 | 作业入口契约 |
+| **总计** | **120** | **Week 07 所有核心概念** |
 
 ## 测试特点
 
@@ -134,7 +136,7 @@ def test_get_positive_integer_with_retry(self, monkeypatch):
 | 项目结构 | 2 | 2 | 0 | 4 |
 | **总计** | **46** | **26** | **6** | **78** |
 
-注：test_smoke.py 的 35 个测试主要是基础功能验证，未计入此矩阵。
+注：该矩阵按概念归类，不是 pytest 采集数量的完整拆分；`test_smoke.py` 和 `test_assignment_contract.py` 主要做基础/契约验证，未计入此矩阵。
 
 ## 运行结果
 
@@ -142,10 +144,10 @@ def test_get_positive_integer_with_retry(self, monkeypatch):
 $ python3 -m pytest chapters/week_07/tests -q
 ............................................................................
 ...........................................
-115 passed in 1.08s
+120 passed
 ```
 
-所有 115 个测试全部通过，验证了测试用例的正确性和完整性。
+所有 120 个测试全部通过，验证了测试用例的正确性和完整性。
 
 ## 教育价值
 
