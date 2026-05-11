@@ -105,9 +105,10 @@ pyhelper stats
 ## 代码演进规则
 
 1. **增量修改**：每周在上周代码基础上修改，不从头重写
-2. **代码放在 `examples/` 最后编号**：如 `05_pyhelper.py`（Week 01-06 单文件），Week 07+ 放在 `examples/pyhelper/` 目录
-3. **可运行**：每周的 PyHelper 代码必须能独立运行
-4. **chapter-writer 在 CHAPTER.md 中写 `## PyHelper 进度` 小节**：展示本周改了什么、为什么这么改、运行效果
+2. **正文示例可以继续放在 `examples/`**：如 `05_pyhelper.py`，用于讲解片段和课堂演示
+3. **官方每周快照统一放在 `chapters/week_XX/pyhelper/`**：这是学生可直接接续开发的 PyHelper 完整代码包
+4. **可运行**：每周的 PyHelper 快照必须能独立运行，并在 `pyhelper/README.md` 写明运行命令
+5. **chapter-writer 在 CHAPTER.md 中写 `## PyHelper 进度` 小节**：展示本周改了什么、为什么这么改、运行效果
 
 ## 与每周独立案例的关系
 

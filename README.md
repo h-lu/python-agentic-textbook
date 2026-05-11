@@ -16,6 +16,8 @@
 
 详细大纲见 [`chapters/SYLLABUS.md`](chapters/SYLLABUS.md)，目录见 [`chapters/TOC.md`](chapters/TOC.md)。
 
+PyHelper 贯穿项目的每周官方代码包见 [`chapters/PYHELPER_SNAPSHOTS.md`](chapters/PYHELPER_SNAPSHOTS.md)，统一位于 `chapters/week_XX/pyhelper/`。
+
 ## 快速开始
 
 ```bash
@@ -70,6 +72,7 @@ chapters/
     ANCHORS.yml            #   可验证断言
     TERMS.yml              #   本周新术语
     examples/              #   示例代码
+    pyhelper/              #   PyHelper 贯穿项目每周官方快照
     starter_code/          #   作业起始代码 + solution.py
     tests/                 #   pytest 用例
 
