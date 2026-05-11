@@ -53,16 +53,17 @@ print("今日一句：写代码就像搭积木，一块一块来。")
 从单文件拆成项目结构：
 ```
 pyhelper/
-├── main.py          # 入口 + 菜单
-├── notes.py         # 笔记增删查
-├── storage.py       # 文件读写
-└── encouragement.py # 鼓励语生成
+├── main.py           # 入口 + 菜单
+├── records.py        # 学习记录增删查 + 统计
+├── storage.py        # 文件读写
+├── input_handler.py  # 输入校验
+└── encouragement.py  # 鼓励语和心情建议
 ```
 学到的概念应用：import、模块、__name__ 守卫。
 
 ### Week 08：补测试
 
-给 `notes.py` 和 `storage.py` 写 pytest 测试。
+给 `records.py`、`storage.py` 和 `input_handler.py` 写 pytest 测试。
 学到的概念应用：pytest 断言、fixture、参数化。
 
 ### Week 09：搜索和过滤笔记
@@ -84,18 +85,18 @@ pyhelper/
 
 用 `argparse` 把 PyHelper 变成真正的命令行工具：
 ```bash
-pyhelper add "今天学了异常处理"
-pyhelper list --date 2025-03-15
-pyhelper search "异常"
-pyhelper export --format json
-pyhelper stats
+python3 main.py add "今天学了异常处理 #python" --date 2026-05-11
+python3 main.py list
+python3 main.py search "异常"
+python3 main.py export
+python3 main.py stats
 ```
 学到的概念应用：argparse 子命令、退出码、logging。
 
 ### Week 13：AI 协作完善
 
-用 agent team 模式协作：一个 agent 补文档、一个 agent 补测试、一个 agent 做 code review。
-学到的概念应用：agent team、review checklist。
+用 agent team 模式为学习记录生成和审查学习计划：ReaderAgent 汇总记录，PlannerAgent 生成计划，ReviewerAgent 做质量检查，并通过 CLI 的 `plan` / `review` 命令调用。
+学到的概念应用：agent team、review checklist、命令行工作流。
 
 ### Week 14：Capstone 发布
 

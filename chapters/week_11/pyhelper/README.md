@@ -1,24 +1,23 @@
-# Week 11 PyHelper 官方快照：dataclass 数据模型
+# PyHelper Week 11
 
-    这是本周对应的 PyHelper 完整代码包。它和正文里的 `## PyHelper 进度` 对齐，用来展示贯穿项目在本周学完后的可运行状态。
+## 继承上周
 
-    ## 本周重点
+保留 Week 10 的 JSON 存储、搜索、过滤、导入导出和旧数据迁移。
 
-    用 dataclass 和类型提示定义 Note、StudyPlan，减少裸字典漂移。
+## 本周新增
 
-    ## 文件
+增加 `dataclass` 模型 `Note` / `StudyPlan`，并在记录、搜索、序列化中使用模型转换。
 
-    - `app.py`
-- `models.py`
+## 运行
 
-    ## 运行
+以下命令默认在本目录运行：
 
-    ```bash
-    python3 chapters/week_11/pyhelper/app.py
-    ```
+```bash
+cd chapters/week_11/pyhelper
+python3 main.py
+pytest tests -q
+```
 
-    ## 使用建议
+## 数据文件说明
 
-    - 老师可把本目录作为本周官方参考代码包。
-    - 学生如果上周代码没跑通，可以从本周快照继续往后做。
-    - 本目录不替代 `starter_code/solution.py` 的作业入口；它专门服务 PyHelper 贯穿项目。
+本周使用 JSON 数据。程序默认从 `sample_records.json` 示例数据读取；写入时会使用系统临时目录，或使用 `PYHELPER_DATA_FILE=/path/to/file` 指定自己的数据文件。

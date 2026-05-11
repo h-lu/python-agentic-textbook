@@ -1,24 +1,22 @@
-# Week 06 PyHelper 官方快照：异常处理和输入校验
+# PyHelper Week 06
 
-    这是本周对应的 PyHelper 完整代码包。它和正文里的 `## PyHelper 进度` 对齐，用来展示贯穿项目在本周学完后的可运行状态。
+## 继承上周
 
-    ## 本周重点
+保留 Week 05 的菜单、心情建议、学习记录和文本文件持久化。
 
-    加入异常处理：文件缺失、坏行、日期格式错误都能给出安全结果。
+## 本周新增
 
-    ## 文件
+增加 `try/except`、日期校验、菜单校验和坏数据行容错。
 
-    - `app.py`
-- `pyhelper_data.txt`
+## 运行
 
-    ## 运行
+以下命令默认在本目录运行：
 
-    ```bash
-    python3 chapters/week_06/pyhelper/app.py
-    ```
+```bash
+cd chapters/week_06/pyhelper
+python3 app.py
+```
 
-    ## 使用建议
+## 数据文件说明
 
-    - 老师可把本目录作为本周官方参考代码包。
-    - 学生如果上周代码没跑通，可以从本周快照继续往后做。
-    - 本目录不替代 `starter_code/solution.py` 的作业入口；它专门服务 PyHelper 贯穿项目。
+本周开始包含 `pyhelper_data.txt` 示例数据。程序默认从示例数据读取；写入时会使用系统临时目录，或使用 `PYHELPER_DATA_FILE=/path/to/file` 指定自己的数据文件。

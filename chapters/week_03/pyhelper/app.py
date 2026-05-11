@@ -1,27 +1,47 @@
-"""Week 03 PyHelper: functions and a tiny menu."""
+# PyHelper - 你的命令行学习助手
+# Week 03：函数重构 + 菜单
 
-def get_advice(minutes: int) -> str:
-    if minutes < 15:
-        return "做一道最小练习题。"
-    if minutes < 45:
-        return "完成一个小函数，并自己运行一次。"
-    return "做一个完整小项目，并写下复盘。"
+DEFAULT_NAME = "同学"
+DAILY_MESSAGE = "写代码就像搭积木，一块一块来。"
+MOOD_ADVICE = {
+    "开心": "太好了！趁状态好，挑战一道稍难的练习题。",
+    "累": "先休息 5 分钟，再回来写 3 行代码。",
+    "卡住": "把报错复制下来，只解决最上面的一条。",
+    "紧张": "先跑通最小例子，再慢慢加功能。",
+}
 
+def build_welcome(name: str = DEFAULT_NAME) -> str:
+    clean_name = name.strip() or DEFAULT_NAME
+    return f"欢迎使用 PyHelper，{clean_name}！\n今日一句：{DAILY_MESSAGE}"
 
-def quote_of_day() -> str:
-    return "不是等有信心才开始，而是开始后才会有信心。"
-
+def advice_for_mood(mood: str) -> str:
+    for keyword, advice in MOOD_ADVICE.items():
+        if keyword in mood.strip():
+            return advice
+    return "不管现在什么心情，先完成一个 10 分钟小任务。"
 
 def render_menu() -> str:
-    return "1. 获取学习建议\n2. 查看今日名言\n3. 退出"
+    return "\n1. 获取学习建议\n2. 查看今日鼓励\n3. 退出"
 
+def handle_choice(choice: str, name: str) -> str:
+    if choice == "1":
+        mood = input("你今天学习状态如何？")
+        return "学习建议：" + advice_for_mood(mood)
+    if choice == "2":
+        return build_welcome(name)
+    if choice == "3":
+        return "下次见，继续加油！"
+    return "请输入 1/2/3。"
 
 def main() -> None:
-    print("欢迎使用 PyHelper！")
-    print(render_menu())
-    print("\n演示：如果今天有 30 分钟，可以：" + get_advice(30))
-    print("今日名言：" + quote_of_day())
-
+    name = input("你的名字是？").strip() or DEFAULT_NAME
+    print(build_welcome(name))
+    while True:
+        print(render_menu())
+        choice = input("请选择：").strip()
+        print(handle_choice(choice, name))
+        if choice == "3":
+            break
 
 if __name__ == "__main__":
     main()

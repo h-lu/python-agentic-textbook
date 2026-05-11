@@ -1,27 +1,23 @@
-# Week 09 PyHelper 官方快照：搜索与过滤笔记
+# PyHelper Week 09
 
-    这是本周对应的 PyHelper 完整代码包。它和正文里的 `## PyHelper 进度` 对齐，用来展示贯穿项目在本周学完后的可运行状态。
+## 继承上周
 
-    ## 本周重点
+保留 Week 08 的模块化代码、文本持久化和 pytest 测试。
 
-    增加关键词标准化、正则匹配和按日期范围过滤。
+## 本周新增
 
-    ## 文件
+增加 `text_utils.py`，支持关键词搜索、日期范围过滤和 `#tag` 提取。
 
-    - `app.py`
-- `records.py`
-- `storage.py`
-- `text_utils.py`
-- `tests/test_text_utils.py`
+## 运行
 
-    ## 运行
+以下命令默认在本目录运行：
 
-    ```bash
-    python3 chapters/week_09/pyhelper/app.py && pytest chapters/week_09/pyhelper/tests -q
-    ```
+```bash
+cd chapters/week_09/pyhelper
+python3 main.py
+pytest tests -q
+```
 
-    ## 使用建议
+## 数据文件说明
 
-    - 老师可把本目录作为本周官方参考代码包。
-    - 学生如果上周代码没跑通，可以从本周快照继续往后做。
-    - 本目录不替代 `starter_code/solution.py` 的作业入口；它专门服务 PyHelper 贯穿项目。
+本周开始包含 `pyhelper_data.txt` 示例数据。程序默认从示例数据读取；写入时会使用系统临时目录，或使用 `PYHELPER_DATA_FILE=/path/to/file` 指定自己的数据文件。

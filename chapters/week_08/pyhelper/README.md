@@ -1,27 +1,23 @@
-# Week 08 PyHelper 官方快照：为核心模块补 pytest 测试
+# PyHelper Week 08
 
-    这是本周对应的 PyHelper 完整代码包。它和正文里的 `## PyHelper 进度` 对齐，用来展示贯穿项目在本周学完后的可运行状态。
+## 继承上周
 
-    ## 本周重点
+保留 Week 07 的完整模块化结构、文本持久化和兼容入口。
 
-    保留模块化结构，并为 records/storage 增加 pytest 测试。
+## 本周新增
 
-    ## 文件
+增加 pytest 测试，覆盖输入校验、记录业务逻辑和存储层。
 
-    - `app.py`
-- `records.py`
-- `storage.py`
-- `tests/test_records.py`
-- `tests/test_storage.py`
+## 运行
 
-    ## 运行
+以下命令默认在本目录运行：
 
-    ```bash
-    python3 chapters/week_08/pyhelper/app.py && pytest chapters/week_08/pyhelper/tests -q
-    ```
+```bash
+cd chapters/week_08/pyhelper
+python3 main.py
+pytest tests -q
+```
 
-    ## 使用建议
+## 数据文件说明
 
-    - 老师可把本目录作为本周官方参考代码包。
-    - 学生如果上周代码没跑通，可以从本周快照继续往后做。
-    - 本目录不替代 `starter_code/solution.py` 的作业入口；它专门服务 PyHelper 贯穿项目。
+本周开始包含 `pyhelper_data.txt` 示例数据。程序默认从示例数据读取；写入时会使用系统临时目录，或使用 `PYHELPER_DATA_FILE=/path/to/file` 指定自己的数据文件。

@@ -1,23 +1,24 @@
-# Week 12 PyHelper 官方快照：argparse 命令行工具
+# PyHelper Week 12
 
-这是本周对应的 PyHelper 完整代码包。它和正文里的 `## PyHelper 进度` 对齐，用来展示贯穿项目在本周学完后的可运行状态。
+## 继承上周
 
-## 本周重点
+保留 Week 11 的 dataclass 模型、JSON 存储、搜索、导出和统计。
 
-用 argparse 做成真正 CLI，支持 add/list/search/stats。
+## 本周新增
 
-## 文件
-
-- `app.py`
+增加 `argparse` CLI：`add/list/search/export/stats/advice`。
 
 ## 运行
 
+以下命令默认在本目录运行：
+
 ```bash
-python3 chapters/week_12/pyhelper/app.py add "学习 argparse" && python3 chapters/week_12/pyhelper/app.py list
+cd chapters/week_12/pyhelper
+PYHELPER_DATA_FILE=/tmp/pyhelper_week12.json python3 main.py add "学习 argparse #cli" --date 2026-05-11
+PYHELPER_DATA_FILE=/tmp/pyhelper_week12.json python3 main.py list
+python3 main.py export
 ```
 
-## 使用建议
+## 数据文件说明
 
-- 老师可把本目录作为本周官方参考代码包。
-- 学生如果上周代码没跑通，可以从本周快照继续往后做。
-- 本目录不替代 `starter_code/solution.py` 的作业入口；它专门服务 PyHelper 贯穿项目。
+本周使用 JSON 数据。程序默认从 `sample_records.json` 示例数据读取；写入时会使用系统临时目录，或使用 `PYHELPER_DATA_FILE=/path/to/file` 指定自己的数据文件。

@@ -1,15 +1,22 @@
+import importlib.util
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+def load_records_module():
+    root = Path(__file__).resolve().parents[1]
+    for modname in ["records", "storage", "input_handler", "text_utils", "models", "agents"]:
+        sys.modules.pop(modname, None)
+    sys.path.insert(0, str(root))
+    spec = importlib.util.spec_from_file_location("week08_records", root / "records.py")
+    mod = importlib.util.module_from_spec(spec)
+    assert spec.loader is not None
+    spec.loader.exec_module(mod)
+    return mod
 
-from records import make_record, search_records
-
-
-def test_make_record_strips_content():
-    assert make_record("2026-05-11", "  pytest  ")["content"] == "pytest"
-
-
-def test_search_records():
-    records = [make_record("2026-05-11", "学习 pytest")]
-    assert len(search_records(records, "pytest")) == 1
+def test_add_record_and_stats():
+    records_mod = load_records_module()
+    rows = []
+    assert records_mod.add_record(rows, "2026-05-11", " 学习函数 ")
+    assert not records_mod.add_record(rows, "bad", "")
+    assert rows == [{"date": "2026-05-11", "content": "学习函数"}]
+    assert "1 条记录" in records_mod.stats(rows)

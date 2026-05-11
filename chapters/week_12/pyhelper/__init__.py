@@ -1,1 +1,1 @@
-__version__ = "0.12.0"
+"""PyHelper Week 07 modular snapshot."""
